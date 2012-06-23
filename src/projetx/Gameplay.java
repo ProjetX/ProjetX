@@ -18,22 +18,18 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 120 ;
+    static double partyDuration = 120;
     double actualTime;
     int stateID = -1;
-    
     Sound Music;
-    
     List<Player> players;
     List<Obstacle> obstacles;
     List<String> ficObs;
-    
     int elapsedTimeSinceLastNewFieldG;
     int elapsedTimeSinceLastNewFieldD;
     int elapsedTimeSinceLastNewFieldM;
     int randApparitionD;
     int randApparitionG;
-
     Physics physics = new Physics(0.035);
     int randApparitionM;
     boolean newGame = true;
@@ -53,23 +49,22 @@ public class Gameplay extends BasicGameState {
         ficObs = new ArrayList<String>();
 
         initField();
-        
-        actualTime=1;
 
-        background= new Image("./ressources/sprites/Fond/Fond.jpg");
+        actualTime = 1;
+
+        background = new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
         Music.play();
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
-    {
-        int Decalage=(int)(( 650-background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
+        int Decalage = (int) ((650 - background.getHeight()) * ((partyDuration - actualTime) / (double) partyDuration));
 
-        
+
         //System.out.println(Decalage);
         //System.out.println(actualTime);
-        background.draw(0,Decalage);
-        
+        background.draw(0, Decalage);
+
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
@@ -90,15 +85,14 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath();
-        actualTime+=(double)delta/1000.0;
-        
-        
+        actualTime += (double) delta / 1000.0;
+
+
         // Fin de partie
-        if(actualTime>partyDuration)
-        {
+        if (actualTime > partyDuration) {
 
             sbg.enterState(0);
-            actualTime=0;
+            actualTime = 0;
             newGame = true;
 //            initPlayers();
             initField();
@@ -180,19 +174,22 @@ public class Gameplay extends BasicGameState {
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) {
         // Input managing du personnage 1
         Input input = gc.getInput();
-        if (input.isKeyPressed(Input.KEY_Z)) {
-            players.get(0).iWouldLikeToJump();
+
+        if (players.get(0) != null) {
+            if (input.isKeyPressed(Input.KEY_Z)) {
+                players.get(0).iWouldLikeToJump();
+            }
+
+            if (input.isKeyDown(Input.KEY_D)) {
+                players.get(0).iWouldLikeToGoRight();
+            }
+
+            if (input.isKeyDown(Input.KEY_Q)) {
+                players.get(0).iWouldLikeToGoLeft();
+            }
         }
 
-        if (input.isKeyDown(Input.KEY_D)) {
-            players.get(0).iWouldLikeToGoRight();
-        }
-
-        if (input.isKeyDown(Input.KEY_Q)) {
-            players.get(0).iWouldLikeToGoLeft();
-        }
-
-        if (players.size() > 1) {
+        if (players.size() > 1 && players.get(1) != null) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_UP)) {
                 players.get(1).iWouldLikeToJump();
@@ -207,7 +204,7 @@ public class Gameplay extends BasicGameState {
             }
         }
 
-        if (players.size() > 2) {
+        if (players.size() > 2 && players.get(2) != null) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_T)) {
                 players.get(2).iWouldLikeToJump();
@@ -222,7 +219,7 @@ public class Gameplay extends BasicGameState {
             }
         }
 
-        if (players.size() > 3) {
+        if (players.size() > 3 && players.get(3) != null) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_I)) {
                 players.get(3).iWouldLikeToJump();
@@ -241,24 +238,20 @@ public class Gameplay extends BasicGameState {
     private void managePhysics() {
     }
 
-    
-    private void manageDeath() 
-    {
-        int p =players.size();
-           System.out.println(p);
-        for(int i=0;i<p;i++)
-        {
-            Point2D a=players.get(i).getCoords();
-            if(a!=null)
-            {
-               if (a.getY()>700)
-               {
-                   players.get(i).Die();
-                   players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
-               }
+    private void manageDeath() {
+        int p = players.size();
+        System.out.println(p);
+        for (int i = 0; i < p; i++) {
+            Point2D a = players.get(i).getCoords();
+            if (a != null) {
+                if (a.getY() > 700) {
+                    players.get(i).Die();
+                    players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size() - 1).getCoords().getX() + 50, obstacles.get(obstacles.size() - 1).getCoords().getY() - 150));
+                }
             }
         }
     }
+
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();
