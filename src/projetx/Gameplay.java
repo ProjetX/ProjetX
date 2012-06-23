@@ -23,10 +23,12 @@ public class Gameplay extends BasicGameState {
     
     List<String> ficObs;
     
-   int elapsedTimeSinceLastNewField;
+    int elapsedTimeSinceLastNewFieldG;
+    int elapsedTimeSinceLastNewFieldD;
     
-    int randApparition;
-
+    int randApparitionD;
+    int randApparitionG;
+    
     Gameplay(int stateID) {
         this.stateID = stateID;
     }
@@ -90,18 +92,31 @@ public class Gameplay extends BasicGameState {
             p.setCoords(coords);
         }
         
-        if(elapsedTimeSinceLastNewField>randApparition){
+        if(elapsedTimeSinceLastNewFieldG>randApparitionG){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (700));
+            randX=(int)(Math.random() * (350));
             o.setCoords(new Point2D.Double(randX, 0));
-            elapsedTimeSinceLastNewField=0;
+            elapsedTimeSinceLastNewFieldG=0;
+            int lower=1500;
+            int higher=5000;
+            randApparitionG = (int)(Math.random() * (higher+1-lower)) + lower;
+            
+        }
+        if(elapsedTimeSinceLastNewFieldD>randApparitionD){
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
+            obstacles.add(o);
+            randX=(int)(Math.random() * (350));
+            o.setCoords(new Point2D.Double(randX+500, 0));
+            elapsedTimeSinceLastNewFieldD=0;
             int lower=1500;
             int higher=5000;
             
-            randApparition = (int)(Math.random() * (higher+1-lower)) + lower;
+            randApparitionD = (int)(Math.random() * (higher+1-lower)) + lower;
         }
-        elapsedTimeSinceLastNewField+=elapsedTime;
+        
+        elapsedTimeSinceLastNewFieldD+=elapsedTime;
+        elapsedTimeSinceLastNewFieldG+=elapsedTime;
 
 
     }
@@ -147,6 +162,9 @@ public class Gameplay extends BasicGameState {
         obstacles.add(platInit);
 
         platInit.setCoords(new Point2D.Double(250, 200));
+        
+        /*randApparitionD=0;
+        randApparitionG=0;*/
     }
 
     private void initPlayers() throws SlickException {
