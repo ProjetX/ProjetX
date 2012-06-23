@@ -20,8 +20,10 @@ public class Gameplay extends BasicGameState {
     int stateID = -1;
     List<Player> players;
     List<Obstacle> obstacles;
-    int elapsedTimeSinceLastNewField;
-    boolean blocSupprime;
+    
+   int elapsedTimeSinceLastNewField;
+    
+    int randApparition;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -58,28 +60,46 @@ public class Gameplay extends BasicGameState {
 
     }
 
-    private void manageField(int elapsedTime) {
+    private void manageField(int elapsedTime) throws SlickException {
         Point2D coords;
+        int tailleEcranY=700;
 
-        int tailleEcranY = 600;
-
-        int deplacement = 10 * elapsedTime;
-
-        for (int i = 0; i < obstacles.size(); i++) {
-            Obstacle o = obstacles.get(i);
-            coords = o.getCoords();
-            if (coords.getY() > tailleEcranY) {
+        int randX=0;
+       
+        double deplacement=0.08f*elapsedTime;
+        
+        for(int i=0;i<obstacles.size();i++){
+            Obstacle o=obstacles.get(i);
+            coords=o.getCoords();
+            if(coords.getY()>tailleEcranY){
                 obstacles.remove(o);
                 i--;
-            } else {
-                coords.setLocation(coords.getX(), coords.getY() + deplacement);
+                System.out.println("Je suis ton pere luc");
+            }
+            else {
+                coords.setLocation(coords.getX(), coords.getY()+deplacement);
                 o.setCoords(coords);
             }
         }
-
-        if (elapsedTimeSinceLastNewField > 100) {
-            //Obstacle o=new Obstacle();
+        
+        for(Player p:players){
+            coords=p.getCoords();
+            coords.setLocation(coords.getX(), coords.getY()+deplacement);
+            p.setCoords(coords);
         }
+        
+        if(elapsedTimeSinceLastNewField>randApparition){
+            Obstacle o=new Obstacle("ressources/plateforme2.png");   
+            obstacles.add(o);
+            randX=(int)(Math.random() * (700));
+            o.setCoords(new Point2D.Double(randX, 0));
+            elapsedTimeSinceLastNewField=0;
+            int lower=1500;
+            int higher=5000;
+            
+            randApparition = (int)(Math.random() * (higher+1-lower)) + lower;
+        }
+        elapsedTimeSinceLastNewField+=elapsedTime;
 
 
     }
@@ -98,7 +118,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyPressed(Input.KEY_D)) {
             players.get(0).iWouldLikeToGoLeft();
         }
-
+        
         if (players.size() > 1) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_UP)) {
