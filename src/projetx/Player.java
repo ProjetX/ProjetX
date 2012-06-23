@@ -26,6 +26,8 @@ public class Player extends Sprite {
     int numberOfDeaths = 0;
     int lastPower=0;
     boolean rightOrientation = true;
+    
+    boolean fired=false;
 
     public Player(String img) throws SlickException {
         super(img);
@@ -155,5 +157,9 @@ public class Player extends Sprite {
 
     public int getNumberOfKills() {
         return numberOfKills;
+    }
+    
+    public void SetFired(boolean fire){
+        fired=fire;
     }
 }

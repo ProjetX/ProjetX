@@ -224,7 +224,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyDown(Input.KEY_S)) {
             if(players.get(0).GetTimeSinceLastPower()>=5000){
                 players.get(0).SetTimeSinceLastPower(0);
-                //manage
+                players.get(0).SetFired(true);
             }
         }
 
@@ -245,7 +245,7 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 if(players.get(1).GetTimeSinceLastPower()>=5000){
                     players.get(1).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(1).SetFired(true);
                 }
             }
         }
@@ -266,7 +266,7 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_G)) {
                 if(players.get(2).GetTimeSinceLastPower()>=5000){
                     players.get(2).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(2).SetFired(true);
                 }
             }
         }
@@ -287,7 +287,7 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_K)) {
                 if(players.get(3).GetTimeSinceLastPower()>=5000){
                     players.get(3).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(3).SetFired(true);
                 }
             }
         }
