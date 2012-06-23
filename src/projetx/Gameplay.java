@@ -11,6 +11,7 @@ package projetx;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -21,6 +22,7 @@ public class Gameplay extends BasicGameState {
     static double partyDuration = 5 ;
     double actualTime;
     int stateID = -1;
+    
     List<Player> players;
     List<Obstacle> obstacles;
     
@@ -54,7 +56,10 @@ public class Gameplay extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
-        int Decalage=(int)( (650+background.getHeight())*(partyDuration -actualTime)/(double)partyDuration);
+        int Decalage=(int)( -(background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
+        
+        
+        
         System.out.println(Decalage);
         System.out.println(actualTime);
         background.draw(0,Decalage);
