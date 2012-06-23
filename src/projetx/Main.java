@@ -22,7 +22,6 @@ public class Main {
      public static void main(String[] args) throws SlickException
      {
 
-         Game theGame = new Game(null);
           AppGameContainer app = new AppGameContainer(new Game( Game.title));
           app.setDisplayMode(Game.width, Game.height, Game.fullscreen);
           app.setSmoothDeltas(true);
