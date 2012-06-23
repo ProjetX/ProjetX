@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 20 ;
+    static double partyDuration = 120 ;
     double actualTime;
     int stateID = -1;
     
