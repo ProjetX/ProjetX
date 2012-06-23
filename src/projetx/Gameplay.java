@@ -20,8 +20,10 @@ public class Gameplay extends BasicGameState {
     int stateID = -1;
     List<Player> players;
     List<Obstacle> obstacles;
-    int elapsedTimeSinceLastNewField;
-    boolean blocSupprime;
+    
+   int elapsedTimeSinceLastNewField;
+    
+    int randApparition;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -57,28 +59,40 @@ public class Gameplay extends BasicGameState {
         managePhysics();
     }
 
-    private void manageField(int elapsedTime) {
+    private void manageField(int elapsedTime) throws SlickException {
         Point2D coords;
+        int tailleEcranY=700;
 
-        int tailleEcranY = 600;
-
-        int deplacement = 10 * elapsedTime;
-
-        for (int i = 0; i < obstacles.size(); i++) {
-            Obstacle o = obstacles.get(i);
-            coords = o.getCoords();
-            if (coords.getY() > tailleEcranY) {
+        int randX=0;
+       
+        double deplacement=0.05f*elapsedTime;
+        
+        for(int i=0;i<obstacles.size();i++){
+            Obstacle o=obstacles.get(i);
+            coords=o.getCoords();
+            if(coords.getY()>tailleEcranY){
                 obstacles.remove(o);
                 i--;
-            } else {
-                coords.setLocation(coords.getX(), coords.getY() + deplacement);
+                System.out.println("Je suis ton pere luc");
+            }
+            else {
+                coords.setLocation(coords.getX(), coords.getY()+deplacement);
                 o.setCoords(coords);
             }
         }
-
-        if (elapsedTimeSinceLastNewField > 100) {
-            //Obstacle o=new Obstacle();
+        
+        if(elapsedTimeSinceLastNewField>randApparition){
+            Obstacle o=new Obstacle("ressources/initPlateforme.png");   
+            obstacles.add(o);
+            randX=(int)(Math.random() * (700));
+            o.setCoords(new Point2D.Double(randX, 0));
+            elapsedTimeSinceLastNewField=0;
+            int lower=1500;
+            int higher=6000;
+            
+            randApparition = (int)(Math.random() * (higher+1-lower)) + lower;
         }
+        elapsedTimeSinceLastNewField+=elapsedTime;
 
 
     }
