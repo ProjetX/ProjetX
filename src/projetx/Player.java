@@ -38,6 +38,7 @@ public class Player extends Sprite {
     }
 
     public Player(String img) throws SlickException {
+        super(img);
         this.image = new Image(img);
     }
 

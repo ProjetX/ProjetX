@@ -14,14 +14,10 @@ import org.newdawn.slick.SlickException;
 public class Obstacle extends Sprite {
 
     public Obstacle(String img) throws SlickException {
-        super();
-
-        this.image = new Image(img);
+        super(img);
     }
 
     public Obstacle() throws SlickException {
-        super();
-
-        this.image = new Image("ressources/initPlateforme.png");
+        super("ressources/initPlateforme.png");
     }
 }
