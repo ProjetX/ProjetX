@@ -67,6 +67,7 @@ public class Gameplay extends BasicGameState {
         System.out.println(Decalage);
         System.out.println(actualTime);
         background.draw(0,Decalage);
+        
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
@@ -194,6 +195,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
+        obstacles.clear();
+        ficObs.clear();
         ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
@@ -206,6 +209,7 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initPlayers() throws SlickException {
+        players.clear();
         Player p1 = new Player("ressources/playerCaca.png");
         Player p2 = new Player("ressources/playerCaca.png");
 
