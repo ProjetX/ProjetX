@@ -27,6 +27,10 @@ public class Game extends StateBasedGame {
     public static List<String> players;
     public static List<Player> playerScores;
 
+    
+    public static boolean selectedPlayers[];
+
+
     public Game(String title) {
         super(title);
     }
