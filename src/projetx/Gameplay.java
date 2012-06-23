@@ -73,18 +73,16 @@ public class Gameplay extends BasicGameState {
     {
         Point2D coords;
         int tailleEcranY=600;
-        
-        int nbMiniBlocs=3;
-        int nbMaxBlocs=10;
-        
-        int nbBlocRandom; //= (int)(Math.random() * (nbMaxBlocs-nbMiniBlocs)) + nbMiniBlocs;
-        
+       
         int deplacement=10*elapsedTime;
         
-        for(Obstacle o:obstacles){
+        for(int i=0;i<obstacles.size();i++){
+            Obstacle o=obstacles.get(i);
             coords=o.getCoords();
-            if(coords.getY()>tailleEcranY)
+            if(coords.getY()>tailleEcranY){
                 obstacles.remove(o);
+                i--;
+            }
             else {
                 coords.setLocation(coords.getX(), coords.getY()+deplacement);
                 o.setCoords(coords);
