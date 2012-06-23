@@ -49,7 +49,7 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
-        background= new Image("./ressources/sprites/Fond/Fond.jpg");
+        background= new Image("./ressources/playerCaca.png");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
@@ -104,22 +104,22 @@ public class Gameplay extends BasicGameState {
         if(elapsedTimeSinceLastNewFieldG>randApparitionG){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (350));
+            randX=(int)(Math.random() * (800));
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldG=0;
-            int lower=1500;
-            int higher=5000;
+            int lower=500;
+            int higher=1000;
             randApparitionG = (int)(Math.random() * (higher+1-lower)) + lower;
             
         }
         if(elapsedTimeSinceLastNewFieldD>randApparitionD){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (350));
-            o.setCoords(new Point2D.Double(randX+500, 0));
+            randX=(int)(Math.random() * (800));
+            o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldD=0;
-            int lower=1500;
-            int higher=5000;
+            int lower=500;
+            int higher=1000;
             
             randApparitionD = (int)(Math.random() * (higher+1-lower)) + lower;
         }
@@ -165,8 +165,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
-        ficObs.add("ressources/plateforme2.png");
-        ficObs.add("ressources/plateforme3.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
         obstacles.add(platInit);
 
