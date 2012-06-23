@@ -24,7 +24,7 @@ public class Physics {
     private double gravity;
     List<Player> movables;
     List<Obstacle> platforms;
-    private double frottement = 0.00;
+    private double frottement = 0.0022;
 
     public double getGravity() {
         return gravity;
@@ -78,6 +78,7 @@ public class Physics {
             oldLateralSpeed = currentMovable.getSpeed().getX();
 
             //Deplacements lateraux
+            
             if (oldLateralSpeed > 0) {
                 lateralSpeed = oldLateralSpeed -frottement * TimeSinceLastFrame;
                 if (lateralSpeed <= 0) {
@@ -103,7 +104,7 @@ public class Physics {
             if (currentMovable.isWantsToGoLeft()) {
                 nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoLeft(false);
-                if (currentMovable.getSpeed().getX() != 0) {
+                /*if (currentMovable.getSpeed().getX() != 0) {
                     if (oldLateralSpeed > 0) {
                         lateralSpeed = oldLateralSpeed - currentMovable.lateralSpeed * TimeSinceLastFrame;
                         if (lateralSpeed <= 0) {
@@ -121,11 +122,11 @@ public class Physics {
                             currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
                         }
                     }
-                }
+                }*/
             } else if (currentMovable.isWantsToGoRight()) {
                 nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoRight(false);
-                if (oldLateralSpeed != 0) {
+               /* if (oldLateralSpeed != 0) {
                     if (currentMovable.getSpeed().getX() > 0) {
                         lateralSpeed = oldLateralSpeed + currentMovable.lateralSpeed * TimeSinceLastFrame;
                         if (lateralSpeed <= 0) {
@@ -143,7 +144,7 @@ public class Physics {
                             currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
                         }
                     }
-                }
+                }*/
             } 
 
             currentMovable.setCoords(nextPoint);

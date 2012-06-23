@@ -103,7 +103,7 @@ public class Gameplay extends BasicGameState {
             initPlayers();
         }
         managePowerBar(delta);
-        manageField(delta);
+        //manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath();
@@ -362,7 +362,7 @@ public class Gameplay extends BasicGameState {
                                 double rayon =Math.sqrt(aX*aX +aY*aY);
                                 if(rayon<300)
                                 {
-                                       b.setSpeed(aX*(1/(1+rayon)), aY*(1/(1+rayon)));
+                                       b.setSpeed(1.5*aX*(1/Math.pow(1+rayon, 1)), 1.5*aY*(1/Math.pow(1+rayon,1)));
                                 }
                             }
                         }
