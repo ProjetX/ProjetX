@@ -24,6 +24,8 @@ public class Gameplay extends BasicGameState {
     List<Player> players;
 
     List<Obstacle> obstacles;
+    
+    int elapsedTimeSinceLastNewField;
 
     Gameplay( int stateID ) 
     {
@@ -36,7 +38,7 @@ public class Gameplay extends BasicGameState {
     }
  
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-
+        
         img = new Image("ressources/index.jpeg");
 
         players = new ArrayList<Player>(4);
@@ -60,6 +62,12 @@ public class Gameplay extends BasicGameState {
     {
         Point2D coords;
         int tailleEcranY=600;
+        
+        int nbMiniBlocs=3;
+        int nbMaxBlocs=10;
+        
+        int nbBlocRandom; = (int)(Math.random() * (nbMaxBlocs-nbMiniBlocs)) + nbMiniBlocs;
+        
         int deplacement=10*elapsedTime;
         
         for(Obstacle o:obstacles){
@@ -71,6 +79,8 @@ public class Gameplay extends BasicGameState {
                 o.setCoords(coords);
             }
         }
+        
+        
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) 
