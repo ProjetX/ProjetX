@@ -3,6 +3,7 @@ package projetx;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 import org.newdawn.slick.Image;
 
 enum COLLIDE {
@@ -20,27 +21,27 @@ enum COLLIDE {
  */
 public class Physics {
 
-    private int gravity;
-    ArrayList<Player> movables;
-    ArrayList<Sprite> platforms;
+    private double gravity;
+    List<Player> movables;
+    List<Obstacle> platforms;
 
-    public int getGravity() {
+    public double getGravity() {
         return gravity;
     }
 
-    public void setGravity(int gravity) {
+    public void setGravity(double gravity) {
         this.gravity = gravity;
     }
 
-    Physics(int _gravity) {
+    Physics(double _gravity) {
         gravity = _gravity;
     }
 
-    public void updateMovable(ArrayList<Player> _players) {
+    public void updateMovable(List<Player> _players) {
         movables = _players;
     }
 
-    public void updatePlatforms(ArrayList<Sprite> _platforms) {
+    public void updatePlatforms(List<Obstacle> _platforms) {
         platforms = _platforms;
     }
 
@@ -48,14 +49,14 @@ public class Physics {
 
         COLLIDE collide = COLLIDE.NONE;
         Point2D nextPoint;
-        //Point2D oldPoint;
+        Point2D oldPoint;
         Sprite plateform;
         Player otherMovable;
         Sprite collider = null;
 
 
         for (Player currentMovable : movables) {
-            //oldPoint = currentMovable.getCoords();
+            oldPoint = currentMovable.getCoords();
 
             if (currentMovable.isOnAPlatform()) {
                 //Si on est sur une plateforme
@@ -67,7 +68,7 @@ public class Physics {
                 }
             }
 
-            nextPoint = scalarCross(addVectors(currentMovable.getCoords(), new Point2D.Double(0, currentMovable.getSpeed())), TimeSinceLastFrame);
+            nextPoint = addVectors(currentMovable.getCoords(),scalarCross( new Point2D.Double(0, currentMovable.getSpeed()), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
                 nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed(), nextPoint.getY());

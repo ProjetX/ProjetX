@@ -31,6 +31,8 @@ public class Gameplay extends BasicGameState {
     
     int randApparitionD;
     int randApparitionG;
+
+    Physics physics = new Physics(0.2);
     
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -49,7 +51,7 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
-        background= new Image("./ressources/sprites/Fond/Fond.jpg");
+        background= new Image("./ressources/index.jpeg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
@@ -63,6 +65,7 @@ public class Gameplay extends BasicGameState {
         for (Player o : players) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
+
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -70,6 +73,10 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         actualTime+=(double)delta/1000.0;
+
+        physics.updateMovable(players);
+        physics.updatePlatforms(obstacles);
+        physics.computePhysics(actualTime);
 
     }
 

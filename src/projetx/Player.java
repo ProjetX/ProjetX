@@ -41,8 +41,8 @@ public class Player extends Sprite {
         this.wantsToJump = wantsToJump;
     }
 
-    protected double lateralSpeed = 10;
-    protected double verticalSpeed = 30;
+    protected double lateralSpeed = 5;
+    protected double verticalSpeed = 5;
 
     public double getVerticalSpeed() {
         return verticalSpeed;
