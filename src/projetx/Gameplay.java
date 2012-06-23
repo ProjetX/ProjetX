@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 20 ;
+    static double partyDuration = 120 ;
     double actualTime;
     int stateID = -1;
     
@@ -142,7 +142,7 @@ public class Gameplay extends BasicGameState {
             Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
-            o.setCoords(new Point2D.Double(randX, 0));
+            o.setCoords(new Point2D.Double(randX, -70));
             elapsedTimeSinceLastNewFieldG = 0;
 
             randApparitionG = (int) (Math.random() * (higher + 1 - lower)) + lower;
@@ -152,7 +152,7 @@ public class Gameplay extends BasicGameState {
             Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
-            o.setCoords(new Point2D.Double(randX + 193, 0));
+            o.setCoords(new Point2D.Double(randX + 193, -70));
             elapsedTimeSinceLastNewFieldD = 0;
 
             randApparitionD = (int) (Math.random() * (higher + 1 - lower)) + lower;
@@ -162,7 +162,7 @@ public class Gameplay extends BasicGameState {
             Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
-            o.setCoords(new Point2D.Double(randX + 387, 0));
+            o.setCoords(new Point2D.Double(randX + 387, -70));
             elapsedTimeSinceLastNewFieldM = 0;
 
             randApparitionM = (int) (Math.random() * (higher + 1 - lower)) + lower;
@@ -222,6 +222,7 @@ public class Gameplay extends BasicGameState {
                if (a.getY()>700)
                {
                    players.get(i).Die();
+                   players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
                }
             }
         }
