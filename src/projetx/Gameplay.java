@@ -65,7 +65,7 @@ public class Gameplay extends BasicGameState {
 
         int randX=0;
        
-        double deplacement=0.05f*elapsedTime;
+        double deplacement=0.08f*elapsedTime;
         
         for(int i=0;i<obstacles.size();i++){
             Obstacle o=obstacles.get(i);
