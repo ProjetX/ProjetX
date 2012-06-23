@@ -60,6 +60,7 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
+
     }
 
     private void manageField(int elapsedTime) throws SlickException {

@@ -5,7 +5,10 @@
 package projetx;
 
 import java.awt.geom.Point2D;
+import java.util.Map;
+import java.util.TreeMap;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -13,10 +16,18 @@ import org.newdawn.slick.Image;
  */
 public class Sprite {
 
+    private static Map<String, Image> sprites = new TreeMap<String, Image>();
+
     protected Image image;
     protected Point2D coords;
 
-    public Sprite() {
+    public Sprite(String img) throws SlickException {
+        if(sprites.containsKey(img)){
+            this.image = sprites.get(img);
+        } else {
+            this.image = new Image(img);
+            sprites.put(img, this.image);
+        }
         this.coords = new Point2D.Double();
     }
 
