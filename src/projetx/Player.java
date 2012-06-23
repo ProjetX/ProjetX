@@ -28,6 +28,7 @@ public class Player extends Sprite {
     int numberOfDeaths = 0;
     int lastPower=0;
     boolean rightOrientation = true;
+
     boolean hasUsedGravityBoom;
 
     public Player(String img) throws SlickException {
@@ -161,6 +162,7 @@ public class Player extends Sprite {
         return numberOfKills;
     }
     
+
     public boolean isHasUsedGravityBoom() {
         return hasUsedGravityBoom;
     }
