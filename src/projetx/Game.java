@@ -8,6 +8,7 @@ package projetx;
  *
  * @author mica
  */
+import java.util.List;
 import org.newdawn.slick.*;
 import projetx.Gameplay;
 import projetx.MainMenu;
@@ -25,6 +26,8 @@ public class Game extends StateBasedGame {
     public static final int MAINMENU = 0;
     public static final int GAMEPLAY = 1;
     public static final int END = 2;
+
+    public static List<String> players;
 
     public Game(String title) {
         super(title);
