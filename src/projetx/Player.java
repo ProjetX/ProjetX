@@ -20,6 +20,7 @@ public class Player extends Sprite{
     protected boolean isOnAPlatform;
     
     protected boolean wantsToGoRight;
+
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
     public Point2D getSpeed() {
@@ -61,6 +62,26 @@ public class Player extends Sprite{
     {
 
             wantsToGoRight=true;
-    }  
+    }
+
+    public boolean isOnAPlatform() {
+        return isOnAPlatform;
+    }
+
+    public boolean isWantsToGoLeft() {
+        return wantsToGoLeft;
+    }
+
+    public boolean isWantsToGoRight() {
+        return wantsToGoRight;
+    }
+
+    public boolean isWantsToJump() {
+        return wantsToJump;
+    }
+
+    public void setIsOnAPlatform(boolean isOnAPlatform) {
+        this.isOnAPlatform = isOnAPlatform;
+    }
 
 }
