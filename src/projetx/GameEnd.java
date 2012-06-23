@@ -21,21 +21,30 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class GameEnd extends BasicGameState  {
 
-        int stateID = -1;
+    int stateID = -1;
+    boolean newEnding;
     GameEnd(int stateID) {
         this.stateID = stateID;
     }
 
     @Override
     public int getID() {
+        newEnding=true;
         return stateID;
+        
     }
-      public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+    
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException 
+    {
 
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
+        if(newEnding)
+        {
+            newEnding=false;
+        }
 
 
     }

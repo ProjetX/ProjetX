@@ -25,6 +25,7 @@ public class Game extends StateBasedGame {
     public static final int END = 2;
 
     public static List<String> players;
+    public static List<String> PlayerScores;
 
     public Game(String title) {
         super(title);
