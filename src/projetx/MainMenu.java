@@ -30,7 +30,6 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     Image img;
     List<List<MouseOverArea>> personnages;
     MouseOverArea startButton;
-
     StateBasedGame sbg;
 
     MainMenu(int stateID) {
@@ -80,9 +79,33 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void componentActivated(AbstractComponent source) { //methode de l'interface ComponentListener
 
         if (source == startButton) {
+            List<String> p = new ArrayList<String>();
+
+            for (List<MouseOverArea> l : this.personnages) {
+                for (int i = 0; i < l.size(); i++) {
+                    if (source.hasFocus()) {
+                        //C'est moche, mais OSEF.
+                        switch (i) {
+                            case 0:
+                                p.add("ressources/sprites/Bagnard/BagnardStatique.png");
+                                break;
+                            case 1:
+                                p.add("ressources/sprites/Bagnard/BagnardStatique.png");
+                                break;
+                        }
+                    }
+                }
+            }
+
+            Game.players = p;
+
             sbg.enterState(1);
         } else {
-            source.setFocus(true);
+            if (source.hasFocus()) {
+                source.setFocus(false);
+            } else {
+                source.setFocus(true);
+            }
         }
     }
 }

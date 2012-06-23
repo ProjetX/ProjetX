@@ -11,7 +11,6 @@ package projetx;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -186,13 +185,22 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initPlayers() throws SlickException {
-        Player p1 = new Player("ressources/playerCaca.png");
-        Player p2 = new Player("ressources/playerCaca.png");
+        int decalage = 0;
 
-        p1.setCoords(new Point2D.Double(300, 200 - p1.getImage().getHeight()));
-        p2.setCoords(new Point2D.Double(800, 200 - p2.getImage().getHeight()));
+        for(String s : Game.players){
+            Player p = new Player(s);
+            p.setCoords(new Point2D.Double(300 + decalage, 200 - p.getImage().getHeight()));
+            decalage += 200;
+            players.add(p);
+        }
 
-        players.add(p1);
-        players.add(p2);
+//        Player p1 = new Player("ressources/playerCaca.png");
+//        Player p2 = new Player("ressources/playerCaca.png");
+//
+//        p1.setCoords(new Point2D.Double(300, 200 - p1.getImage().getHeight()));
+//        p2.setCoords(new Point2D.Double(800, 200 - p2.getImage().getHeight()));
+//
+//        players.add(p1);
+//        players.add(p2);
     }
 }
