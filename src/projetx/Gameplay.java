@@ -18,12 +18,16 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 20;
+    static double partyDuration = 5 ;
     double actualTime;
     int stateID = -1;
+    
+    Sound Music;
+    
     List<Player> players;
     List<Obstacle> obstacles;
     List<String> ficObs;
+    
     int elapsedTimeSinceLastNewFieldG;
     int elapsedTimeSinceLastNewFieldD;
     int elapsedTimeSinceLastNewFieldM;
@@ -47,19 +51,21 @@ public class Gameplay extends BasicGameState {
         ficObs = new ArrayList<String>();
 
         initField();
-
-        actualTime = 1;
-        background = new Image("./ressources/sprites/Fond/Fond.jpg");
+        
+        actualTime=1;
+        background= new Image("./ressources/sprites/Fond/Fond.jpg");
+        Music = new Sound("ressources/audio/musicGame.wav");
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-        int Decalage = (int) ((650 - background.getHeight()) * ((partyDuration - actualTime) / (double) partyDuration));
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
+    {
+        int Decalage=(int)(( 650-background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
 
-
-
+        
         System.out.println(Decalage);
         System.out.println(actualTime);
-        background.draw(0, Decalage);
+        background.draw(0,Decalage);
+        
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
@@ -78,11 +84,15 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
-        actualTime += (double) delta / 1000.0;
-        if (actualTime > partyDuration) {
-            actualTime = 0;
-            sbg.enterState(0);
+        actualTime+=(double)delta/1000.0;
+        if(actualTime>partyDuration)
+        {
 
+            sbg.enterState(0);
+            actualTime=0;
+            newGame = true;
+//            initPlayers();
+            initField();
         }
 
     }
@@ -187,6 +197,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
+        obstacles.clear();
+        ficObs.clear();
         ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
@@ -201,20 +213,13 @@ public class Gameplay extends BasicGameState {
     private void initPlayers() throws SlickException {
         int decalage = 0;
 
+        players.clear();
+
         for (String s : Game.players) {
             Player p = new Player(s);
             p.setCoords(new Point2D.Double(300 + decalage, 200 - p.getImage().getHeight()));
             decalage += 200;
             players.add(p);
         }
-
-//        Player p1 = new Player("ressources/playerCaca.png");
-//        Player p2 = new Player("ressources/playerCaca.png");
-//
-//        p1.setCoords(new Point2D.Double(300, 200 - p1.getImage().getHeight()));
-//        p2.setCoords(new Point2D.Double(800, 200 - p2.getImage().getHeight()));
-//
-//        players.add(p1);
-//        players.add(p2);
     }
 }
