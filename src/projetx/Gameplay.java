@@ -26,6 +26,8 @@ public class Gameplay extends BasicGameState {
     List<Obstacle> obstacles;
     
     int elapsedTimeSinceLastNewField;
+    
+    boolean blocSupprime;
 
     Gameplay( int stateID ) 
     {
@@ -66,7 +68,7 @@ public class Gameplay extends BasicGameState {
         int nbMiniBlocs=3;
         int nbMaxBlocs=10;
         
-        int nbBlocRandom; = (int)(Math.random() * (nbMaxBlocs-nbMiniBlocs)) + nbMiniBlocs;
+        int nbBlocRandom; //= (int)(Math.random() * (nbMaxBlocs-nbMiniBlocs)) + nbMiniBlocs;
         
         int deplacement=10*elapsedTime;
         
@@ -78,6 +80,11 @@ public class Gameplay extends BasicGameState {
                 coords.setLocation(coords.getX(), coords.getY()+deplacement);
                 o.setCoords(coords);
             }
+        }
+        
+        if(elapsedTimeSinceLastNewField>100){
+            Obstacle o=new Obstacle();
+            
         }
         
         
