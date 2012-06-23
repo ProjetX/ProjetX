@@ -81,14 +81,20 @@ public class Gameplay extends BasicGameState {
             }
         }
         
+        for(Player p:players){
+            coords=p.getCoords();
+            coords.setLocation(coords.getX(), coords.getY()+deplacement);
+            p.setCoords(coords);
+        }
+        
         if(elapsedTimeSinceLastNewField>randApparition){
-            Obstacle o=new Obstacle("ressources/initPlateforme.png");   
+            Obstacle o=new Obstacle("ressources/plateforme2.png");   
             obstacles.add(o);
             randX=(int)(Math.random() * (700));
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewField=0;
             int lower=1500;
-            int higher=6000;
+            int higher=5000;
             
             randApparition = (int)(Math.random() * (higher+1-lower)) + lower;
         }
@@ -111,7 +117,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyPressed(Input.KEY_D)) {
             players.get(0).iWouldLikeToGoLeft();
         }
-
+        
         if (players.size() > 1) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_UP)) {
