@@ -22,11 +22,14 @@ public class Game extends StateBasedGame {
     static int fpslimit = 60;
     public static final int MAINMENU = 0;
     public static final int GAMEPLAY = 1;
-    public static final int END = 2;
+    public static final int GAMEEND = 2;
 
     public static List<String> players;
+    public static List<Player> playerScores;
+
     
     public static boolean selectedPlayers[];
+
 
     public Game(String title) {
         super(title);
@@ -49,6 +52,6 @@ public class Game extends StateBasedGame {
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
-        this.addState(new Gameplay(END));
+        this.addState(new GameEnd(GAMEEND));
     }
 }

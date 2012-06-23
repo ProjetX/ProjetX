@@ -20,7 +20,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 120 ;
+    static double partyDuration = 2 ;
     double actualTime;
     int stateID = -1;
     
@@ -114,8 +114,8 @@ public class Gameplay extends BasicGameState {
         // Fin de partie
         if(actualTime>partyDuration)
         {
-
-            sbg.enterState(0);
+            Game.playerScores=players;
+            sbg.enterState(2);
             actualTime=0;
             newGame = true;
             initField();
