@@ -11,17 +11,14 @@ package projetx;
 import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.Font;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.gui.AbstractComponent;
 import org.newdawn.slick.gui.ComponentListener;
 import org.newdawn.slick.gui.GUIContext;
 import org.newdawn.slick.gui.MouseOverArea;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -46,11 +43,6 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         img = new Image("ressources/Narwhals_breach.jpg");
 
-        playersSelected.add(null);
-        playersSelected.add(null);
-        playersSelected.add(null);
-        playersSelected.add(null);
-
         Image p1 = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
         Image p2 = new Image("ressources/sprites/Costard/CostardStatique.png");
 
@@ -60,8 +52,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         for (int i = 0; i < 2; i++) {
             List<CustomMouseOverArea> l = new ArrayList<CustomMouseOverArea>(2);
-            l.add(new CustomMouseOverArea(gc, p1, 300 + (p1.getWidth() + 20) * 1, 300 + (i * 90), this));
-            l.add(new CustomMouseOverArea(gc, p2, 300 + (p2.getWidth() + 20) * 2, 300 + (i * 90), this));
+            l.add(new CustomMouseOverArea(gc, p1, 300 + (p1.getWidth() + 20) * 1, 150 + (i * 100), this));
+            l.add(new CustomMouseOverArea(gc, p2, 300 + (p2.getWidth() + 20) * 2, 150 + (i * 100), this));
             personnages.add(l);
         }
     }
@@ -88,7 +80,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
             }
         }
 
-        if(oneSelected) {
+        if (oneSelected) {
             startButton.render(gc, gr);
         }
     }

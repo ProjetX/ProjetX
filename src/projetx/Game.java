@@ -10,10 +10,7 @@ package projetx;
  */
 import java.util.List;
 import org.newdawn.slick.*;
-import projetx.Gameplay;
-import projetx.MainMenu;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.state.BasicGameState;
 
 public class Game extends StateBasedGame {
 

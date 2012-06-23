@@ -16,53 +16,51 @@ public class Player extends Sprite {
 
     protected double speed;
     protected Point2D AcutalPosition;
-    
     protected boolean isOnAPlatform;
-    
-    protected boolean wantsToGoRight;
-    protected boolean wantsToGoLeft;
-    protected boolean wantsToJump;
-
-    protected double lateralSpeed = 5;
+    protected boolean wantsToGoRight = false;
+    protected boolean wantsToGoLeft = false;
+    protected boolean wantsToJump = false;
+    protected double lateralSpeed = 7.5;
     protected double verticalSpeed = 1.2;
-    
-    int numberOfKills;
-    int numberOfDeaths;
-    
-    
-    public Player(String img) throws SlickException 
-    {
-         super(img);
-         this.image = new Image(img);
-         numberOfKills=0;
-         numberOfDeaths=0;
+    int numberOfKills = 0;
+    int numberOfDeaths = 0;
+    boolean rightOrientation = true;
+
+    public Player(String img) throws SlickException {
+        super(img);
+        this.image = new Image(img);
     }
-        
+
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
         }
     }
-       
+
     public void iWouldLikeToGoLeft() {
         wantsToGoLeft = true;
+        if (rightOrientation) {
+            this.image = this.image.getFlippedCopy(true, false);
+            rightOrientation = false;
+        }
     }
 
     public void iWouldLikeToGoRight() {
-
         wantsToGoRight = true;
+        if (!rightOrientation) {
+            this.image = this.image.getFlippedCopy(true, false);
+            rightOrientation = true;
+        }
     }
-    
-    public void Die()
-    {
+
+    public void Die() {
         numberOfDeaths++;
-                
+
     }
-    
-    public void Kill()
-    {
+
+    public void Kill() {
         numberOfKills++;
-                
+
     }
 
     public void setWantsToGoLeft(boolean wantsToGoLeft) {
@@ -73,7 +71,7 @@ public class Player extends Sprite {
         this.wantsToGoRight = wantsToGoRight;
     }
 
-     public void setWantsToJump(boolean wantsToJump) {
+    public void setWantsToJump(boolean wantsToJump) {
         this.wantsToJump = wantsToJump;
     }
 
@@ -84,7 +82,6 @@ public class Player extends Sprite {
     public void setVerticalSpeed(double verticalSpeed) {
         this.verticalSpeed = verticalSpeed;
     }
-
 
     public double getSpeed() {
         return speed;

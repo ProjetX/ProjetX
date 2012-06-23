@@ -4,7 +4,6 @@
  */
 package projetx;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
