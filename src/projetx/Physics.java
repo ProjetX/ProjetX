@@ -9,17 +9,11 @@ import org.newdawn.slick.Image;
  *
  * @author mica
  */
-public class Object{
-    public int width;
-    public int height;
-    public Point2D Position;
-    public Point2D vitesse;
-}
 
-public class Physics implements Runnable{
+public class Physics {
     private int gravity;
-    ArrayList<Object> movables;
-    ArrayList<Object> platforms;
+    ArrayList<Player> movables;
+    ArrayList<Sprite> platforms;
 
     public int getGravity() {
         return gravity;
@@ -33,28 +27,28 @@ public class Physics implements Runnable{
         gravity = _gravity;
     }
 
-    public updateMovable(ArrayList<Object> _players){
-        players = _players;
+    public void updateMovable(ArrayList<Player> _players){
+        movables = _players;
     }
 
-    public updatePlatforms(ArrayList<Object> _platforms){
+    public void updatePlatforms(ArrayList<Sprite> _platforms){
         platforms = _platforms;
     }
-
-    public computePhysics(double TimeSinceLastFrame){
+/*
+    public void computePhysics(double TimeSinceLastFrame){
 
         boolean canFall = true;
-        Point2D nextPoint = 0;
+        Point2D nextPoint;
 
 
-       for(Object movable : players){
+       for(Player movable : movables){
 
         //
         nextPoint = movable.Position + movable.vitesse * TimeSinceLastFrame;
 
         //On teste si le movable peut tomber
-        for(Object plateform: _platforms){
-            //nextPoint
+        for(Sprite plateform: platforms){
+            
         }
         for(Object movable : movables){
 
@@ -62,6 +56,15 @@ public class Physics implements Runnable{
        }
     }
 
+    private boolean IsColliding(){
+        boolean isColliding = false;
 
+        //nextPoint
+            //if( plateform.getCoords().getX() < nextPoint.x)
+
+        return isColliding;
+    }
+
+*/
 
 }
