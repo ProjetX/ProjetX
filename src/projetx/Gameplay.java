@@ -368,6 +368,7 @@ public class Gameplay extends BasicGameState {
                         }
                         
                   }
+                  a.setHasUsedGravityBoom(false);
                }
             }
         }
