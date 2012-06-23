@@ -30,7 +30,7 @@ public class Game extends StateBasedGame
      
     public static final int MAINMENU          = 0;
     public static final int GAMEPLAY          = 1;
-    public static final int END          = 1;
+    public static final int END          = 2;
 
 
      public Game(String title)
@@ -59,6 +59,7 @@ public class Game extends StateBasedGame
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
+        this.addState(new Gameplay(END));
     }
      
 }
