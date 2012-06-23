@@ -16,11 +16,26 @@ public class Player extends Sprite {
 
     protected double speed;
     protected Point2D AcutalPosition;
+    
     protected boolean isOnAPlatform;
+    
     protected boolean wantsToGoRight;
-
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
+    
+    int numberOfKills;
+    int numberOfDeaths;
+    
+    
+    public Player(String img) throws SlickException 
+    {
+         super(img);
+         this.image = new Image(img);
+         numberOfKills=0;
+         numberOfDeaths=0;
+    }
+    
+    
 
     public void setWantsToJump(boolean wantsToJump) {
         this.wantsToJump = wantsToJump;
@@ -37,10 +52,6 @@ public class Player extends Sprite {
         this.verticalSpeed = verticalSpeed;
     }
 
-    public Player(String img) throws SlickException {
-        super(img);
-        this.image = new Image(img);
-    }
 
     public double getSpeed() {
         return speed;
@@ -99,5 +110,17 @@ public class Player extends Sprite {
     public void iWouldLikeToGoRight() {
 
         wantsToGoRight = true;
+    }
+    
+    public void Die()
+    {
+        numberOfDeaths++;
+                
+    }
+    
+    public void Kill()
+    {
+        numberOfKills++;
+                
     }
 }

@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static int partyDuration = 300 ;
+    static int partyDuration = 20 ;
     double actualTime;
     int stateID = -1;
     List<Player> players;
@@ -47,7 +47,7 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
-        background= new Image("./ressources/background1.jpg");
+        background= new Image("./ressources/sprites/Fond/Fond.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
