@@ -70,6 +70,12 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         actualTime+=(double)delta/1000.0;
+        if(actualTime>partyDuration)
+        {
+            actualTime=0;
+            sbg.enterState(0);
+            
+        }
 
     }
 
