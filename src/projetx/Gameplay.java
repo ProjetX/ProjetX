@@ -48,14 +48,18 @@ public class Gameplay extends BasicGameState {
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
         manageField();
-        manageInput();
+        manageInput(gc,sbg,delta);
         managePhysics();
     }
 
-    private void manageField() {
+    private void manageField() 
+    {
+        
     }
 
-    private void manageInput() {
+    private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) 
+    {
+        // Input managing du personnage 1
     }
 
     private void managePhysics() {
