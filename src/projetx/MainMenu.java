@@ -50,7 +50,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         personnages = new ArrayList<List<CustomMouseOverArea>>(2);
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 4; i++) {
             List<CustomMouseOverArea> l = new ArrayList<CustomMouseOverArea>(2);
             l.add(new CustomMouseOverArea(gc, p1, 300 + (p1.getWidth() + 20) * 1, 150 + (i * 100), this));
             l.add(new CustomMouseOverArea(gc, p2, 300 + (p2.getWidth() + 20) * 2, 150 + (i * 100), this));

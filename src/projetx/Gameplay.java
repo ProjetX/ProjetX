@@ -162,8 +162,10 @@ public class Gameplay extends BasicGameState {
             p.setCoords(coords);
         }
 
-        int lower = 500;
-        int higher = 2500;
+//        int lower = 500;
+//        int higher = 2500;
+        int lower = 200;
+        int higher = 1500;
 
         if (elapsedTimeSinceLastNewFieldG > randApparitionG) {
             Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
@@ -229,6 +231,36 @@ public class Gameplay extends BasicGameState {
 
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 players.get(1).iWouldLikeToGoLeft();
+            }
+        }
+
+        if (players.size() > 2) {
+            // Input managing du personnage 2
+            if (input.isKeyPressed(Input.KEY_T)) {
+                players.get(2).iWouldLikeToJump();
+            }
+
+            if (input.isKeyDown(Input.KEY_H)) {
+                players.get(2).iWouldLikeToGoRight();
+            }
+
+            if (input.isKeyDown(Input.KEY_F)) {
+                players.get(2).iWouldLikeToGoLeft();
+            }
+        }
+
+        if (players.size() > 3) {
+            // Input managing du personnage 2
+            if (input.isKeyPressed(Input.KEY_I)) {
+                players.get(3).iWouldLikeToJump();
+            }
+
+            if (input.isKeyDown(Input.KEY_L)) {
+                players.get(3).iWouldLikeToGoRight();
+            }
+
+            if (input.isKeyDown(Input.KEY_J)) {
+                players.get(3).iWouldLikeToGoLeft();
             }
         }
     }
