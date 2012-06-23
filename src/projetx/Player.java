@@ -21,9 +21,10 @@ public class Player extends Sprite {
     protected boolean wantsToGoLeft = false;
     protected boolean wantsToJump = false;
     protected double lateralSpeed = 7.5;
-    protected double verticalSpeed = 1.2;
+    protected double verticalSpeed = 1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
+    int lastPower=0;
     boolean rightOrientation = true;
 
     public Player(String img) throws SlickException {
@@ -55,7 +56,7 @@ public class Player extends Sprite {
 
     public void Die() {
         numberOfDeaths++;
-
+        lastPower=0;
     }
 
     public void Kill() {
@@ -129,5 +130,22 @@ public class Player extends Sprite {
 
     public void setLateralSpeed(double lateralSpeed) {
         this.lateralSpeed = lateralSpeed;
+    }
+    
+    public int GetTimeSinceLastPower() {
+        return lastPower;
+    }
+    
+    public void SetTimeSinceLastPower(int time) {
+        lastPower=time;
+    }
+    
+    public float GetTailleBarre() {
+        if(lastPower>5000) {
+            return 80.f;
+        }
+        else {
+            return (float)((80.f*(float)lastPower)/5000.f);
+        }
     }
 }
