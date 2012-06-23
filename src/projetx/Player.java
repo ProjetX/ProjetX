@@ -2,23 +2,21 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projetx;
 
 import java.awt.geom.Point2D;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
  * @author jonas
  */
-public class Player extends Sprite{
+public class Player extends Sprite {
 
     protected double speed;
     protected Point2D AcutalPosition;
-    
     protected boolean isOnAPlatform;
-    
     protected boolean wantsToGoRight;
 
     protected boolean wantsToGoLeft;
@@ -39,6 +37,10 @@ public class Player extends Sprite{
         this.verticalSpeed = verticalSpeed;
     }
 
+    public Player(String img) throws SlickException {
+        this.image = new Image(img);
+    }
+
     public double getSpeed() {
         return speed;
     }
@@ -46,38 +48,19 @@ public class Player extends Sprite{
     public void setSpeed(double speed) {
         this.speed = speed;
     }
-    
-    
 
-    public Point2D getActualPosition( ) 
-    {
+    public Point2D getActualPosition() {
         return this.AcutalPosition;
     }
-    
-    public void setActualPosition(Point2D pos ) 
-    {
+
+    public void setActualPosition(Point2D pos) {
         this.AcutalPosition = pos;
     }
-    
-    public void iWouldLikeToJump()
-    {
-        if(isOnAPlatform)
-        {
-            wantsToJump=true;
-        }
-    }      
-    
-    public void iWouldLikeToGoLeft()
-    {
-         wantsToGoLeft=true;
-    }  
-        
-        
-        
-    public void iWouldLikeToGoRight()
-    {
 
-            wantsToGoRight=true;
+    public void iWouldLikeToJump() {
+        if (isOnAPlatform) {
+            wantsToJump = true;
+        }
     }
 
     public boolean isOnAPlatform() {
@@ -106,5 +89,14 @@ public class Player extends Sprite{
 
     public void setLateralSpeed(double lateralSpeed) {
         this.lateralSpeed = lateralSpeed;
+    }
+    
+    public void iWouldLikeToGoLeft() {
+        wantsToGoLeft = true;
+    }
+
+    public void iWouldLikeToGoRight() {
+
+        wantsToGoRight = true;
     }
 }

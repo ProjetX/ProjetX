@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package projetx;
 
 /**
@@ -14,52 +13,40 @@ import projetx.Gameplay;
 import projetx.MainMenu;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.BasicGameState;
-public class Game extends StateBasedGame
-{
-     static int height = 480;
-     static int width = 640;
 
-     static boolean fullscreen = false;
+public class Game extends StateBasedGame {
 
-     static boolean showFPS = true;
+    static int height = 650;
+    static int width = 1200;
+    static boolean fullscreen = false;
+    static boolean showFPS = true;
+    static String title = "ProjetX";
+    static int fpslimit = 60;
+    public static final int MAINMENU = 0;
+    public static final int GAMEPLAY = 1;
+    public static final int END = 2;
 
-     static String title = "ProjetX";
+    public Game(String title) {
+        super(title);
+    }
 
-     static int fpslimit = 60;
-     
-     
-    public static final int MAINMENU          = 0;
-    public static final int GAMEPLAY          = 1;
-    public static final int END          = 2;
-
-
-     public Game(String title)
-     {
-          super(title);
-     }
-
-    public Game()
-    {
+    public Game() {
         super("SlickBlocks");
     }
- 
-    public static void main(String[] args) throws SlickException
-    {
-          AppGameContainer app = new AppGameContainer(new Game());
-          app.setDisplayMode(Game.width, Game.height, Game.fullscreen);
-          app.setSmoothDeltas(true);
-          app.setTargetFrameRate( Game.fpslimit);
-          app.setShowFPS( Game.showFPS);
-          app.start();
+
+    public static void main(String[] args) throws SlickException {
+        AppGameContainer app = new AppGameContainer(new Game());
+        app.setDisplayMode(Game.width, Game.height, Game.fullscreen);
+        app.setSmoothDeltas(true);
+        app.setTargetFrameRate(Game.fpslimit);
+        app.setShowFPS(Game.showFPS);
+        app.start();
     }
- 
-    
-    
+
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
         this.addState(new Gameplay(END));
     }
-     
 }
