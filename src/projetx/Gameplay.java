@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 5 ;
+    static double partyDuration = 20 ;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -56,6 +56,7 @@ public class Gameplay extends BasicGameState {
         actualTime=1;
         background= new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
+        Music.play();
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
@@ -200,11 +201,17 @@ public class Gameplay extends BasicGameState {
     
     private void manageDeath() 
     {
-        for(Player it:players)
+        int p =players.size();
+           System.out.println(p);
+        for(int i=0;i<p;i++)
         {
-            if(it.getActualPosition().getY()>650)
+            Point2D a=players.get(i).getCoords();
+            if(a!=null)
             {
-                
+               if (a.getY()>700)
+               {
+                   players.get(i).Die();
+               }
             }
         }
     }
