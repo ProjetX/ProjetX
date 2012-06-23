@@ -273,6 +273,7 @@ public class Gameplay extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_G)) {
                 if(players.get(it).GetTimeSinceLastPower()>=5000){
+                    players.get(it).SetTimeSinceLastPower(0);
                 players.get(it).setHasUsedGravityBoom(true);
 
                 }
