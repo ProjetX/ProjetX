@@ -14,15 +14,13 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends Sprite {
 
-    protected double speed;
-
-
+    protected Point2D speed = new Point2D.Double(0,0);
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
     protected boolean wantsToGoRight = false;
     protected boolean wantsToGoLeft = false;
     protected boolean wantsToJump = false;
-    protected double lateralSpeed = 7.5;
+    protected double lateralSpeed = 0.7;
     protected double verticalSpeed = 1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
@@ -86,12 +84,16 @@ public class Player extends Sprite {
         this.verticalSpeed = verticalSpeed;
     }
 
-    public double getSpeed() {
+    public Point2D getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(Point2D speed) {
         this.speed = speed;
+    }
+
+    public void setSpeed(double x, double y) {
+        this.speed.setLocation(x, y);
     }
 
     public Point2D getActualPosition() {

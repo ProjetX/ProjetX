@@ -38,7 +38,7 @@ public class Gameplay extends BasicGameState {
     int randApparitionD;
     int randApparitionG;
 
-    Physics physics = new Physics(0.035);
+    Physics physics = new Physics(0.0022);
     int randApparitionM;
     boolean newGame = true;
 

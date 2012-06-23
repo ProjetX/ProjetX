@@ -53,31 +53,32 @@ public class Physics {
         Player otherMovable;
         Sprite collider = null;
 
+
         for (Player currentMovable : movables) {
             collider = null;
             collide = COLLIDE.NONE;
             oldPoint = currentMovable.getCoords();
             
-            if (currentMovable.isOnAPlatform()) {
+            if (currentMovable.isOnAPlatform() == true) {
                 //Si on est sur une plateforme
                 if (currentMovable.isWantsToJump()) {
                     //Si on saute
-                    currentMovable.setSpeed(-currentMovable.getVerticalSpeed());
+                    currentMovable.setSpeed(currentMovable.getSpeed().getX(),-currentMovable.getVerticalSpeed());
                     currentMovable.setIsOnAPlatform(false);
                     currentMovable.setWantsToJump(false);
                 }
             }
 
-            if(currentMovable.getSpeed() != 0.1)
+            if(currentMovable.getSpeed().getY() != 0.1)
                 System.out.println("VAd: " + currentMovable.getSpeed());
-            nextPoint = addVectors(currentMovable.getCoords(), scalarCross(new Point2D.Double(0,  currentMovable.getSpeed()), TimeSinceLastFrame));
+            nextPoint = addVectors(currentMovable.getCoords(), scalarCross( currentMovable.getSpeed(), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
-                nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed(), nextPoint.getY());
+                nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoLeft(false);
             }
             if (currentMovable.isWantsToGoRight()) {
-                nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed(), nextPoint.getY());
+                nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoRight(false);
             }
 
@@ -86,22 +87,26 @@ public class Physics {
             Point2D correctedPoint = new Point2D.Double();
  
             //On teste si le movable collide dans sa prochaine position
+            currentMovable.setIsOnAPlatform(false);
+            
             for (int i = 0; i < platforms.size(); i++) {
                 plateform = platforms.get(i);
                 collider = plateform;
                 //collide = IsColliding(currentMovable, plateform);
                 collide = IsCollidingObstacle(currentMovable,oldPoint, plateform);
 
+
                 if (collide != COLLIDE.NONE) {
                     switch (collide) {
                         case NONE:
+                            
                             //correctedPoint = nextPoint;
                             break;
                         case COLLIDE_BAS:
-                            if(currentMovable.getSpeed() >= 0){
+                            if(currentMovable.getSpeed().getY() >= 0){
                                 correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight()/2.0 - currentMovable.getImage().getHeight());
                                 currentMovable.setCoords(correctedPoint);
-                                currentMovable.setSpeed( 0);
+                                currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
                             }
                             break;
@@ -124,7 +129,7 @@ public class Physics {
                             case COLLIDE_BAS:
                                 correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
                                 currentMovable.setCoords(correctedPoint);
-                                currentMovable.setSpeed(0);
+                                currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
                                 break;
                             case COLLIDE_LEFT:
@@ -144,7 +149,7 @@ public class Physics {
                     }
                 }
             }
-            currentMovable.setSpeed(currentMovable.getSpeed() + gravity);
+            currentMovable.setSpeed(currentMovable.getSpeed().getX(), currentMovable.getSpeed().getY()+ gravity * TimeSinceLastFrame);
         }
     }
 
