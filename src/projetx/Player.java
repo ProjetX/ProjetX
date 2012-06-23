@@ -14,7 +14,7 @@ import org.newdawn.slick.Image;
  */
 public class Player extends Sprite{
 
-    protected Point2D speed;
+    protected double speed;
     protected Point2D AcutalPosition;
     
     protected boolean isOnAPlatform;
@@ -23,11 +23,27 @@ public class Player extends Sprite{
 
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
-    public Point2D getSpeed() {
+
+    public void setWantsToJump(boolean wantsToJump) {
+        this.wantsToJump = wantsToJump;
+    }
+
+    protected double lateralSpeed = 10;
+    protected double verticalSpeed = 30;
+
+    public double getVerticalSpeed() {
+        return verticalSpeed;
+    }
+
+    public void setVerticalSpeed(double verticalSpeed) {
+        this.verticalSpeed = verticalSpeed;
+    }
+
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Point2D speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
     
@@ -84,4 +100,11 @@ public class Player extends Sprite{
         this.isOnAPlatform = isOnAPlatform;
     }
 
+    public double getLateralSpeed() {
+        return lateralSpeed;
+    }
+
+    public void setLateralSpeed(double lateralSpeed) {
+        this.lateralSpeed = lateralSpeed;
+    }
 }
