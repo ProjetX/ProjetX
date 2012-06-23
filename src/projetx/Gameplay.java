@@ -66,7 +66,7 @@ public class Gameplay extends BasicGameState {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        manageField(delta);
+        //manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         actualTime+=(double)delta/1000.0;
