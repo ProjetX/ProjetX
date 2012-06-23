@@ -103,7 +103,7 @@ public class Gameplay extends BasicGameState {
             initPlayers();
         }
         managePowerBar(delta);
-        //manageField(delta);
+        manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath();
