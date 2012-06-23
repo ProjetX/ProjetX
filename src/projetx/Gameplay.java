@@ -21,6 +21,8 @@ public class Gameplay extends BasicGameState {
     List<Player> players;
     List<Obstacle> obstacles;
     
+    List<String> ficObs;
+    
    int elapsedTimeSinceLastNewField;
     
     int randApparition;
@@ -37,6 +39,7 @@ public class Gameplay extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         players = new ArrayList<Player>(4);
         obstacles = new ArrayList<Obstacle>();
+        ficObs = new ArrayList<String>();
 
         initField();
         initPlayers();
@@ -73,7 +76,6 @@ public class Gameplay extends BasicGameState {
             if(coords.getY()>tailleEcranY){
                 obstacles.remove(o);
                 i--;
-                System.out.println("Je suis ton pere luc");
             }
             else {
                 coords.setLocation(coords.getX(), coords.getY()+deplacement);
@@ -88,7 +90,7 @@ public class Gameplay extends BasicGameState {
         }
         
         if(elapsedTimeSinceLastNewField>randApparition){
-            Obstacle o=new Obstacle("ressources/plateforme2.png");   
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random() * (2))));  
             obstacles.add(o);
             randX=(int)(Math.random() * (700));
             o.setCoords(new Point2D.Double(randX, 0));
@@ -138,6 +140,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
+        ficObs.add("ressources/plateforme2.png");
+        ficObs.add("ressources/plateforme3.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
         obstacles.add(platInit);
 
