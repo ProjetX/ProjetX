@@ -210,89 +210,96 @@ public class Gameplay extends BasicGameState {
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) {
         // Input managing du personnage 1
         Input input = gc.getInput();
-        if (input.isKeyPressed(Input.KEY_Z)) {
-            players.get(0).iWouldLikeToJump();
-        }
-
-        if (input.isKeyDown(Input.KEY_D)) {
-            players.get(0).iWouldLikeToGoRight();
-        }
-
-        if (input.isKeyDown(Input.KEY_Q)) {
-            players.get(0).iWouldLikeToGoLeft();
-        }
-        
-        if (input.isKeyDown(Input.KEY_S)) {
-            if(players.get(0).GetTimeSinceLastPower()>=5000){
-                players.get(0).SetTimeSinceLastPower(0);
-                 players.get(0).setHasUsedGravityBoom(true);
-                //manage
+        int it=0;
+        if(Game.selectedPlayers[0]) {
+            if (input.isKeyPressed(Input.KEY_Z)) {
+                players.get(it).iWouldLikeToJump();
             }
+
+            if (input.isKeyDown(Input.KEY_D)) {
+                players.get(it).iWouldLikeToGoRight();
+            }
+
+            if (input.isKeyDown(Input.KEY_Q)) {
+                players.get(it).iWouldLikeToGoLeft();
+            }
+
+            if (input.isKeyDown(Input.KEY_S)) {
+                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                    players.get(it).SetTimeSinceLastPower(0);
+                    players.get(it).setHasUsedGravityBoom(true);
+                    //manage
+                }
+            }
+            it++;
         }
 
-        if (players.size() > 1) {
+        if (Game.selectedPlayers[1]) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_UP)) {
-                players.get(1).iWouldLikeToJump();
+                players.get(it).iWouldLikeToJump();
             }
 
             if (input.isKeyDown(Input.KEY_RIGHT)) {
-                players.get(1).iWouldLikeToGoRight();
+                players.get(it).iWouldLikeToGoRight();
             }
 
             if (input.isKeyDown(Input.KEY_LEFT)) {
-                players.get(1).iWouldLikeToGoLeft();
+                players.get(it).iWouldLikeToGoLeft();
             }
             
             if (input.isKeyDown(Input.KEY_DOWN)) {
-                if(players.get(1).GetTimeSinceLastPower()>=5000){
-                    players.get(1).SetTimeSinceLastPower(0);
-                    players.get(1).setHasUsedGravityBoom(true);
+                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                    players.get(it).SetTimeSinceLastPower(0);
+                    players.get(it).setHasUsedGravityBoom(true);
 
                 }
             }
+            it++;
         }
 
-        if (players.size() > 2) {
+        if (Game.selectedPlayers[2]) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_T)) {
-                players.get(2).iWouldLikeToJump();
+                players.get(it).iWouldLikeToJump();
             }
 
             if (input.isKeyDown(Input.KEY_H)) {
-                players.get(2).iWouldLikeToGoRight();
+                players.get(it).iWouldLikeToGoRight();
             }
 
             if (input.isKeyDown(Input.KEY_F)) {
-                players.get(2).iWouldLikeToGoLeft();
+                players.get(it).iWouldLikeToGoLeft();
             }
             if (input.isKeyDown(Input.KEY_G)) {
-                if(players.get(2).GetTimeSinceLastPower()>=5000){
-                players.get(2).setHasUsedGravityBoom(true);
+                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                players.get(it).setHasUsedGravityBoom(true);
 
                 }
             }
+            it++;
         }
 
-        if (players.size() > 3) {
+        if(Game.selectedPlayers[3]) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_I)) {
-                players.get(3).iWouldLikeToJump();
+                players.get(it).iWouldLikeToJump();
             }
 
             if (input.isKeyDown(Input.KEY_L)) {
-                players.get(3).iWouldLikeToGoRight();
+                players.get(it).iWouldLikeToGoRight();
             }
 
             if (input.isKeyDown(Input.KEY_J)) {
-                players.get(3).iWouldLikeToGoLeft();
+                players.get(it).iWouldLikeToGoLeft();
             }
             if (input.isKeyDown(Input.KEY_K)) {
-                if(players.get(3).GetTimeSinceLastPower()>=5000){
-                    players.get(3).SetTimeSinceLastPower(0);
-                    players.get(3).setHasUsedGravityBoom(true);
+                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                    players.get(it).SetTimeSinceLastPower(0);
+                    players.get(it).setHasUsedGravityBoom(true);
                 }
             }
+            it++;
         }
     }
 
@@ -357,6 +364,7 @@ public class Gameplay extends BasicGameState {
                         {
                             if(b!=a)
                             {
+                                System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;
                                 double aY=b.getCoords().getY()-a.getCoords().getY();
                                 double rayon =Math.sqrt(aX*aX +aY*aY);

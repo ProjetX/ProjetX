@@ -30,6 +30,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     MouseOverArea startButton;
     StateBasedGame sbg;
     List<String> playersSelected = new ArrayList<String>();
+    boolean players[] = new boolean[4];
+   
 
     MainMenu(int stateID) {
         this.stateID = stateID;
@@ -42,6 +44,10 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         img = new Image("ressources/Narwhals_breach.jpg");
+        
+        for(int i=0;i<4;i++) {
+            players[i]=false;
+        }
 
         Image p1 = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
         Image p2 = new Image("ressources/sprites/Costard/CostardStatique.png");
@@ -94,15 +100,18 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         if (source == startButton) {
             List<String> p = new ArrayList<String>();
-
+            int j=0;
             for (List<CustomMouseOverArea> l : this.personnages) {
                 for (int i = 0; i < l.size(); i++) {
                     if (l.get(i).isSelected()) {
                         p.add(l.get(i).getPerso());
+                        players[(int)Math.floor(j/2)]=true;
                     }
+                    j++;
                 }
             }
             Game.players = p;
+            Game.selectedPlayers = players;
 
             sbg.enterState(1);
         } else {
