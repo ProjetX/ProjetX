@@ -17,6 +17,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class Gameplay extends BasicGameState {
 
+    Image background;
+    static int partyDuration = 300 ;
+    double actualTime;
     int stateID = -1;
     List<Player> players;
     List<Obstacle> obstacles;
@@ -45,10 +48,14 @@ public class Gameplay extends BasicGameState {
 
         initField();
         initPlayers();
+        actualTime=1;
+        background= new Image("./ressources/background1.jpg");
     }
 
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
+    {
+        int Decalage=600+(int)(-background.getHeight()*((partyDuration -actualTime)/(double)partyDuration));
+        background.draw(0,Decalage);
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
@@ -62,6 +69,7 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
+        actualTime+=(double)delta/1000.0;
 
     }
 
@@ -71,7 +79,8 @@ public class Gameplay extends BasicGameState {
 
         int randX=0;
        
-        double deplacement=0.08f*elapsedTime;
+        double deplacement=0.2f*elapsedTime;
+
         
         for(int i=0;i<obstacles.size();i++){
             Obstacle o=obstacles.get(i);

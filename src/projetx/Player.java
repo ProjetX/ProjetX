@@ -14,23 +14,39 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends Sprite {
 
-    protected Point2D speed;
+    protected double speed;
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
     protected boolean wantsToGoRight;
+
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
+
+    public void setWantsToJump(boolean wantsToJump) {
+        this.wantsToJump = wantsToJump;
+    }
+
+    protected double lateralSpeed = 10;
+    protected double verticalSpeed = 30;
+
+    public double getVerticalSpeed() {
+        return verticalSpeed;
+    }
+
+    public void setVerticalSpeed(double verticalSpeed) {
+        this.verticalSpeed = verticalSpeed;
+    }
 
     public Player(String img) throws SlickException {
         super(img);
         this.image = new Image(img);
     }
 
-    public Point2D getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(Point2D speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -48,6 +64,34 @@ public class Player extends Sprite {
         }
     }
 
+    public boolean isOnAPlatform() {
+        return isOnAPlatform;
+    }
+
+    public boolean isWantsToGoLeft() {
+        return wantsToGoLeft;
+    }
+
+    public boolean isWantsToGoRight() {
+        return wantsToGoRight;
+    }
+
+    public boolean isWantsToJump() {
+        return wantsToJump;
+    }
+
+    public void setIsOnAPlatform(boolean isOnAPlatform) {
+        this.isOnAPlatform = isOnAPlatform;
+    }
+
+    public double getLateralSpeed() {
+        return lateralSpeed;
+    }
+
+    public void setLateralSpeed(double lateralSpeed) {
+        this.lateralSpeed = lateralSpeed;
+    }
+    
     public void iWouldLikeToGoLeft() {
         wantsToGoLeft = true;
     }
