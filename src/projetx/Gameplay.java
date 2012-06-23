@@ -18,7 +18,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static int partyDuration = 20 ;
+    static double partyDuration = 20 ;
     double actualTime;
     int stateID = -1;
     
@@ -29,9 +29,11 @@ public class Gameplay extends BasicGameState {
     
     int elapsedTimeSinceLastNewFieldG;
     int elapsedTimeSinceLastNewFieldD;
+    int elapsedTimeSinceLastNewFieldM;
     
     int randApparitionD;
     int randApparitionG;
+    int randApparitionM;
     
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -50,13 +52,17 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
-        
         background= new Image("./ressources/sprites/Fond/Fond.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
-        int Decalage=600+(int)(-background.getHeight()*((partyDuration -actualTime)/(double)partyDuration));
+        int Decalage=(int)(( 650-background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
+        
+        
+        
+        System.out.println(Decalage);
+        System.out.println(actualTime);
         background.draw(0,Decalage);
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
@@ -84,8 +90,6 @@ public class Gameplay extends BasicGameState {
     private void manageField(int elapsedTime) throws SlickException {
         Point2D coords;
         int tailleEcranY=700;
-
-        int randX=0;
        
         double deplacement=0.2f*elapsedTime;
 
@@ -109,31 +113,42 @@ public class Gameplay extends BasicGameState {
             p.setCoords(coords);
         }
         
+        int lower=500;
+        int higher=2500;
+            
         if(elapsedTimeSinceLastNewFieldG>randApparitionG){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (800));
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldG=0;
-            int lower=500;
-            int higher=1000;
+
             randApparitionG = (int)(Math.random() * (higher+1-lower)) + lower;
             
         }
         if(elapsedTimeSinceLastNewFieldD>randApparitionD){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (800));
-            o.setCoords(new Point2D.Double(randX, 0));
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
+            o.setCoords(new Point2D.Double(randX+193, 0));
             elapsedTimeSinceLastNewFieldD=0;
-            int lower=500;
-            int higher=1000;
             
             randApparitionD = (int)(Math.random() * (higher+1-lower)) + lower;
         }
         
+        if(elapsedTimeSinceLastNewFieldM>randApparitionM){
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
+            obstacles.add(o);
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
+            o.setCoords(new Point2D.Double(randX+387, 0));
+            elapsedTimeSinceLastNewFieldM=0;
+            
+            randApparitionM = (int)(Math.random() * (higher+1-lower)) + lower;
+        }
+        
         elapsedTimeSinceLastNewFieldD+=elapsedTime;
         elapsedTimeSinceLastNewFieldG+=elapsedTime;
+        elapsedTimeSinceLastNewFieldM+=elapsedTime;
 
 
     }
