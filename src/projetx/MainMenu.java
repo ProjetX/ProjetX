@@ -9,9 +9,7 @@ package projetx;
  * @author anisbenyoub
  */
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -19,6 +17,8 @@ import org.newdawn.slick.state.StateBasedGame;
 public class MainMenu extends BasicGameState {
  
     int stateID = -1;
+    
+    Image img;
  
     MainMenu( int stateID ) 
     {
@@ -30,16 +30,25 @@ public class MainMenu extends BasicGameState {
         return stateID;
     }
  
-    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
- 
+    public void init(GameContainer gc, StateBasedGame sbg) throws SlickException
+    {
+            img = new Image("ressources/chew.gif");
     }
  
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
- 
+    public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
+    {
+        img.draw(0,0);
+        
+            
     }
  
-    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
- 
+    public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException 
+    {
+        Input input = gc.getInput();
+        if(input.isMousePressed(0))
+        {
+        sbg.enterState(1);
+        }
     }
  
 }

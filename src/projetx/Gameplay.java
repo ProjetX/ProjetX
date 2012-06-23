@@ -43,7 +43,7 @@ public class Gameplay extends BasicGameState {
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
 
-        img.draw(-200, 0);
+        img.draw(0, 0);
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
