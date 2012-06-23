@@ -8,6 +8,7 @@ package projetx;
  *
  * @author anisbenyoub
  */
+import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -39,6 +40,11 @@ public class Gameplay extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 
         img = new Image("ressources/index.jpeg");
+
+        players = new ArrayList<Player>(4);
+        obstacles = new ArrayList<Obstacle>();
+
+        players.add(new Player());
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -60,5 +66,13 @@ public class Gameplay extends BasicGameState {
 
     private void managePhysics() {
     }
- 
+
+    private void initField(){
+        
+    }
+
+    private void initPlayers(){
+        
+    }
+
 }
