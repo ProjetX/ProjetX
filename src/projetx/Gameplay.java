@@ -19,7 +19,7 @@ public class Gameplay extends BasicGameState {
  
     int stateID = -1;
 
-     Image img;
+    Image img;
  
     Gameplay( int stateID ) 
     {
@@ -42,7 +42,18 @@ public class Gameplay extends BasicGameState {
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
- 
+        manageField();
+        manageInput();
+        managePhysics();
+    }
+
+    private void manageField() {
+    }
+
+    private void manageInput() {
+    }
+
+    private void managePhysics() {
     }
  
 }
