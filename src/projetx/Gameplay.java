@@ -92,7 +92,7 @@ public class Gameplay extends BasicGameState {
         }
         
         if(elapsedTimeSinceLastNewField>100){
-            Obstacle o=new Obstacle();
+            //Obstacle o=new Obstacle();
             
         }
         
