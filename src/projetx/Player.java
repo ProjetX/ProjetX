@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
  *
  * @author jonas
  */
-public class Player extends Image{
+public class Player extends Sprite{
+
 
 }
