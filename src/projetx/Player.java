@@ -34,15 +34,48 @@ public class Player extends Sprite {
          numberOfKills=0;
          numberOfDeaths=0;
     }
-    
-    
+        
+    public void iWouldLikeToJump() {
+        if (isOnAPlatform) {
+            wantsToJump = true;
+        }
+    }
+       
+    public void iWouldLikeToGoLeft() {
+        wantsToGoLeft = true;
+    }
 
-    public void setWantsToJump(boolean wantsToJump) {
+    public void iWouldLikeToGoRight() {
+
+        wantsToGoRight = true;
+    }
+    
+    public void Die()
+    {
+        numberOfDeaths++;
+                
+    }
+    
+    public void Kill()
+    {
+        numberOfKills++;
+                
+    }
+
+    public void setWantsToGoLeft(boolean wantsToGoLeft) {
+        this.wantsToGoLeft = wantsToGoLeft;
+    }
+
+    public void setWantsToGoRight(boolean wantsToGoRight) {
+        this.wantsToGoRight = wantsToGoRight;
+    }
+
+     public void setWantsToJump(boolean wantsToJump) {
         this.wantsToJump = wantsToJump;
     }
 
-    protected double lateralSpeed = 5;
-    protected double verticalSpeed = 5;
+    protected double lateralSpeed = 2.5;
+    protected double verticalSpeed = 1.5;
 
     public double getVerticalSpeed() {
         return verticalSpeed;
@@ -67,12 +100,6 @@ public class Player extends Sprite {
 
     public void setActualPosition(Point2D pos) {
         this.AcutalPosition = pos;
-    }
-
-    public void iWouldLikeToJump() {
-        if (isOnAPlatform) {
-            wantsToJump = true;
-        }
     }
 
     public boolean isOnAPlatform() {
@@ -101,26 +128,5 @@ public class Player extends Sprite {
 
     public void setLateralSpeed(double lateralSpeed) {
         this.lateralSpeed = lateralSpeed;
-    }
-    
-    public void iWouldLikeToGoLeft() {
-        wantsToGoLeft = true;
-    }
-
-    public void iWouldLikeToGoRight() {
-
-        wantsToGoRight = true;
-    }
-    
-    public void Die()
-    {
-        numberOfDeaths++;
-                
-    }
-    
-    public void Kill()
-    {
-        numberOfKills++;
-                
     }
 }

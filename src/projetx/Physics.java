@@ -46,17 +46,15 @@ public class Physics {
     }
 
     public void computePhysics(double TimeSinceLastFrame) {
-
         COLLIDE collide = COLLIDE.NONE;
         Point2D nextPoint;
-        Point2D oldPoint;
         Sprite plateform;
         Player otherMovable;
         Sprite collider = null;
 
-
         for (Player currentMovable : movables) {
-            oldPoint = currentMovable.getCoords();
+            collider = null;
+            collide = COLLIDE.NONE;
 
             if (currentMovable.isOnAPlatform()) {
                 //Si on est sur une plateforme
@@ -68,60 +66,90 @@ public class Physics {
                 }
             }
 
-            nextPoint = addVectors(currentMovable.getCoords(),scalarCross( new Point2D.Double(0, currentMovable.getSpeed()), TimeSinceLastFrame));
+            //if(currentMovable.getSpeed() != 0.1)
+                //System.out.println("VAd: " + currentMovable.getSpeed());
+            nextPoint = addVectors(currentMovable.getCoords(), scalarCross(new Point2D.Double(0,  currentMovable.getSpeed()), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
                 nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed(), nextPoint.getY());
+                currentMovable.setWantsToGoLeft(false);
             }
             if (currentMovable.isWantsToGoRight()) {
                 nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed(), nextPoint.getY());
+                currentMovable.setWantsToGoRight(false);
             }
 
             currentMovable.setCoords(nextPoint);
 
+            Point2D correctedPoint = new Point2D.Double();
+
             //On teste si le movable collide dans sa prochaine position
-            for (int i = 0; i < platforms.size() && collide == COLLIDE.NONE; i++) {
+            for (int i = 0; i < platforms.size(); i++) {
                 plateform = platforms.get(i);
                 collider = plateform;
                 collide = IsColliding(currentMovable, plateform);
+
+                if (collide != COLLIDE.NONE) {
+                    switch (collide) {
+                        case NONE:
+                            correctedPoint = nextPoint;
+                            break;
+                        case COLLIDE_BAS:
+                            correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
+                            currentMovable.setCoords(correctedPoint);
+                            currentMovable.setSpeed( gravity);
+                            currentMovable.setIsOnAPlatform(true);
+                            break;
+                        case COLLIDE_LEFT:
+                            correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());
+                            currentMovable.setCoords(correctedPoint);
+                            break;
+                        case COLLIDE_RIGHT:
+                            correctedPoint.setLocation(collider.getCoords().getX() - currentMovable.getImage().getWidth(), currentMovable.getCoords().getY());
+                            currentMovable.setCoords(correctedPoint);
+                            break;
+                        case COLLIDE_HAUT:
+                            correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
+                            currentMovable.setCoords(correctedPoint);
+                            break;
+
+                    }
+                }
             }
-            for (int i = 0; i < movables.size() && collide == COLLIDE.NONE; i++) {
+            for (int i = 0; i < movables.size(); i++) {
                 otherMovable = movables.get(i);
                 if (otherMovable != currentMovable) {
                     collide = IsColliding(currentMovable, otherMovable);
                     collider = otherMovable;
+
+                    if (collide != COLLIDE.NONE) {
+                        switch (collide) {
+                            case NONE:
+                                correctedPoint = nextPoint;
+                                break;
+                            case COLLIDE_BAS:
+                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
+                                currentMovable.setCoords(correctedPoint);
+                                currentMovable.setSpeed(0);
+                                currentMovable.setIsOnAPlatform(true);
+                                break;
+                            case COLLIDE_LEFT:
+                                correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());
+                                currentMovable.setCoords(correctedPoint);
+                                break;
+                            case COLLIDE_RIGHT:
+                                correctedPoint.setLocation(collider.getCoords().getX() - currentMovable.getImage().getWidth(), currentMovable.getCoords().getY());
+                                currentMovable.setCoords(correctedPoint);
+                                break;
+                            case COLLIDE_HAUT:
+                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
+                                currentMovable.setCoords(correctedPoint);
+                                break;
+                        }
+                    }
                 }
             }
-
-            Point2D correctedPoint = new Point2D.Double();
-            switch(collide){
-                case NONE:
-                    correctedPoint = nextPoint;
-                    break;
-                case COLLIDE_BAS:
-                    correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight() );
-                    currentMovable.setCoords(correctedPoint);
-                    currentMovable.setSpeed(0);
-                    currentMovable.setIsOnAPlatform(true);
-                    break;
-                case COLLIDE_LEFT:
-                    correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY() );
-                    currentMovable.setCoords(correctedPoint);
-                    break;
-                case COLLIDE_RIGHT:
-                    correctedPoint.setLocation(collider.getCoords().getX()- currentMovable.getImage().getWidth(), currentMovable.getCoords().getY() );
-                    currentMovable.setCoords(correctedPoint);
-                    break;
-                case COLLIDE_HAUT:
-                    correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight() );
-                    currentMovable.setCoords(correctedPoint);
-                    currentMovable.setSpeed(0);
-                    break;
-
-            }
-            if (collide != COLLIDE.COLLIDE_BAS) {
-                currentMovable.setSpeed(currentMovable.getSpeed() + gravity);
-            }
+            currentMovable.setSpeed(currentMovable.getSpeed() + gravity);
         }
     }
 
@@ -173,12 +201,12 @@ public class Physics {
 
     private Point2D addVectors(Point2D a, Point2D b) {
         Point2D c = new Point2D.Double();// a.getX() + b.getX(), a.getY() + b.getY());
-        c.setLocation((int) a.getX() + b.getX(), (int) a.getY() + b.getY());
+        c.setLocation(a.getX() + b.getX(), a.getY() + b.getY());
         return c;
     }
 
     private Point2D scalarCross(Point2D a, double l) {
-        Point2D b = new Point2D.Double((int) a.getX() * l, (int) a.getY() * l);
+        Point2D b = new Point2D.Double(a.getX() * l, a.getY() * l);
         return b;
     }
 }

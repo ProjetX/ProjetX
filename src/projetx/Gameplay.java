@@ -32,7 +32,7 @@ public class Gameplay extends BasicGameState {
     int randApparitionD;
     int randApparitionG;
 
-    Physics physics = new Physics(0.2);
+    Physics physics = new Physics(0.05);
     
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -69,14 +69,20 @@ public class Gameplay extends BasicGameState {
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        //manageField(delta);
+        manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         actualTime+=(double)delta/1000.0;
+        if(actualTime>partyDuration)
+        {
+            actualTime=0;
+            sbg.enterState(0);
+            
+        }
 
         physics.updateMovable(players);
         physics.updatePlatforms(obstacles);
-        physics.computePhysics(actualTime);
+        physics.computePhysics(delta);
 
     }
 
@@ -111,22 +117,22 @@ public class Gameplay extends BasicGameState {
         if(elapsedTimeSinceLastNewFieldG>randApparitionG){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (350));
+            randX=(int)(Math.random() * (800));
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldG=0;
-            int lower=1500;
-            int higher=5000;
+            int lower=500;
+            int higher=1000;
             randApparitionG = (int)(Math.random() * (higher+1-lower)) + lower;
             
         }
         if(elapsedTimeSinceLastNewFieldD>randApparitionD){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (350));
-            o.setCoords(new Point2D.Double(randX+500, 0));
+            randX=(int)(Math.random() * (800));
+            o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldD=0;
-            int lower=1500;
-            int higher=5000;
+            int lower=500;
+            int higher=1000;
             
             randApparitionD = (int)(Math.random() * (higher+1-lower)) + lower;
         }
@@ -144,11 +150,11 @@ public class Gameplay extends BasicGameState {
             players.get(0).iWouldLikeToJump();
         }
 
-        if (input.isKeyPressed(Input.KEY_Q)) {
+        if (input.isKeyDown(Input.KEY_D)) {
             players.get(0).iWouldLikeToGoRight();
         }
 
-        if (input.isKeyPressed(Input.KEY_D)) {
+        if (input.isKeyDown(Input.KEY_Q)) {
             players.get(0).iWouldLikeToGoLeft();
         }
         
@@ -158,11 +164,11 @@ public class Gameplay extends BasicGameState {
                 players.get(1).iWouldLikeToJump();
             }
 
-            if (input.isKeyPressed(Input.KEY_LEFT)) {
+            if (input.isKeyDown(Input.KEY_RIGHT)) {
                 players.get(1).iWouldLikeToGoRight();
             }
 
-            if (input.isKeyPressed(Input.KEY_RIGHT)) {
+            if (input.isKeyDown(Input.KEY_LEFT)) {
                 players.get(1).iWouldLikeToGoLeft();
             }
         }
@@ -172,8 +178,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
-        ficObs.add("ressources/plateforme2.png");
-        ficObs.add("ressources/plateforme3.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
         obstacles.add(platInit);
 
