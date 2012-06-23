@@ -56,7 +56,7 @@ public class Player extends Sprite {
 
     public void Die() {
         numberOfDeaths++;
-
+        lastPower=0;
     }
 
     public void Kill() {
