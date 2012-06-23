@@ -15,6 +15,8 @@ import org.newdawn.slick.SlickException;
 public class Player extends Sprite {
 
     protected double speed;
+
+
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
     protected boolean wantsToGoRight = false;
@@ -143,5 +145,13 @@ public class Player extends Sprite {
         else {
             return (float)((80.f*(float)lastPower)/5000.f);
         }
+    }
+    
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public int getNumberOfKills() {
+        return numberOfKills;
     }
 }

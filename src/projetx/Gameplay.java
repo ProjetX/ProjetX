@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -91,6 +92,8 @@ public class Gameplay extends BasicGameState {
             gr.draw(r);
             gr.fill(r);
         }
+        
+        showInformation(gr);
 
     }
 
@@ -114,7 +117,6 @@ public class Gameplay extends BasicGameState {
             sbg.enterState(0);
             actualTime=0;
             newGame = true;
-//            initPlayers();
             initField();
         }
 
@@ -292,6 +294,27 @@ public class Gameplay extends BasicGameState {
     }
 
     private void managePhysics() {
+    }
+
+    
+    private void showInformation( Graphics gr) 
+    {
+        int step = 120;
+        int p =players.size();
+           System.out.println(p);
+        for(int i=0;i<p;i++)
+        {
+            Player a=players.get(i);
+            if(a!=null)
+            {
+               gr.drawString("Player "+(i+1), 20, 20+i*step);
+               a.getImage().draw( 20, 40+i*step);
+               gr.drawString("Deaths :"+a.getNumberOfDeaths(), 80, 50+i*step);
+               gr.drawString("Kills : "+a.getNumberOfKills(), 80, 70+i*step);
+        
+            }
+        }
+        
     }
 
     
