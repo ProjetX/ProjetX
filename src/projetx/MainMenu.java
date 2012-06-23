@@ -45,8 +45,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         img = new Image("ressources/Narwhals_breach.jpg");
 
-        Image p1 = new Image("ressources/playerCaca.png");
-        Image p2 = new Image("ressources/playerCaca.png");
+        Image p1 = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
+        Image p2 = new Image("ressources/sprites/Costard/CostardStatique.png");
 
         startButton = new MouseOverArea(gc, p1, 800, 550, this);
 

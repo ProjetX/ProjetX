@@ -11,6 +11,7 @@ package projetx;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -21,6 +22,7 @@ public class Gameplay extends BasicGameState {
     static int partyDuration = 20 ;
     double actualTime;
     int stateID = -1;
+    
     List<Player> players;
     List<Obstacle> obstacles;
     
@@ -49,6 +51,7 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
+
         background= new Image("./ressources/sprites/Fond/Fond.jpg");
     }
 
