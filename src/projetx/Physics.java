@@ -66,8 +66,8 @@ public class Physics {
                 }
             }
 
-            //if(currentMovable.getSpeed() != 0.1)
-                //System.out.println("VAd: " + currentMovable.getSpeed());
+            if(currentMovable.getSpeed() != 0.1)
+                System.out.println("VAd: " + currentMovable.getSpeed());
             nextPoint = addVectors(currentMovable.getCoords(), scalarCross(new Point2D.Double(0,  currentMovable.getSpeed()), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
@@ -95,10 +95,12 @@ public class Physics {
                             correctedPoint = nextPoint;
                             break;
                         case COLLIDE_BAS:
-                            correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
-                            currentMovable.setCoords(correctedPoint);
-                            currentMovable.setSpeed( gravity);
-                            currentMovable.setIsOnAPlatform(true);
+                            if(currentMovable.getSpeed() > 0){
+                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
+                                currentMovable.setCoords(correctedPoint);
+                                currentMovable.setSpeed( gravity);
+                                currentMovable.setIsOnAPlatform(true);
+                            }
                             break;
                         case COLLIDE_LEFT:
                             correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());
@@ -109,8 +111,9 @@ public class Physics {
                             currentMovable.setCoords(correctedPoint);
                             break;
                         case COLLIDE_HAUT:
-                            correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
-                            currentMovable.setCoords(correctedPoint);
+                            correctedPoint = nextPoint;
+                            //correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
+                           // currentMovable.setCoords(correctedPoint);
                             break;
 
                     }
@@ -142,8 +145,9 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 break;
                             case COLLIDE_HAUT:
-                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
-                                currentMovable.setCoords(correctedPoint);
+                                correctedPoint = nextPoint;
+                                //correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
+                                //currentMovable.setCoords(correctedPoint);
                                 break;
                         }
                     }

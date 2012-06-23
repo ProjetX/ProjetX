@@ -22,6 +22,9 @@ public class Player extends Sprite {
     protected boolean wantsToGoRight;
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
+
+    protected double lateralSpeed = 5;
+    protected double verticalSpeed = 1.2;
     
     int numberOfKills;
     int numberOfDeaths;
@@ -73,9 +76,6 @@ public class Player extends Sprite {
      public void setWantsToJump(boolean wantsToJump) {
         this.wantsToJump = wantsToJump;
     }
-
-    protected double lateralSpeed = 2.5;
-    protected double verticalSpeed = 1.5;
 
     public double getVerticalSpeed() {
         return verticalSpeed;
