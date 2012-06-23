@@ -8,6 +8,7 @@ package projetx;
  *
  * @author anisbenyoub
  */
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
@@ -41,12 +42,21 @@ public class Gameplay extends BasicGameState {
         players = new ArrayList<Player>(4);
         obstacles = new ArrayList<Obstacle>();
 
-        players.add(new Player());
+        initField();
+        initPlayers();
     }
  
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
 
         img.draw(0, 0);
+
+        for(Obstacle o : obstacles){
+            o.getImage().draw((int)o.getCoords().getX(), (int)o.getCoords().getY());
+        }
+
+        for(Player o : players){
+            o.getImage().draw((int)o.getCoords().getX(), (int)o.getCoords().getY());
+        }
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -102,12 +112,22 @@ public class Gameplay extends BasicGameState {
     private void managePhysics() {
     }
 
-    private void initField(){
-        
+    private void initField() throws SlickException{
+        Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
+        obstacles.add(platInit);
+
+        platInit.setCoords(new Point2D.Double(250, 600));
     }
 
-    private void initPlayers(){
-        
+    private void initPlayers() throws SlickException{
+        Player p1 = new Player("ressources/playerCaca.png");
+        Player p2 = new Player("ressources/playerCaca.png");
+
+        p1.setCoords(new Point2D.Double(300, 600 - p1.getImage().getHeight()));
+        p2.setCoords(new Point2D.Double(800, 600 - p2.getImage().getHeight()));
+
+        players.add(p1);
+        players.add(p2);
     }
 
 }

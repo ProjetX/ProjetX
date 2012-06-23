@@ -17,6 +17,10 @@ public class Sprite {
     protected Image image;
     protected Point2D coords;
 
+    public Sprite(){
+        this.coords = new Point2D.Double();
+    }
+
     public Point2D getCoords() {
         return coords;
     }

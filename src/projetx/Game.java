@@ -16,8 +16,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.BasicGameState;
 public class Game extends StateBasedGame
 {
-     static int height = 480;
-     static int width = 640;
+     static int height = 650;
+     static int width = 1200;
 
      static boolean fullscreen = false;
 
@@ -30,7 +30,7 @@ public class Game extends StateBasedGame
      
     public static final int MAINMENU          = 0;
     public static final int GAMEPLAY          = 1;
-    public static final int END          = 2;
+    public static final int END               = 2;
 
 
      public Game(String title)

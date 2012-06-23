@@ -7,6 +7,7 @@ package projetx;
 
 import java.awt.geom.Point2D;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -22,6 +23,11 @@ public class Player extends Sprite{
     protected boolean wantsToGoRight;
     protected boolean wantsToGoLeft;
     protected boolean wantsToJump;
+
+    public Player(String img) throws SlickException{
+        this.image = new Image(img);
+    }
+
     public Point2D getSpeed() {
         return speed;
     }
