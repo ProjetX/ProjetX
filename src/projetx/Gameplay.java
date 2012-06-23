@@ -55,14 +55,13 @@ public class Gameplay extends BasicGameState {
         initPlayers();
         actualTime=1;
         background= new Image("./ressources/sprites/Fond/Fond.jpg");
-        Music = new Sound("ressources/audio/musicGame.ogg");
+        Music = new Sound("ressources/audio/musicGame.wav");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
         int Decalage=(int)(( 650-background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
-        
-        
+
         
         System.out.println(Decalage);
         System.out.println(actualTime);
