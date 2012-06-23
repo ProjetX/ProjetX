@@ -91,7 +91,7 @@ public class Gameplay extends BasicGameState {
         }
         
         if(elapsedTimeSinceLastNewField>randApparition){
-            Obstacle o=new Obstacle(ficObs.get((int)(Math.random() * (2))));  
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
             randX=(int)(Math.random() * (700));
             o.setCoords(new Point2D.Double(randX, 0));
