@@ -357,6 +357,7 @@ public class Gameplay extends BasicGameState {
                         {
                             if(b!=a)
                             {
+                                System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;
                                 double aY=b.getCoords().getY()-a.getCoords().getY();
                                 double rayon =Math.sqrt(aX*aX +aY*aY);
