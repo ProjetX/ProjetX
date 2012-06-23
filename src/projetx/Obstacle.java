@@ -11,6 +11,6 @@ import org.newdawn.slick.Image;
  *
  * @author jonas
  */
-public class Obstacle extends Image{
+public class Obstacle extends Sprite{
 
 }
