@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 5 ;
+    static double partyDuration = 20 ;
     double actualTime;
     int stateID = -1;
     
@@ -58,7 +58,7 @@ public class Gameplay extends BasicGameState {
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
-        int Decalage=(int)( -(background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
+        int Decalage=(int)(( 650-background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
         
         
         
