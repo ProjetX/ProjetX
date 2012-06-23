@@ -53,6 +53,7 @@ public class Physics {
         Player otherMovable;
         Sprite collider = null;
 
+
         for (Player currentMovable : movables) {
             collider = null;
             collide = COLLIDE.NONE;
@@ -73,11 +74,11 @@ public class Physics {
             nextPoint = addVectors(currentMovable.getCoords(), scalarCross( currentMovable.getSpeed(), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
-                nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed(), nextPoint.getY());
+                nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoLeft(false);
             }
             if (currentMovable.isWantsToGoRight()) {
-                nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed(), nextPoint.getY());
+                nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoRight(false);
             }
 
@@ -148,7 +149,7 @@ public class Physics {
                     }
                 }
             }
-            currentMovable.setSpeed(currentMovable.getSpeed().getX(), currentMovable.getSpeed().getY()+ gravity);
+            currentMovable.setSpeed(currentMovable.getSpeed().getX(), currentMovable.getSpeed().getY()+ gravity * TimeSinceLastFrame);
         }
     }
 
