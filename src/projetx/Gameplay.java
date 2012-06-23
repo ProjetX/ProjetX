@@ -18,9 +18,10 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     int stateID = -1;
-    
     List<Player> players;
     List<Obstacle> obstacles;
+    int elapsedTimeSinceLastNewField;
+    boolean blocSupprime;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -58,18 +59,28 @@ public class Gameplay extends BasicGameState {
 
     private void manageField(int elapsedTime) {
         Point2D coords;
+
         int tailleEcranY = 600;
+
         int deplacement = 10 * elapsedTime;
 
-        for (Obstacle o : obstacles) {
+        for (int i = 0; i < obstacles.size(); i++) {
+            Obstacle o = obstacles.get(i);
             coords = o.getCoords();
             if (coords.getY() > tailleEcranY) {
                 obstacles.remove(o);
+                i--;
             } else {
                 coords.setLocation(coords.getX(), coords.getY() + deplacement);
                 o.setCoords(coords);
             }
         }
+
+        if (elapsedTimeSinceLastNewField > 100) {
+            //Obstacle o=new Obstacle();
+        }
+
+
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) {
