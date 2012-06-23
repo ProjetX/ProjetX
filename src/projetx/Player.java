@@ -5,6 +5,7 @@
 
 package projetx;
 
+import java.awt.geom.Point2D;
 import org.newdawn.slick.Image;
 
 /**
@@ -12,6 +13,16 @@ import org.newdawn.slick.Image;
  * @author jonas
  */
 public class Player extends Sprite{
+
+    protected Point2D speed;
+
+    public Point2D getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Point2D speed) {
+        this.speed = speed;
+    }
 
 
 }
