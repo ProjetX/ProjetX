@@ -6,6 +6,7 @@
 package projetx;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 /**
  *
@@ -13,4 +14,15 @@ import org.newdawn.slick.Image;
  */
 public class Obstacle extends Sprite{
 
+    public Obstacle(String img) throws SlickException {
+        super();
+        
+        this.image = new Image(img);
+    }
+
+    public Obstacle() throws SlickException{
+        super();
+
+        this.image = new Image("ressources/initPlateforme.png");
+    }
 }
