@@ -69,6 +69,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         img.draw(0, 0);
 
+        boolean oneSelected = false;
+
         for (List<CustomMouseOverArea> l : this.personnages) {
             for (CustomMouseOverArea m : l) {
                 m.render(gc, gr);
@@ -76,6 +78,8 @@ public class MainMenu extends BasicGameState implements ComponentListener {
                     m.setNormalColor(Color.yellow);
                     m.setMouseOverColor(Color.yellow);
                     m.setMouseOverColor(Color.yellow);
+
+                    oneSelected = true;
                 } else {
                     m.setNormalColor(Color.white);
                     m.setMouseOverColor(Color.white);
@@ -84,7 +88,9 @@ public class MainMenu extends BasicGameState implements ComponentListener {
             }
         }
 
-        startButton.render(gc, gr);
+        if(oneSelected) {
+            startButton.render(gc, gr);
+        }
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
