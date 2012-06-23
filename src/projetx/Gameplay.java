@@ -30,9 +30,11 @@ public class Gameplay extends BasicGameState {
     
     int elapsedTimeSinceLastNewFieldG;
     int elapsedTimeSinceLastNewFieldD;
+    int elapsedTimeSinceLastNewFieldM;
     
     int randApparitionD;
     int randApparitionG;
+    int randApparitionM;
     
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -89,8 +91,6 @@ public class Gameplay extends BasicGameState {
     private void manageField(int elapsedTime) throws SlickException {
         Point2D coords;
         int tailleEcranY=700;
-
-        int randX=0;
        
         double deplacement=0.2f*elapsedTime;
 
@@ -114,31 +114,42 @@ public class Gameplay extends BasicGameState {
             p.setCoords(coords);
         }
         
+        int lower=500;
+        int higher=2500;
+            
         if(elapsedTimeSinceLastNewFieldG>randApparitionG){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (800));
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewFieldG=0;
-            int lower=500;
-            int higher=1000;
+
             randApparitionG = (int)(Math.random() * (higher+1-lower)) + lower;
             
         }
         if(elapsedTimeSinceLastNewFieldD>randApparitionD){
             Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
-            randX=(int)(Math.random() * (800));
-            o.setCoords(new Point2D.Double(randX, 0));
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
+            o.setCoords(new Point2D.Double(randX+193, 0));
             elapsedTimeSinceLastNewFieldD=0;
-            int lower=500;
-            int higher=1000;
             
             randApparitionD = (int)(Math.random() * (higher+1-lower)) + lower;
         }
         
+        if(elapsedTimeSinceLastNewFieldM>randApparitionM){
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
+            obstacles.add(o);
+            int randX=(int)(Math.random() * (250+350-120+1-250)) + 250;
+            o.setCoords(new Point2D.Double(randX+387, 0));
+            elapsedTimeSinceLastNewFieldM=0;
+            
+            randApparitionM = (int)(Math.random() * (higher+1-lower)) + lower;
+        }
+        
         elapsedTimeSinceLastNewFieldD+=elapsedTime;
         elapsedTimeSinceLastNewFieldG+=elapsedTime;
+        elapsedTimeSinceLastNewFieldM+=elapsedTime;
 
 
     }
