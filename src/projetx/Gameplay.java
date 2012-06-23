@@ -81,7 +81,11 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
+        manageDeath();
         actualTime+=(double)delta/1000.0;
+        
+        
+        // Fin de partie
         if(actualTime>partyDuration)
         {
 
@@ -194,6 +198,17 @@ public class Gameplay extends BasicGameState {
     private void managePhysics() {
     }
 
+    
+    private void manageDeath() 
+    {
+        for(Player it:players)
+        {
+            if(it.getActualPosition().getY()>650)
+            {
+                
+            }
+        }
+    }
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();
