@@ -48,6 +48,7 @@ public class Physics {
     public void computePhysics(double TimeSinceLastFrame) {
         COLLIDE collide = COLLIDE.NONE;
         Point2D nextPoint;
+        Point2D oldPoint;
         Sprite plateform;
         Player otherMovable;
         Sprite collider = null;
@@ -55,7 +56,8 @@ public class Physics {
         for (Player currentMovable : movables) {
             collider = null;
             collide = COLLIDE.NONE;
-
+            oldPoint = currentMovable.getCoords();
+            
             if (currentMovable.isOnAPlatform()) {
                 //Si on est sur une plateforme
                 if (currentMovable.isWantsToJump()) {
@@ -82,43 +84,32 @@ public class Physics {
             currentMovable.setCoords(nextPoint);
 
             Point2D correctedPoint = new Point2D.Double();
-
+ 
             //On teste si le movable collide dans sa prochaine position
             for (int i = 0; i < platforms.size(); i++) {
                 plateform = platforms.get(i);
                 collider = plateform;
-                collide = IsColliding(currentMovable, plateform);
+                //collide = IsColliding(currentMovable, plateform);
+                collide = IsCollidingObstacle(currentMovable,oldPoint, plateform);
 
                 if (collide != COLLIDE.NONE) {
                     switch (collide) {
                         case NONE:
-                            correctedPoint = nextPoint;
+                            //correctedPoint = nextPoint;
                             break;
                         case COLLIDE_BAS:
-                            if(currentMovable.getSpeed() > 0){
-                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
+                            if(currentMovable.getSpeed() >= 0){
+                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight()/2.0 - currentMovable.getImage().getHeight());
                                 currentMovable.setCoords(correctedPoint);
-                                currentMovable.setSpeed( gravity);
+                                currentMovable.setSpeed( 0);
                                 currentMovable.setIsOnAPlatform(true);
                             }
                             break;
-                        case COLLIDE_LEFT:
-                            correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());
-                            currentMovable.setCoords(correctedPoint);
-                            break;
-                        case COLLIDE_RIGHT:
-                            correctedPoint.setLocation(collider.getCoords().getX() - currentMovable.getImage().getWidth(), currentMovable.getCoords().getY());
-                            currentMovable.setCoords(correctedPoint);
-                            break;
-                        case COLLIDE_HAUT:
-                            correctedPoint = nextPoint;
-                            //correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
-                           // currentMovable.setCoords(correctedPoint);
-                            break;
-
                     }
                 }
             }
+
+
             for (int i = 0; i < movables.size(); i++) {
                 otherMovable = movables.get(i);
                 if (otherMovable != currentMovable) {
@@ -128,7 +119,7 @@ public class Physics {
                     if (collide != COLLIDE.NONE) {
                         switch (collide) {
                             case NONE:
-                                correctedPoint = nextPoint;
+                                //correctedPoint = nextPoint;
                                 break;
                             case COLLIDE_BAS:
                                 correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() - currentMovable.getImage().getHeight());
@@ -145,7 +136,7 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 break;
                             case COLLIDE_HAUT:
-                                correctedPoint = nextPoint;
+                                //correctedPoint = nextPoint;
                                 //correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight());
                                 //currentMovable.setCoords(correctedPoint);
                                 break;
@@ -198,6 +189,23 @@ public class Physics {
                         collide = COLLIDE.COLLIDE_HAUT;
                     }
                 }
+            }
+        }
+        return collide;
+    }
+
+    private COLLIDE IsCollidingObstacle(Sprite obj1, Point2D oldPoint, Sprite obstacle) {
+        //boolean isColliding = false;
+        COLLIDE collide = COLLIDE.NONE;
+
+        double halfHeight = obstacle.getImage().getHeight()/2.0;
+
+        //nextPoint
+        if ((obj1.getCoords().getX() + obj1.getImage().getWidth() > obstacle.getCoords().getX() && obj1.getCoords().getX() + obj1.getImage().getWidth() < obstacle.getCoords().getX() + obstacle.getImage().getWidth()) || (obj1.getCoords().getX() > obstacle.getCoords().getX() && obj1.getCoords().getX() < obstacle.getCoords().getX() + obstacle.getImage().getWidth())) {
+            //Objet les uns sur les autres
+            if ((obj1.getCoords().getY() + obj1.getImage().getHeight() >= obstacle.getCoords().getY() + halfHeight) && (oldPoint.getY()+ obj1.getImage().getHeight() <=  obstacle.getCoords().getY()+ halfHeight )) { //Aligné suivant x
+                //Objet a mettre au dessus
+                collide = COLLIDE.COLLIDE_BAS;
             }
         }
         return collide;
