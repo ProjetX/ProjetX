@@ -24,7 +24,9 @@ public class Gameplay extends BasicGameState {
     List<Player> players;
     List<Obstacle> obstacles;
     
-    int elapsedTimeSinceLastNewField;
+    List<String> ficObs;
+    
+   int elapsedTimeSinceLastNewField;
     
     int randApparition;
 
@@ -40,6 +42,7 @@ public class Gameplay extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         players = new ArrayList<Player>(4);
         obstacles = new ArrayList<Obstacle>();
+        ficObs = new ArrayList<String>();
 
         initField();
         initPlayers();
@@ -65,6 +68,7 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         actualTime+=(double)delta/1000.0;
+
     }
 
     private void manageField(int elapsedTime) throws SlickException {
@@ -74,6 +78,7 @@ public class Gameplay extends BasicGameState {
         int randX=0;
        
         double deplacement=0.2f*elapsedTime;
+
         
         for(int i=0;i<obstacles.size();i++){
             Obstacle o=obstacles.get(i);
@@ -81,7 +86,6 @@ public class Gameplay extends BasicGameState {
             if(coords.getY()>tailleEcranY){
                 obstacles.remove(o);
                 i--;
-                System.out.println("Je suis ton pere luc");
             }
             else {
                 coords.setLocation(coords.getX(), coords.getY()+deplacement);
@@ -89,14 +93,20 @@ public class Gameplay extends BasicGameState {
             }
         }
         
+        for(Player p:players){
+            coords=p.getCoords();
+            coords.setLocation(coords.getX(), coords.getY()+deplacement);
+            p.setCoords(coords);
+        }
+        
         if(elapsedTimeSinceLastNewField>randApparition){
-            Obstacle o=new Obstacle("ressources/initPlateforme.png");   
+            Obstacle o=new Obstacle(ficObs.get((int)(Math.random()*2))); 
             obstacles.add(o);
             randX=(int)(Math.random() * (700));
             o.setCoords(new Point2D.Double(randX, 0));
             elapsedTimeSinceLastNewField=0;
             int lower=1500;
-            int higher=6000;
+            int higher=5000;
             
             randApparition = (int)(Math.random() * (higher+1-lower)) + lower;
         }
@@ -119,7 +129,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyPressed(Input.KEY_D)) {
             players.get(0).iWouldLikeToGoLeft();
         }
-
+        
         if (players.size() > 1) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_UP)) {
@@ -140,6 +150,8 @@ public class Gameplay extends BasicGameState {
     }
 
     private void initField() throws SlickException {
+        ficObs.add("ressources/plateforme2.png");
+        ficObs.add("ressources/plateforme3.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
         obstacles.add(platInit);
 
