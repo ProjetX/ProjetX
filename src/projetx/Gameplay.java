@@ -8,6 +8,7 @@ package projetx;
  *
  * @author anisbenyoub
  */
+import java.util.List;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,7 +21,11 @@ public class Gameplay extends BasicGameState {
     int stateID = -1;
 
     Image img;
- 
+
+    List<Player> players;
+
+    List<Obstacle> obstacles;
+
     Gameplay( int stateID ) 
     {
        this.stateID = stateID;
