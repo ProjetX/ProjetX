@@ -14,6 +14,8 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends Sprite {
 
+
+
     protected Point2D speed = new Point2D.Double(0,0);
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
@@ -27,11 +29,14 @@ public class Player extends Sprite {
     int lastPower=0;
     boolean rightOrientation = true;
 
+    boolean hasUsedGravityBoom;
+
     public Player(String img) throws SlickException {
         super(img);
         this.image = new Image(img);
+        hasUsedGravityBoom = false;
     }
-
+    
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
@@ -147,5 +152,22 @@ public class Player extends Sprite {
         else {
             return (float)((80.f*(float)lastPower)/5000.f);
         }
+    }
+    
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public int getNumberOfKills() {
+        return numberOfKills;
+    }
+    
+
+    public boolean isHasUsedGravityBoom() {
+        return hasUsedGravityBoom;
+    }
+
+    public void setHasUsedGravityBoom(boolean hasUsedGravityBoom) {
+        this.hasUsedGravityBoom = hasUsedGravityBoom;
     }
 }

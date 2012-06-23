@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -91,6 +92,8 @@ public class Gameplay extends BasicGameState {
             gr.draw(r);
             gr.fill(r);
         }
+        
+        showInformation(gr);
 
     }
 
@@ -104,6 +107,7 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath();
+        manageGravityBoom() ;
         actualTime+=(double)delta/1000.0;
         
         
@@ -114,7 +118,6 @@ public class Gameplay extends BasicGameState {
             sbg.enterState(0);
             actualTime=0;
             newGame = true;
-//            initPlayers();
             initField();
         }
 
@@ -222,6 +225,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyDown(Input.KEY_S)) {
             if(players.get(0).GetTimeSinceLastPower()>=5000){
                 players.get(0).SetTimeSinceLastPower(0);
+                 players.get(0).setHasUsedGravityBoom(true);
                 //manage
             }
         }
@@ -243,7 +247,8 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 if(players.get(1).GetTimeSinceLastPower()>=5000){
                     players.get(1).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(1).setHasUsedGravityBoom(true);
+
                 }
             }
         }
@@ -263,8 +268,8 @@ public class Gameplay extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_G)) {
                 if(players.get(2).GetTimeSinceLastPower()>=5000){
-                    players.get(2).SetTimeSinceLastPower(0);
-                    //manage
+                players.get(2).setHasUsedGravityBoom(true);
+
                 }
             }
         }
@@ -285,13 +290,34 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_K)) {
                 if(players.get(3).GetTimeSinceLastPower()>=5000){
                     players.get(3).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(3).setHasUsedGravityBoom(true);
                 }
             }
         }
     }
 
     private void managePhysics() {
+    }
+
+    
+    private void showInformation( Graphics gr) 
+    {
+        int step = 120;
+        int p =players.size();
+           System.out.println(p);
+        for(int i=0;i<p;i++)
+        {
+            Player a=players.get(i);
+            if(a!=null)
+            {
+               gr.drawString("Player "+(i+1), 20, 20+i*step);
+               a.getImage().draw( 20, 40+i*step);
+               gr.drawString("Deaths :"+a.getNumberOfDeaths(), 80, 50+i*step);
+               gr.drawString("Kills : "+a.getNumberOfKills(), 80, 70+i*step);
+        
+            }
+        }
+        
     }
 
     
@@ -312,6 +338,41 @@ public class Gameplay extends BasicGameState {
             }
         }
     }
+    
+    
+    private void manageGravityBoom() 
+    {
+        int p =players.size();
+        for(int i=0;i<p;i++)
+        {
+            Player a=players.get(i);
+            if(a!=null)
+            {
+               if (a.isHasUsedGravityBoom())
+               {
+                  for(int j=0;j<p;j++)
+                  {
+                        Player b=players.get(j);
+                        if(b!=null)
+                        {
+                            if(b!=a)
+                            {
+                                double aX=a.getCoords().getX()-b.getCoords().getX() ;
+                                double aY=a.getCoords().getY()-b.getCoords().getY();
+                                double rayon =Math.sqrt(aX*aX +aY*aY);
+                                if(rayon<300)
+                                {
+                                    b.setSpeed(aX*(1/(1+rayon)), aY*(1/(1+rayon)));
+                                }
+                            }
+                        }
+                        
+                  }
+               }
+            }
+        }
+    }
+        
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();

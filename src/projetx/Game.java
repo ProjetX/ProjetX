@@ -39,7 +39,7 @@ public class Game extends StateBasedGame {
         app.setDisplayMode(Game.width, Game.height, Game.fullscreen);
         app.setSmoothDeltas(true);
         app.setTargetFrameRate(Game.fpslimit);
-        app.setShowFPS(Game.showFPS);
+        app.setShowFPS(false);
         app.start();
     }
 
