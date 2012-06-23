@@ -364,17 +364,19 @@ public class Gameplay extends BasicGameState {
                         {
                             if(b!=a)
                             {
-                                double aX=a.getCoords().getX()-b.getCoords().getX() ;
-                                double aY=a.getCoords().getY()-b.getCoords().getY();
+                                System.out.println("Je le pousse");
+                                double aX=b.getCoords().getX()-a.getCoords().getX() ;
+                                double aY=b.getCoords().getY()-a.getCoords().getY();
                                 double rayon =Math.sqrt(aX*aX +aY*aY);
                                 if(rayon<300)
                                 {
-                                    b.setSpeed(aX*(1/(1+rayon)), aY*(1/(1+rayon)));
+                                       b.setSpeed(aX*(1/(1+rayon)), aY*(1/(1+rayon)));
                                 }
                             }
                         }
                         
                   }
+                  a.setHasUsedGravityBoom(false);
                }
             }
         }
