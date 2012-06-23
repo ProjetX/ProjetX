@@ -24,6 +24,7 @@ public class Physics {
     private double gravity;
     List<Player> movables;
     List<Obstacle> platforms;
+    private double frottement = 1;
 
     public double getGravity() {
         return gravity;
@@ -52,59 +53,116 @@ public class Physics {
         Sprite plateform;
         Player otherMovable;
         Sprite collider = null;
+        double lateralSpeed;
 
 
         for (Player currentMovable : movables) {
             collider = null;
             collide = COLLIDE.NONE;
             oldPoint = currentMovable.getCoords();
-            
+
             if (currentMovable.isOnAPlatform() == true) {
                 //Si on est sur une plateforme
                 if (currentMovable.isWantsToJump()) {
                     //Si on saute
-                    currentMovable.setSpeed(currentMovable.getSpeed().getX(),-currentMovable.getVerticalSpeed());
+                    currentMovable.setSpeed(currentMovable.getSpeed().getX(), -currentMovable.getVerticalSpeed());
                     currentMovable.setIsOnAPlatform(false);
                     currentMovable.setWantsToJump(false);
                 }
             }
 
-            if(currentMovable.getSpeed().getY() != 0.1)
-                System.out.println("VAd: " + currentMovable.getSpeed());
-            nextPoint = addVectors(currentMovable.getCoords(), scalarCross( currentMovable.getSpeed(), TimeSinceLastFrame));
+            nextPoint = addVectors(currentMovable.getCoords(), scalarCross(currentMovable.getSpeed(), TimeSinceLastFrame));
 
             if (currentMovable.isWantsToGoLeft()) {
                 nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoLeft(false);
-            }
-            if (currentMovable.isWantsToGoRight()) {
+                if (currentMovable.getSpeed().getX() != 0) {
+                    if (currentMovable.getSpeed().getX() > 0) {
+                        lateralSpeed = currentMovable.getSpeed().getX() + (-frottement - currentMovable.lateralSpeed) * TimeSinceLastFrame;
+                        if (lateralSpeed <= 0) {
+                            //On s'arrete lateralement
+                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                        } else {
+                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                        }
+                    } else if (currentMovable.getSpeed().getX() < 0) {
+                        lateralSpeed = currentMovable.getSpeed().getX() + (frottement - currentMovable.lateralSpeed) * TimeSinceLastFrame;
+                        if (lateralSpeed >= 0) {
+                            //On s'arrete lateralement
+                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                        } else {
+                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                        }
+                    }
+                }
+            } else if (currentMovable.isWantsToGoRight()) {
                 nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoRight(false);
+                if (currentMovable.getSpeed().getX() != 0) {
+                    if (currentMovable.getSpeed().getX() > 0) {
+                        lateralSpeed = currentMovable.getSpeed().getX() + (-frottement + currentMovable.lateralSpeed) * TimeSinceLastFrame;
+                        if (lateralSpeed <= 0) {
+                            //On s'arrete lateralement
+                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                        } else {
+                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                        }
+                    } else if (currentMovable.getSpeed().getX() < 0) {
+                        lateralSpeed = currentMovable.getSpeed().getX() + (frottement + currentMovable.lateralSpeed) * TimeSinceLastFrame;
+                        if (lateralSpeed >= 0) {
+                            //On s'arrete lateralement
+                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                        } else {
+                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                        }
+                    }
+                }
+            } else {
+                //Deplacements lateraux
+                if (currentMovable.getSpeed().getX() > 0) {
+                    lateralSpeed = currentMovable.getSpeed().getX() + -frottement * TimeSinceLastFrame;
+                    if (lateralSpeed <= 0) {
+                        //On s'arrete lateralement
+                        currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                    } else {
+                        currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                    }
+                } else {
+                    if (currentMovable.getSpeed().getX() < 0) {
+                        lateralSpeed = currentMovable.getSpeed().getX() + frottement * TimeSinceLastFrame;
+                        if (lateralSpeed >= 0) {
+                            //On s'arrete lateralement
+                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
+                        } else {
+                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
+                        }
+                    }
+                }
             }
 
             currentMovable.setCoords(nextPoint);
 
             Point2D correctedPoint = new Point2D.Double();
- 
+
             //On teste si le movable collide dans sa prochaine position
             currentMovable.setIsOnAPlatform(false);
-            
+
             for (int i = 0; i < platforms.size(); i++) {
                 plateform = platforms.get(i);
                 collider = plateform;
                 //collide = IsColliding(currentMovable, plateform);
-                collide = IsCollidingObstacle(currentMovable,oldPoint, plateform);
+                collide = IsCollidingObstacle(currentMovable, oldPoint, plateform);
 
 
                 if (collide != COLLIDE.NONE) {
                     switch (collide) {
                         case NONE:
-                            
+
                             //correctedPoint = nextPoint;
                             break;
                         case COLLIDE_BAS:
-                            if(currentMovable.getSpeed().getY() >= 0){
-                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight()/2.0 - currentMovable.getImage().getHeight());
+                            if (currentMovable.getSpeed().getY() >= 0) {
+                                correctedPoint.setLocation(currentMovable.getCoords().getX(), collider.getCoords().getY() + collider.getImage().getHeight() / 2.0 - currentMovable.getImage().getHeight());
                                 currentMovable.setCoords(correctedPoint);
                                 currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
@@ -149,7 +207,7 @@ public class Physics {
                     }
                 }
             }
-            currentMovable.setSpeed(currentMovable.getSpeed().getX(), currentMovable.getSpeed().getY()+ gravity * TimeSinceLastFrame);
+            currentMovable.setSpeed(currentMovable.getSpeed().getX(), currentMovable.getSpeed().getY() + gravity * TimeSinceLastFrame);
         }
     }
 
@@ -203,12 +261,12 @@ public class Physics {
         //boolean isColliding = false;
         COLLIDE collide = COLLIDE.NONE;
 
-        double halfHeight = obstacle.getImage().getHeight()/2.0;
+        double halfHeight = obstacle.getImage().getHeight() / 2.0;
 
         //nextPoint
         if ((obj1.getCoords().getX() + obj1.getImage().getWidth() > obstacle.getCoords().getX() && obj1.getCoords().getX() + obj1.getImage().getWidth() < obstacle.getCoords().getX() + obstacle.getImage().getWidth()) || (obj1.getCoords().getX() > obstacle.getCoords().getX() && obj1.getCoords().getX() < obstacle.getCoords().getX() + obstacle.getImage().getWidth())) {
             //Objet les uns sur les autres
-            if ((obj1.getCoords().getY() + obj1.getImage().getHeight() >= obstacle.getCoords().getY() + halfHeight) && (oldPoint.getY()+ obj1.getImage().getHeight() <=  obstacle.getCoords().getY()+ halfHeight )) { //Aligné suivant x
+            if ((obj1.getCoords().getY() + obj1.getImage().getHeight() >= obstacle.getCoords().getY() + halfHeight) && (oldPoint.getY() + obj1.getImage().getHeight() <= obstacle.getCoords().getY() + halfHeight)) { //Aligné suivant x
                 //Objet a mettre au dessus
                 collide = COLLIDE.COLLIDE_BAS;
             }
