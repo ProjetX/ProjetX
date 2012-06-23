@@ -19,7 +19,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static int partyDuration = 20 ;
+    static double partyDuration = 5 ;
     double actualTime;
     int stateID = -1;
     
@@ -53,13 +53,17 @@ public class Gameplay extends BasicGameState {
         initField();
         initPlayers();
         actualTime=1;
-        
         background= new Image("./ressources/sprites/Fond/Fond.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException 
     {
-        int Decalage=600+(int)(-background.getHeight()*((partyDuration -actualTime)/(double)partyDuration));
+        int Decalage=(int)( -(background.getHeight())*((partyDuration -actualTime)/(double)partyDuration));
+        
+        
+        
+        System.out.println(Decalage);
+        System.out.println(actualTime);
         background.draw(0,Decalage);
         for (Obstacle o : obstacles) {
             o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
