@@ -60,14 +60,26 @@ public class Gameplay extends BasicGameState {
     }
  
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-        manageField();
+        manageField(delta);
         manageInput(gc,sbg,delta);
         managePhysics();
     }
 
-    private void manageField() 
+    private void manageField(int elapsedTime) 
     {
+        Point2D coords;
+        int tailleEcranY=600;
+        int deplacement=10*elapsedTime;
         
+        for(Obstacle o:obstacles){
+            coords=o.getCoords();
+            if(coords.getY()>tailleEcranY)
+                obstacles.remove(o);
+            else {
+                coords.setLocation(coords.getX(), coords.getY()+deplacement);
+                o.setCoords(coords);
+            }
+        }
     }
 
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) 
