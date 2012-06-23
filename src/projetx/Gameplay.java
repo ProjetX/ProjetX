@@ -9,10 +9,7 @@ package projetx;
  * @author anisbenyoub
  */
 import java.util.List;
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
+import org.newdawn.slick.*;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
  
@@ -60,6 +57,40 @@ public class Gameplay extends BasicGameState {
     private void manageInput(GameContainer gc, StateBasedGame sbg, int delta) 
     {
         // Input managing du personnage 1
+        Input input = gc.getInput();
+        if(input.isKeyPressed(Input.KEY_Z))
+        {
+            players.get(0).iWouldLikeToJump();
+        }
+        
+        if(input.isKeyPressed(Input.KEY_Q))
+        {
+            players.get(0).iWouldLikeToGoRight();
+        }
+                
+        if(input.isKeyPressed(Input.KEY_D))
+        {
+            players.get(0).iWouldLikeToGoLeft();
+        }
+        
+        if(players.size()>1)
+        {
+            // Input managing du personnage 2
+            if(input.isKeyPressed(Input.KEY_UP))
+            {
+                players.get(1).iWouldLikeToJump();
+            }
+
+            if(input.isKeyPressed(Input.KEY_LEFT))
+            {
+                players.get(1).iWouldLikeToGoRight();
+            }
+
+            if(input.isKeyPressed(Input.KEY_RIGHT))
+            {
+                players.get(1).iWouldLikeToGoLeft();
+            }
+        }
     }
 
     private void managePhysics() {
