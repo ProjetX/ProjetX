@@ -107,6 +107,7 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath();
+        manageGravityBoom() ;
         actualTime+=(double)delta/1000.0;
         
         
@@ -224,6 +225,7 @@ public class Gameplay extends BasicGameState {
         if (input.isKeyDown(Input.KEY_S)) {
             if(players.get(0).GetTimeSinceLastPower()>=5000){
                 players.get(0).SetTimeSinceLastPower(0);
+                 players.get(0).setHasUsedGravityBoom(true);
                 //manage
             }
         }
@@ -245,7 +247,7 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_DOWN)) {
                 if(players.get(1).GetTimeSinceLastPower()>=5000){
                     players.get(1).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(1).setHasUsedGravityBoom(true);
                 }
             }
         }
@@ -265,8 +267,7 @@ public class Gameplay extends BasicGameState {
             }
             if (input.isKeyDown(Input.KEY_G)) {
                 if(players.get(2).GetTimeSinceLastPower()>=5000){
-                    players.get(2).SetTimeSinceLastPower(0);
-                    //manage
+                players.get(2).setHasUsedGravityBoom(true);
                 }
             }
         }
@@ -287,7 +288,7 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_K)) {
                 if(players.get(3).GetTimeSinceLastPower()>=5000){
                     players.get(3).SetTimeSinceLastPower(0);
-                    //manage
+                    players.get(3).setHasUsedGravityBoom(true);
                 }
             }
         }
@@ -335,6 +336,41 @@ public class Gameplay extends BasicGameState {
             }
         }
     }
+    
+    
+    private void manageGravityBoom() 
+    {
+        int p =players.size();
+        for(int i=0;i<p;i++)
+        {
+            Player a=players.get(i);
+            if(a!=null)
+            {
+               if (a.isHasUsedGravityBoom())
+               {
+                  for(int j=0;j<p;j++)
+                  {
+                        Player b=players.get(j);
+                        if(b!=null)
+                        {
+                            if(b!=a)
+                            {
+                                double aX=a.getCoords().getX()-b.getCoords().getX() ;
+                                double aY=a.getCoords().getY()-b.getCoords().getY();
+                                double rayon =Math.sqrt(aX*aX +aY*aY);
+                                if(rayon<300)
+                                {
+                                    b.setSpeed(aX*(1/(1+rayon)), aY*(1/(1+rayon)));
+                                }
+                            }
+                        }
+                        
+                  }
+               }
+            }
+        }
+    }
+        
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();
