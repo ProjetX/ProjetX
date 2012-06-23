@@ -143,11 +143,11 @@ public class Gameplay extends BasicGameState {
             players.get(0).iWouldLikeToJump();
         }
 
-        if (input.isKeyPressed(Input.KEY_Q)) {
+        if (input.isKeyPressed(Input.KEY_D)) {
             players.get(0).iWouldLikeToGoRight();
         }
 
-        if (input.isKeyPressed(Input.KEY_D)) {
+        if (input.isKeyPressed(Input.KEY_Q)) {
             players.get(0).iWouldLikeToGoLeft();
         }
         
@@ -157,11 +157,11 @@ public class Gameplay extends BasicGameState {
                 players.get(1).iWouldLikeToJump();
             }
 
-            if (input.isKeyPressed(Input.KEY_LEFT)) {
+            if (input.isKeyPressed(Input.KEY_RIGHT)) {
                 players.get(1).iWouldLikeToGoRight();
             }
 
-            if (input.isKeyPressed(Input.KEY_RIGHT)) {
+            if (input.isKeyPressed(Input.KEY_LEFT)) {
                 players.get(1).iWouldLikeToGoLeft();
             }
         }
