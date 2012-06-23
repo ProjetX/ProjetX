@@ -21,7 +21,7 @@ public class Player extends Sprite {
     protected boolean wantsToGoLeft = false;
     protected boolean wantsToJump = false;
     protected double lateralSpeed = 7.5;
-    protected double verticalSpeed = 1.2;
+    protected double verticalSpeed = 1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
     boolean rightOrientation = true;
