@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -25,6 +26,9 @@ public class Gameplay extends BasicGameState {
     List<Player> players;
     List<Obstacle> obstacles;
     List<String> ficObs;
+    List<Rectangle> power;
+    List<Rectangle> fillThePower;
+    
     int elapsedTimeSinceLastNewFieldG;
     int elapsedTimeSinceLastNewFieldD;
     int elapsedTimeSinceLastNewFieldM;
@@ -47,6 +51,8 @@ public class Gameplay extends BasicGameState {
         players = new ArrayList<Player>(4);
         obstacles = new ArrayList<Obstacle>();
         ficObs = new ArrayList<String>();
+        power = new ArrayList<Rectangle>();
+        fillThePower = new ArrayList<Rectangle>();
 
         initField();
 
@@ -70,7 +76,17 @@ public class Gameplay extends BasicGameState {
         }
 
         for (Player o : players) {
-            o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+            //o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+            o.getRenderable().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+        }
+        
+        for (Rectangle r : power) {
+            gr.draw(r);
+        }
+        
+        for (Rectangle r : fillThePower) {
+            gr.draw(r);
+            gr.fill(r);
         }
 
     }
@@ -80,7 +96,7 @@ public class Gameplay extends BasicGameState {
             newGame = false;
             initPlayers();
         }
-
+        managePowerBar(delta);
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
@@ -102,6 +118,19 @@ public class Gameplay extends BasicGameState {
         physics.updatePlatforms(obstacles);
         physics.computePhysics(delta);
 
+    }
+    
+    private void managePowerBar(int elapsedTime) {
+        power.clear();
+        fillThePower.clear();
+        
+        for (Player p:players) {
+            power.add(new Rectangle((float)(p.getCoords().getX()-10), (float)(p.getCoords().getY()-30), 82.f, 8.f));
+            fillThePower.add(new Rectangle((float)(p.getCoords().getX()-9), (float)(p.getCoords().getY()-29), p.GetTailleBarre(), 6.f));
+            if(p.GetTimeSinceLastPower()<5000) {
+                p.SetTimeSinceLastPower(p.GetTimeSinceLastPower()+elapsedTime);
+            }
+        }
     }
 
     private void manageField(int elapsedTime) throws SlickException {
@@ -188,6 +217,13 @@ public class Gameplay extends BasicGameState {
                 players.get(0).iWouldLikeToGoLeft();
             }
         }
+        
+        if (input.isKeyDown(Input.KEY_S)) {
+            if(players.get(0).GetTimeSinceLastPower()>=5000){
+                players.get(0).SetTimeSinceLastPower(0);
+                //manage
+            }
+        }
 
         if (players.size() > 1 && players.get(1) != null) {
             // Input managing du personnage 2
@@ -201,6 +237,13 @@ public class Gameplay extends BasicGameState {
 
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 players.get(1).iWouldLikeToGoLeft();
+            }
+            
+            if (input.isKeyDown(Input.KEY_DOWN)) {
+                if(players.get(1).GetTimeSinceLastPower()>=5000){
+                    players.get(1).SetTimeSinceLastPower(0);
+                    //manage
+                }
             }
         }
 
@@ -217,6 +260,12 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_F)) {
                 players.get(2).iWouldLikeToGoLeft();
             }
+            if (input.isKeyDown(Input.KEY_G)) {
+                if(players.get(2).GetTimeSinceLastPower()>=5000){
+                    players.get(2).SetTimeSinceLastPower(0);
+                    //manage
+                }
+            }
         }
 
         if (players.size() > 3 && players.get(3) != null) {
@@ -231,6 +280,12 @@ public class Gameplay extends BasicGameState {
 
             if (input.isKeyDown(Input.KEY_J)) {
                 players.get(3).iWouldLikeToGoLeft();
+            }
+            if (input.isKeyDown(Input.KEY_K)) {
+                if(players.get(3).GetTimeSinceLastPower()>=5000){
+                    players.get(3).SetTimeSinceLastPower(0);
+                    //manage
+                }
             }
         }
     }

@@ -5,7 +5,9 @@
 package projetx;
 
 import java.awt.geom.Point2D;
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
 
 /**
@@ -14,6 +16,10 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends Sprite {
 
+    public enum Type {
+
+        COSTARD, BAGNARD;
+    }
     protected double speed;
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
@@ -24,21 +30,111 @@ public class Player extends Sprite {
     protected double verticalSpeed = 1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
+    int lastPower = 0;
     boolean rightOrientation = true;
+    Animation walkLeft = null;
+    Animation jumpLeft = null;
+    Animation walkRigth = null;
+    Animation jumpRigth = null;
+    boolean walkNext = false;
+    boolean jumpNext = false;
 
-    public Player(String img) throws SlickException {
-        super(img);
-        this.image = new Image(img);
+    public Player(Type type) throws SlickException {
+        super();
+        setType(type);
+    }
+
+    public Player(String type) throws SlickException {
+        if (type.toLowerCase().equals("bagnard") || type.equals("ressources/sprites/Bagnard/BagnardStatique.png")) {
+            setType(Type.BAGNARD);
+        } else if (type.toLowerCase().equals("costard") || type.equals("ressources/sprites/Costard/CostardStatique.png")) {
+            setType(Type.COSTARD);
+        }
+    }
+
+    private void setType(Type type) throws SlickException {
+
+        int speed = 75;
+        int speedJump = 150;
+
+        switch (type) {
+            case BAGNARD:
+                this.image = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
+                break;
+
+            case COSTARD:
+                this.image = new Image("ressources/sprites/Costard/CostardStatique.png");
+
+                Image walkA[] = new Image[6];
+                walkA[0] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche1.png");
+                walkA[1] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche2.png");
+                walkA[2] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche3.png");
+                walkA[3] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche4.png");
+                walkA[4] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche5.png");
+                walkA[5] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche6.png");
+                this.walkRigth = new Animation(walkA, speed);
+
+                Image jumpA[] = new Image[6];
+                jumpA[0] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute1.png");
+                jumpA[1] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute2.png");
+                jumpA[2] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute3.png");
+                jumpA[3] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute4.png");
+                jumpA[4] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute5.png");
+                jumpA[5] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute6.png");
+                this.jumpRigth = new Animation(jumpA, speedJump);
+
+                Image walkAL[] = new Image[6];
+                Image jumpAL[] = new Image[6];
+                for (int i = 0; i < 6; i++) {
+                    walkAL[i] = walkA[i].getFlippedCopy(true, false);
+                    jumpAL[i] = jumpA[i].getFlippedCopy(true, false);
+                }
+
+                this.walkLeft = new Animation(walkAL, speed);
+                this.jumpLeft = new Animation(jumpAL, speedJump);
+
+                break;
+        }
+
+        super.image = this.image;
+    }
+
+    public Renderable getRenderable() {
+        if (jumpNext && rightOrientation && this.jumpRigth != null) {
+            if (this.jumpRigth.getFrame() == this.jumpRigth.getFrameCount() - 1) {
+                jumpNext = false;
+            }
+            return this.jumpRigth;
+        } else if (jumpNext && !rightOrientation && this.jumpLeft != null) {
+            if (this.jumpLeft.getFrame() == this.jumpLeft.getFrameCount() - 1) {
+                jumpNext = false;
+            }
+            return this.jumpLeft;
+        } else if (walkNext && rightOrientation && this.walkRigth != null) {
+            if (this.walkRigth.getFrame() == this.walkRigth.getFrameCount() - 1) {
+                walkNext = false;
+            }
+            return this.walkRigth;
+        } else if (walkNext && !rightOrientation && this.walkLeft != null) {
+            if (this.walkLeft.getFrame() == this.walkLeft.getFrameCount() - 1) {
+                walkNext = false;
+            }
+            return this.walkLeft;
+        } else {
+            return this.image;
+        }
     }
 
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
+            jumpNext = true;
         }
     }
 
     public void iWouldLikeToGoLeft() {
         wantsToGoLeft = true;
+        walkNext = true;
         if (rightOrientation) {
             this.image = this.image.getFlippedCopy(true, false);
             rightOrientation = false;
@@ -47,6 +143,7 @@ public class Player extends Sprite {
 
     public void iWouldLikeToGoRight() {
         wantsToGoRight = true;
+        walkNext = true;
         if (!rightOrientation) {
             this.image = this.image.getFlippedCopy(true, false);
             rightOrientation = true;
@@ -55,7 +152,7 @@ public class Player extends Sprite {
 
     public void Die() {
         numberOfDeaths++;
-
+        lastPower = 0;
     }
 
     public void Kill() {
@@ -125,5 +222,21 @@ public class Player extends Sprite {
 
     public void setLateralSpeed(double lateralSpeed) {
         this.lateralSpeed = lateralSpeed;
+    }
+
+    public int GetTimeSinceLastPower() {
+        return lastPower;
+    }
+
+    public void SetTimeSinceLastPower(int time) {
+        lastPower = time;
+    }
+
+    public float GetTailleBarre() {
+        if (lastPower > 5000) {
+            return 80.f;
+        } else {
+            return (float) ((80.f * (float) lastPower) / 5000.f);
+        }
     }
 }

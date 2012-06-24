@@ -19,7 +19,7 @@ public class Sprite {
     private static Map<String, Image> sprites = new TreeMap<String, Image>();
 
     protected Image image;
-    protected Point2D coords;
+    protected Point2D coords= new Point2D.Double();
 
     public Sprite(String img) throws SlickException {
         if(sprites.containsKey(img)){
@@ -28,7 +28,10 @@ public class Sprite {
             this.image = new Image(img);
             sprites.put(img, this.image);
         }
-        this.coords = new Point2D.Double();
+    }
+
+    public Sprite(){
+        
     }
 
     public Point2D getCoords() {
