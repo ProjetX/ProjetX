@@ -47,7 +47,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        img = new Image("ressources/Narwhals_breach.jpg");
+        img = new Image("ressources/sprites/Title/EcranTitre/EcranTitre.png");
         
         for(int i=0;i<4;i++) {
             players[i]=false;
@@ -55,23 +55,48 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         Image p1 = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
         Image p2 = new Image("ressources/sprites/Costard/CostardStatique.png");
-        Image start = new Image("ressources/sprites/Menu/boutonStart.png");
+        Image start = new Image("ressources/sprites/Title/EcranTitre/Go.png");
         
-        controlesJoueur1 = new Image("ressources/sprites/Menu/controlesJoueur1.png");
-        controlesJoueur2 = new Image("ressources/sprites/Menu/controlesJoueur2.png");
-        controlesJoueur3 = new Image("ressources/sprites/Menu/controlesJoueur3.png");
-        controlesJoueur4 = new Image("ressources/sprites/Menu/controlesJoueur4.png");
+        controlesJoueur1 = new Image("ressources/sprites/Title/EcranTitre/Player1.png");
+        controlesJoueur2 = new Image("ressources/sprites/Title/EcranTitre/Player2.png");
+        controlesJoueur3 = new Image("ressources/sprites/Title/EcranTitre/Player3.png");
+        controlesJoueur4 = new Image("ressources/sprites/Title/EcranTitre/Player4.png");
 
-        startButton = new MouseOverArea(gc, start, 850, 500, this);
+        startButton = new MouseOverArea(gc, start, 925, 500, this);
 
         personnages = new ArrayList<List<CustomMouseOverArea>>(2);
 
+        /*
         for (int i = 0; i < 4; i++) {
             List<CustomMouseOverArea> l = new ArrayList<CustomMouseOverArea>(2);
-            l.add(new CustomMouseOverArea(gc, p1, 300 + (p1.getWidth() + 20) * 1, 150 + (i * 100), this));
-            l.add(new CustomMouseOverArea(gc, p2, 300 + (p2.getWidth() + 20) * 2, 150 + (i * 100), this));
+            l.add(new CustomMouseOverArea(gc, p1, 500 + (p1.getWidth() + 20) * 1, 175 + (i * 125), this));
+            l.add(new CustomMouseOverArea(gc, p2, 500 + (p2.getWidth() + 20) * 2, 175 + (i * 125), this));
             personnages.add(l);
-        }
+        }*/
+                
+ 
+            List<CustomMouseOverArea> p1l = new ArrayList<CustomMouseOverArea>(2);
+            p1l.add(new CustomMouseOverArea(gc, p1, 10 + (p1.getWidth() + 20) * 1, 300, this));
+            p1l.add(new CustomMouseOverArea(gc, p2, 10 + (p2.getWidth() + 20) * 2, 300, this));
+            personnages.add(p1l);
+            
+            List<CustomMouseOverArea> p2l = new ArrayList<CustomMouseOverArea>(2);
+            p2l.add(new CustomMouseOverArea(gc, p1, 430 + (p1.getWidth() + 20) * 1, 300, this));
+            p2l.add(new CustomMouseOverArea(gc, p2, 430 + (p2.getWidth() + 20) * 2, 300, this));
+            personnages.add(p2l);
+            
+            
+            List<CustomMouseOverArea> p3l = new ArrayList<CustomMouseOverArea>(2);
+            p3l.add(new CustomMouseOverArea(gc, p1, 10 + (p1.getWidth() + 20) * 1, 500, this));
+            p3l.add(new CustomMouseOverArea(gc, p2, 10 + (p2.getWidth() + 20) * 2, 500, this));
+            personnages.add(p3l);
+            
+            List<CustomMouseOverArea> p4l = new ArrayList<CustomMouseOverArea>(2);
+            p4l.add(new CustomMouseOverArea(gc, p1, 430 + (p1.getWidth() + 20) * 1, 500, this));
+            p4l.add(new CustomMouseOverArea(gc, p2, 430 + (p2.getWidth() + 20) * 2, 500, this));
+            personnages.add(p4l);
+
+        
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -100,10 +125,17 @@ public class MainMenu extends BasicGameState implements ComponentListener {
         if (oneSelected) {
             startButton.render(gc, gr);
         }
-        controlesJoueur1.draw(600, 170);
-        controlesJoueur2.draw(600, 270);
-        controlesJoueur3.draw(600, 370);
-        controlesJoueur4.draw(600, 470);
+        controlesJoueur1.draw(230, 275);
+        controlesJoueur2.draw(650, 275);
+        controlesJoueur3.draw(230, 275+200);
+        controlesJoueur4.draw(650, 275+200);
+        
+        
+        gr.drawString("#1",40,350);
+        gr.drawString("#2",460,350);
+        gr.drawString("#3",40,550);
+        gr.drawString("#4",460,550);
+
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
