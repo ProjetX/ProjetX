@@ -30,11 +30,14 @@ public class Gameplay extends BasicGameState {
     List<Rectangle> power;
     List<Rectangle> fillThePower;
     
-    int elapsedTimeSinceLastNewFieldG;
-    int elapsedTimeSinceLastNewFieldD;
-    int elapsedTimeSinceLastNewFieldM;
+    int elapsedTimeSinceLastNewFieldG=9999;
+    int elapsedTimeSinceLastNewFieldD=9999;
+    int elapsedTimeSinceLastNewFieldM=9999;
     int randApparitionD;
     int randApparitionG;
+    
+    int totalElapsedTime=0;
+    int typeNuage=0;
 
     Physics physics = new Physics(0.0022);
     int randApparitionM;
@@ -112,11 +115,16 @@ public class Gameplay extends BasicGameState {
         // Fin de partie
         if(actualTime>partyDuration)
         {
+            totalElapsedTime=0;
+            typeNuage=0;
             Game.playerScores=players;
             sbg.enterState(2);
             actualTime=0;
             newGame = true;
             initField();
+            elapsedTimeSinceLastNewFieldG=9999;
+            elapsedTimeSinceLastNewFieldD=9999;
+            elapsedTimeSinceLastNewFieldM=9999;
         }
 
         physics.updateMovable(players);
@@ -168,8 +176,16 @@ public class Gameplay extends BasicGameState {
         int lower = 200;
         int higher = 1500;
 
+        totalElapsedTime+=elapsedTime;
+        
+        if(totalElapsedTime>(partyDuration*1000)/ficObs.size()) {
+            totalElapsedTime=0;
+            if(typeNuage+1<ficObs.size())
+                typeNuage++;
+        }
+
         if (elapsedTimeSinceLastNewFieldG > randApparitionG) {
-            Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX, -70));
@@ -179,7 +195,7 @@ public class Gameplay extends BasicGameState {
 
         }
         if (elapsedTimeSinceLastNewFieldD > randApparitionD) {
-            Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX + 193, -70));
@@ -189,7 +205,7 @@ public class Gameplay extends BasicGameState {
         }
 
         if (elapsedTimeSinceLastNewFieldM > randApparitionM) {
-            Obstacle o = new Obstacle(ficObs.get((int) (Math.random() * 2)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 120 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX + 387, -70));
@@ -348,7 +364,7 @@ public class Gameplay extends BasicGameState {
                    players.get(i).SetTimeSinceDeath(0);
                }
                if (players.get(i).GetTimeSinceDeath()!=-1) {
-                   if(players.get(i).GetTimeSinceDeath()<3000) {
+                   if(players.get(i).GetTimeSinceDeath()<1000) {
                        players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath()+elapsedTime);
                    }
                    else {
@@ -402,7 +418,8 @@ public class Gameplay extends BasicGameState {
         obstacles.clear();
         ficObs.clear();
         ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
-        ficObs.add("ressources/sprites/Plateforme/plateformeNuage1.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage2.png");
+        ficObs.add("ressources/sprites/Plateforme/plateformeNuage3.png");
         Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
         obstacles.add(platInit);
 
