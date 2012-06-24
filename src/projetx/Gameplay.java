@@ -23,7 +23,7 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 2;
+    static double partyDuration = 100;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -144,7 +144,7 @@ public class Gameplay extends BasicGameState {
         }
         delta_ = delta;
         managePowerBar(delta);
-        manageField(delta);
+        //manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath(delta);
@@ -431,7 +431,7 @@ public class Gameplay extends BasicGameState {
             Player a = players.get(i);
             if (a != null) {
                 if (a.isHasUsedGravityBoom()) {
-                    //a.explode();
+                    sounds.explode();
                     //System.out.println("Explode!!!!!!!");
                     for (int j = 0; j < p; j++) {
                         Player b = players.get(j);
@@ -444,12 +444,13 @@ public class Gameplay extends BasicGameState {
                                 if (rayon < 300) {
                                     b.setSpeed(1.5 * aX * (1 / Math.pow(1 + rayon, 1)), 1.5 * aY * (1 / Math.pow(1 + rayon, 1)));
                                     b.setAngryPlayer(a);
+                                    sounds.pain();
                                 }
                             }
                         }
 
                     }
-                    sounds.explode();
+                    
                 }
             }
         }
