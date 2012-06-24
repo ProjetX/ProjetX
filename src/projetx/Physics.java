@@ -1,10 +1,8 @@
 package projetx;
 
-import java.awt.Point;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.List;
-import org.newdawn.slick.Image;
+
 
 enum COLLIDE {
 
@@ -173,6 +171,7 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
+                                currentMovable.setAngryPlayer(null);
                             }
                             break;
                     }
@@ -196,6 +195,7 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
+                                currentMovable.setAngryPlayer(null);
                                 break;
                             case COLLIDE_LEFT:
                                 correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());

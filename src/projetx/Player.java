@@ -28,6 +28,7 @@ public class Player extends Sprite implements Comparable<Player> {
     protected boolean wantsToJump = false;
     protected double lateralSpeed = 0.7;
     protected double verticalSpeed = 1.2;
+    protected int timeSinceDeath = -1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
     int lastPower = 0;
@@ -39,6 +40,8 @@ public class Player extends Sprite implements Comparable<Player> {
     boolean walkNext = false;
     boolean jumpNext = false;
     boolean hasUsedGravityBoom = false;
+
+    protected Player angryPlayer = null;
 
     public Player(Type type) throws SlickException {
         super();
@@ -125,7 +128,15 @@ public class Player extends Sprite implements Comparable<Player> {
             return this.image;
         }
     }
-
+    
+    public void SetTimeSinceDeath(int time) {
+        timeSinceDeath=time;
+    }
+    
+    public int GetTimeSinceDeath() {
+        return timeSinceDeath;
+    }
+    
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
@@ -275,4 +286,13 @@ public class Player extends Sprite implements Comparable<Player> {
     public void setHasUsedGravityBoom(boolean hasUsedGravityBoom) {
         this.hasUsedGravityBoom = hasUsedGravityBoom;
     }
+
+    public Player getAngryPlayer() {
+        return angryPlayer;
+    }
+
+    public void setAngryPlayer(Player angryPlayer) {
+        this.angryPlayer = angryPlayer;
+    }
+    
 }

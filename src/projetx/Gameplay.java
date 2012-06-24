@@ -20,7 +20,7 @@ public class Gameplay extends BasicGameState {
 
     Image background;
 
-    static double partyDuration = 2 ;
+    static double partyDuration = 10 ;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -104,8 +104,7 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
-        manageDeath();
-
+        manageDeath(delta);
         manageGravityBoom() ;
         actualTime+=(double)delta/1000.0;
         
@@ -312,7 +311,7 @@ public class Gameplay extends BasicGameState {
     {
         int step = 120;
         int p =players.size();
-           System.out.println(p);
+           //System.out.println(p);
         for(int i=0;i<p;i++)
         {
             Player a=players.get(i);
@@ -329,19 +328,34 @@ public class Gameplay extends BasicGameState {
     }
 
     
-    private void manageDeath() 
+    private void manageDeath(int elapsedTime) 
     {
         int p =players.size();
-           System.out.println(p);
+           //System.out.println(p);
         for(int i=0;i<p;i++)
         {
             Point2D a=players.get(i).getCoords();
             if(a!=null)
             {
-               if (a.getY()>700)
+               if (a.getY()>700 && players.get(i).GetTimeSinceDeath()==-1)
                {
+                   if(players.get(i).getAngryPlayer() != null){
+                       players.get(i).getAngryPlayer().Kill();
+                        players.get(i).setAngryPlayer(null);
+                   }
                    players.get(i).Die();
-                   players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                   //players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                   players.get(i).SetTimeSinceDeath(0);
+               }
+               if (players.get(i).GetTimeSinceDeath()!=-1) {
+                   if(players.get(i).GetTimeSinceDeath()<3000) {
+                       players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath()+elapsedTime);
+                   }
+                   else {
+                       players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                       players.get(i).SetTimeSinceDeath(-1);
+                       players.get(i).SetTimeSinceLastPower(0);
+                   }
                }
             }
         }
@@ -365,13 +379,14 @@ public class Gameplay extends BasicGameState {
                         {
                             if(b!=a)
                             {
-                                System.out.println("Je le pousse");
+                                //System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;
                                 double aY=b.getCoords().getY()-a.getCoords().getY();
                                 double rayon =Math.sqrt(aX*aX +aY*aY);
                                 if(rayon<300)
                                 {
                                        b.setSpeed(1.5*aX*(1/Math.pow(1+rayon, 1)), 1.5*aY*(1/Math.pow(1+rayon,1)));
+                                       b.setAngryPlayer(a);
                                 }
                             }
                         }

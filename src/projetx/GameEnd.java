@@ -50,7 +50,10 @@ public class GameEnd extends BasicGameState {
         Collections.sort(Game.playerScores);
 
         gr.drawString("General ranking", 500, 50);
-        
+
+        int ranking = 1;
+        int elapsed = 1;
+
         for (int i = 0; i < p; i++) {
             Player a = Game.playerScores.get(i);
             if (a != null) {
@@ -59,9 +62,32 @@ public class GameEnd extends BasicGameState {
                 gr.drawString("Deaths :" + a.getNumberOfDeaths(), 80 + 500, 80 + 50 + i * step);
                 gr.drawString("Kills :" + a.getNumberOfKills(), 80 + 500, 80 + 70 + i * step);
 
+                if (i > 0) {
+                    if (a.compareTo(Game.playerScores.get(i - 1)) == 0) {
+                        elapsed++;
+                    } else {
+                        ranking += elapsed;
+                        elapsed = 1;
+                    }
+                }
+
+                String rankingString = "";
+                switch (ranking) {
+                    case 1:
+                        rankingString = "#1";
+                        break;
+                    case 2:
+                        rankingString = "#2";
+                        break;
+                    case 3:
+                        rankingString = "#3";
+                        break;
+                    case 4:
+                        rankingString = "#4";
+                        break;
+                }
+                gr.drawString(rankingString, 450, 80 + 50 + i * step);
             }
-
-
         }
 
     }
