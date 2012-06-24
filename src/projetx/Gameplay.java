@@ -22,7 +22,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 30;
+    static double partyDuration = 2;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -43,9 +43,11 @@ public class Gameplay extends BasicGameState {
     int randApparitionM;
     boolean newGame = true;
     ParticleSystem system;
+    boolean initialGame;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
+        
     }
 
     @Override
@@ -66,7 +68,7 @@ public class Gameplay extends BasicGameState {
 
         background = new Image("./ressources/sprites/Fond/Fond2.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
-        Music.loop();
+        
 
         system = new ParticleSystem("ressources/sprites/particle.png");
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
@@ -75,6 +77,7 @@ public class Gameplay extends BasicGameState {
         ConfigurableEmitter c = new ConfigurableEmitter("ressources/engine.xml");
         c.setPosition(250, 250);
         system.addEmitter(c);
+        initialGame= true;
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -125,6 +128,14 @@ public class Gameplay extends BasicGameState {
         if (newGame) {
             newGame = false;
             initPlayers();
+            
+        }
+        
+        if (initialGame)
+        {
+            initialGame=false;
+            Music.loop();
+            
         }
         delta_ = delta;
         managePowerBar(delta);
