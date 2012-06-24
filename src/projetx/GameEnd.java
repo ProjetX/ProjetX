@@ -40,7 +40,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Menu/boutonMenu.png"), 850, 500, this);
-        img = new Image("ressources/fondFin.jpg");
+        img = new Image("ressources/sprites/Fond/Fond2.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -68,6 +68,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
         for (int i = 0; i < p; i++) {
             Player a = Game.playerScores.get(i);
             if (a != null) {
+                gr.setColor(Color.black);
                 gr.drawString("Player " + (i + 1), 20 + 500, 80 + 20 + i * step);
                 a.getImage().draw(20 + 500, 80 + 40 + i * step);
                 gr.drawString("Deaths :" + a.getNumberOfDeaths(), 80 + 500, 80 + 50 + i * step);
