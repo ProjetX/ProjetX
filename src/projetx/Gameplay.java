@@ -20,7 +20,7 @@ public class Gameplay extends BasicGameState {
 
     Image background;
 
-    static double partyDuration = 10 ;
+    static double partyDuration = 100 ;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -82,7 +82,15 @@ public class Gameplay extends BasicGameState {
 
         for (Player o : players) {
             //o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
-            o.getRenderable().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+            Renderable r = o.getRenderable();
+
+            if(r instanceof Image){
+                ((Image)r).setAlpha(o.getAlpha());
+            } else {
+                ((Animation)r).getCurrentFrame().setAlpha(o.getAlpha());
+            }
+            
+            r.draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
         }
         
         for (Rectangle r : power) {
@@ -393,7 +401,7 @@ public class Gameplay extends BasicGameState {
                         Player b=players.get(j);
                         if(b!=null)
                         {
-                            if(b!=a)
+                            if(b!=a && b.getInvincibilityRemainingTime() <= 0)
                             {
                                 //System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;
