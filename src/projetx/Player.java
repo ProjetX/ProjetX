@@ -40,7 +40,6 @@ public class Player extends Sprite implements Comparable<Player> {
     boolean walkNext = false;
     boolean jumpNext = false;
     boolean hasUsedGravityBoom = false;
-
     protected Player angryPlayer = null;
 
     public Player(Type type) throws SlickException {
@@ -63,11 +62,39 @@ public class Player extends Sprite implements Comparable<Player> {
 
         switch (type) {
             case BAGNARD:
-                this.image = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
-                break;
+                this.image = new Image("ressources/sprites/Bagnard/BagnardStatique.png"); {
+                Image walkA[] = new Image[6];
+                walkA[0] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche1.png");
+                walkA[1] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche2.png");
+                walkA[2] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche3.png");
+                walkA[3] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche4.png");
+                walkA[4] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche5.png");
+                walkA[5] = new Image("ressources/sprites/Bagnard/Animations/Marche/BagnardMarche6.png");
+                this.walkRigth = new Animation(walkA, speedWalk);
+
+                Image jumpA[] = new Image[6];
+                jumpA[0] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute1.png");
+                jumpA[1] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute2.png");
+                jumpA[2] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute3.png");
+                jumpA[3] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute4.png");
+                jumpA[4] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute5.png");
+                jumpA[5] = new Image("ressources/sprites/Bagnard/Animations/Saute/BagnardSaute6.png");
+                this.jumpRigth = new Animation(jumpA, speedJump);
+
+                Image walkAL[] = new Image[6];
+                Image jumpAL[] = new Image[6];
+                for (int i = 0; i < 6; i++) {
+                    walkAL[i] = walkA[i].getFlippedCopy(true, false);
+                    jumpAL[i] = jumpA[i].getFlippedCopy(true, false);
+                }
+
+                this.walkLeft = new Animation(walkAL, speedWalk);
+                this.jumpLeft = new Animation(jumpAL, speedJump);
+            }
+            break;
 
             case COSTARD:
-                this.image = new Image("ressources/sprites/Costard/CostardStatique.png");
+                this.image = new Image("ressources/sprites/Costard/CostardStatique.png"); {
 
                 Image walkA[] = new Image[6];
                 walkA[0] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche1.png");
@@ -96,8 +123,8 @@ public class Player extends Sprite implements Comparable<Player> {
 
                 this.walkLeft = new Animation(walkAL, speedWalk);
                 this.jumpLeft = new Animation(jumpAL, speedJump);
-
-                break;
+            }
+            break;
         }
 
         super.image = this.image;
@@ -128,15 +155,15 @@ public class Player extends Sprite implements Comparable<Player> {
             return this.image;
         }
     }
-    
+
     public void SetTimeSinceDeath(int time) {
-        timeSinceDeath=time;
+        timeSinceDeath = time;
     }
-    
+
     public int GetTimeSinceDeath() {
         return timeSinceDeath;
     }
-    
+
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
@@ -294,5 +321,4 @@ public class Player extends Sprite implements Comparable<Player> {
     public void setAngryPlayer(Player angryPlayer) {
         this.angryPlayer = angryPlayer;
     }
-    
 }
