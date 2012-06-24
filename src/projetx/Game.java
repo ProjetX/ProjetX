@@ -37,7 +37,7 @@ public class Game extends StateBasedGame {
     }
 
     public Game() {
-        super("SlickBlocks");
+        super("Ascendant");
     }
 
     public static void main(String[] args) throws SlickException {
@@ -47,6 +47,7 @@ public class Game extends StateBasedGame {
         app.setTargetFrameRate(Game.fpslimit);
         app.setShowFPS(false);
         app.start();
+
     }
 
     @Override
@@ -54,6 +55,6 @@ public class Game extends StateBasedGame {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
         this.addState(new GameEnd(GAMEEND));
-        this.addState(new GameEnd(WAIT));
+        this.addState(new WaitScreen(WAIT));
     }
 }

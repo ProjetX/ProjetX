@@ -5,7 +5,6 @@ import java.util.List;
 
 
 enum COLLIDE {
-
     COLLIDE_LEFT,
     COLLIDE_RIGHT,
     COLLIDE_HAUT,

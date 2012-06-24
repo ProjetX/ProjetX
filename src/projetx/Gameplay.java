@@ -133,6 +133,8 @@ public class Gameplay extends BasicGameState {
         if (newGame) {
             newGame = false;
             initPlayers();
+            actualTime = 0;
+            initField();
             
         }
         
@@ -144,7 +146,7 @@ public class Gameplay extends BasicGameState {
         }
         delta_ = delta;
         managePowerBar(delta);
-        //manageField(delta);
+        manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath(delta);
@@ -157,10 +159,11 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
+            //System.out.println("Je passe");
             sbg.enterState(3);
-            actualTime = 0;
+            
             newGame = true;
-            initField();
+            
             elapsedTimeSinceLastNewFieldG = 9999;
             elapsedTimeSinceLastNewFieldD = 9999;
             elapsedTimeSinceLastNewFieldM = 9999;
