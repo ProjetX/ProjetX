@@ -85,7 +85,6 @@ public class Gameplay extends BasicGameState {
             Renderable r = o.getRenderable();
 
             if(r instanceof Image){
-                System.out.println(o.getAlpha());
                 ((Image)r).setAlpha(o.getAlpha());
             } else {
                 ((Animation)r).getCurrentFrame().setAlpha(o.getAlpha());
