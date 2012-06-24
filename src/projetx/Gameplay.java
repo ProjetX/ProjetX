@@ -62,7 +62,7 @@ public class Gameplay extends BasicGameState {
 
         background = new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
-        Music.play();
+        Music.loop();
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
