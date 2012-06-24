@@ -77,7 +77,7 @@ public class MainMenu extends BasicGameState implements ComponentListener {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         img.draw(0, 0);
 
-        
+        gr.setColor(Color.white);
         boolean oneSelected = false;
 
         for (List<CustomMouseOverArea> l : this.personnages) {
