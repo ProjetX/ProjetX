@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -43,6 +45,8 @@ public class Gameplay extends BasicGameState {
     int randApparitionM;
     boolean newGame = true;
 
+    ParticleSystem system;
+
     Gameplay(int stateID) {
         this.stateID = stateID;
     }
@@ -66,6 +70,11 @@ public class Gameplay extends BasicGameState {
         background = new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
         Music.loop();
+
+        system = new ParticleSystem("ressources/sprites/particle.png");
+        for(int i = 0; i < 1230; i += (int)(Math.random() * (25-15)) + 15){
+            system.addEmitter(new FireEmitter(i, 650));
+        }
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -101,6 +110,8 @@ public class Gameplay extends BasicGameState {
             gr.draw(r);
             gr.fill(r);
         }
+
+        system.render(); 
         
         showInformation(gr);
 
@@ -138,6 +149,8 @@ public class Gameplay extends BasicGameState {
         physics.updateMovable(players);
         physics.updatePlatforms(obstacles);
         physics.computePhysics(delta);
+
+        system.update(delta);  
 
     }
     
