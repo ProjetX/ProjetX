@@ -171,6 +171,7 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
+                                currentMovable.setAngryPlayer(null);
                             }
                             break;
                     }
@@ -194,6 +195,7 @@ public class Physics {
                                 currentMovable.setCoords(correctedPoint);
                                 currentMovable.setSpeed(currentMovable.getSpeed().getX(), 0);
                                 currentMovable.setIsOnAPlatform(true);
+                                currentMovable.setAngryPlayer(null);
                                 break;
                             case COLLIDE_LEFT:
                                 correctedPoint.setLocation(collider.getCoords().getX() + collider.getImage().getWidth(), currentMovable.getCoords().getY());

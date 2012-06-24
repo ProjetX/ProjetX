@@ -340,6 +340,10 @@ public class Gameplay extends BasicGameState {
             {
                if (a.getY()>700)
                {
+                   if(players.get(i).getAngryPlayer() != null){
+                       players.get(i).getAngryPlayer().Kill();
+                        players.get(i).setAngryPlayer(null);
+                   }
                    players.get(i).Die();
                    players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
                }
@@ -372,6 +376,7 @@ public class Gameplay extends BasicGameState {
                                 if(rayon<300)
                                 {
                                        b.setSpeed(1.5*aX*(1/Math.pow(1+rayon, 1)), 1.5*aY*(1/Math.pow(1+rayon,1)));
+                                       b.setAngryPlayer(a);
                                 }
                             }
                         }

@@ -31,6 +31,7 @@ public class Player extends Sprite {
 
     boolean hasUsedGravityBoom;
 
+    protected Player angryPlayer = null;
     public Player(String img) throws SlickException {
         super(img);
         this.image = new Image(img);
@@ -170,4 +171,13 @@ public class Player extends Sprite {
     public void setHasUsedGravityBoom(boolean hasUsedGravityBoom) {
         this.hasUsedGravityBoom = hasUsedGravityBoom;
     }
+
+    public Player getAngryPlayer() {
+        return angryPlayer;
+    }
+
+    public void setAngryPlayer(Player angryPlayer) {
+        this.angryPlayer = angryPlayer;
+    }
+    
 }
