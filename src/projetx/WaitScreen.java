@@ -23,6 +23,7 @@ public class WaitScreen extends BasicGameState {
     StateBasedGame sbg;
     double time;
     boolean newOne;
+    Image img;
 
     WaitScreen(int stateID) {
         this.stateID = stateID;
@@ -39,10 +40,11 @@ public class WaitScreen extends BasicGameState {
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
         newOne = true;
         time=0;
+        img = new Image("ressources/sprites/Fond/Fond2.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-       
+       img.draw(0,0);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
@@ -51,10 +53,11 @@ public class WaitScreen extends BasicGameState {
             time=0;
             newOne=false;
         }
-        time+=(double)delta;
-        if(time>=3000)
+        System.out.println(time);
+        time+=(double)delta/1000.0;
+        if(time>=2)
         {
-            sbg.enterState(3);
+            sbg.enterState(2);
             newOne=true;
         }
 

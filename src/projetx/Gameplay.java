@@ -23,7 +23,7 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 2;
+    static double partyDuration = 5;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -133,6 +133,8 @@ public class Gameplay extends BasicGameState {
         if (newGame) {
             newGame = false;
             initPlayers();
+            actualTime = 0;
+            initField();
             
         }
         
@@ -157,10 +159,11 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
+            System.out.println("Je passe");
             sbg.enterState(3);
-            actualTime = 0;
+            
             newGame = true;
-            initField();
+            
             elapsedTimeSinceLastNewFieldG = 9999;
             elapsedTimeSinceLastNewFieldD = 9999;
             elapsedTimeSinceLastNewFieldM = 9999;

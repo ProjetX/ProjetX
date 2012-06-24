@@ -54,6 +54,6 @@ public class Game extends StateBasedGame {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
         this.addState(new GameEnd(GAMEEND));
-        this.addState(new GameEnd(WAIT));
+        this.addState(new WaitScreen(WAIT));
     }
 }
