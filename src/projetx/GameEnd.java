@@ -25,6 +25,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     boolean newEnding;
     MouseOverArea restartButton;
     StateBasedGame sbg;
+    Image img;
 
     GameEnd(int stateID) {
         this.stateID = stateID;
@@ -38,13 +39,15 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Bagnard/BagnardStatique.png"), 800, 550, this);
+        restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Menu/boutonMenu.png"), 850, 500, this);
+        img = new Image("ressources/fondFin.jpg");
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
+        img.draw(0,0);
         showInformation(gr);
-
         restartButton.render(gc, gr);
+       
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
