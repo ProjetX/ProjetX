@@ -388,6 +388,7 @@ public class Gameplay extends BasicGameState {
             {
                if (a.isHasUsedGravityBoom())
                {
+                   a.explode();
                   for(int j=0;j<p;j++)
                   {
                         Player b=players.get(j);

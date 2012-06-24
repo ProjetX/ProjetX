@@ -37,6 +37,7 @@ public class Player extends Sprite implements Comparable<Player> {
     Animation jumpLeft = null;
     Animation walkRigth = null;
     Animation jumpRigth = null;
+    Animation explosion = null;
     boolean walkNext = false;
     boolean jumpNext = false;
     boolean hasUsedGravityBoom = false;
@@ -45,6 +46,7 @@ public class Player extends Sprite implements Comparable<Player> {
     public Player(Type type) throws SlickException {
         super();
         setType(type);
+        initExplosion();
     }
 
     public Player(String type) throws SlickException {
@@ -128,6 +130,24 @@ public class Player extends Sprite implements Comparable<Player> {
         }
 
         super.image = this.image;
+    }
+
+    private void initExplosion() throws SlickException{
+        int explosionSpeed = 100;
+
+        Image _explosion[] = new Image[6];
+        _explosion[0] = new Image("ressources/sprites/Explosion/Explosion1.png");
+        _explosion[1] = new Image("ressources/sprites/Explosion/Explosion2.png");
+        _explosion[2] = new Image("ressources/sprites/Explosion/Explosion3.png");
+        _explosion[3] = new Image("ressources/sprites/Explosion/Explosion4.png");
+        _explosion[4] = new Image("ressources/sprites/Explosion/Explosion5.png");
+        _explosion[5] = new Image("ressources/sprites/Explosion/Explosion6.png");
+        _explosion[6] = new Image("ressources/sprites/Explosion/Explosion7.png");
+        this.explosion = new Animation(_explosion, explosionSpeed);
+    }
+
+    public void explode(){
+        explosion.draw( (int)getCoords().getX(), (int) getCoords().getY() );
     }
 
     public Renderable getRenderable() {
