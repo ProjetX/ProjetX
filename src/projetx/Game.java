@@ -23,6 +23,7 @@ public class Game extends StateBasedGame {
     public static final int MAINMENU = 0;
     public static final int GAMEPLAY = 1;
     public static final int GAMEEND = 2;
+    public static final int WAIT = 3;
 
     public static List<String> players;
     public static List<Player> playerScores;
@@ -53,5 +54,6 @@ public class Game extends StateBasedGame {
         this.addState(new MainMenu(MAINMENU));
         this.addState(new Gameplay(GAMEPLAY));
         this.addState(new GameEnd(GAMEEND));
+        this.addState(new GameEnd(WAIT));
     }
 }

@@ -152,7 +152,7 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
-            sbg.enterState(2);
+            sbg.enterState(3);
             actualTime = 0;
             newGame = true;
             initField();
