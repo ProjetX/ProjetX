@@ -55,13 +55,14 @@ public class MainMenu extends BasicGameState implements ComponentListener {
 
         Image p1 = new Image("ressources/sprites/Bagnard/BagnardStatique.png");
         Image p2 = new Image("ressources/sprites/Costard/CostardStatique.png");
+        Image start = new Image("ressources/sprites/Menu/boutonStart.png");
         
         controlesJoueur1 = new Image("ressources/sprites/Menu/controlesJoueur1.png");
         controlesJoueur2 = new Image("ressources/sprites/Menu/controlesJoueur2.png");
         controlesJoueur3 = new Image("ressources/sprites/Menu/controlesJoueur3.png");
         controlesJoueur4 = new Image("ressources/sprites/Menu/controlesJoueur4.png");
 
-        startButton = new MouseOverArea(gc, p1, 800, 550, this);
+        startButton = new MouseOverArea(gc, start, 850, 500, this);
 
         personnages = new ArrayList<List<CustomMouseOverArea>>(2);
 
