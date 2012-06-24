@@ -312,7 +312,7 @@ public class Gameplay extends BasicGameState {
     {
         int step = 120;
         int p =players.size();
-           System.out.println(p);
+           //System.out.println(p);
         for(int i=0;i<p;i++)
         {
             Player a=players.get(i);
@@ -332,7 +332,7 @@ public class Gameplay extends BasicGameState {
     private void manageDeath() 
     {
         int p =players.size();
-           System.out.println(p);
+           //System.out.println(p);
         for(int i=0;i<p;i++)
         {
             Point2D a=players.get(i).getCoords();
@@ -365,7 +365,7 @@ public class Gameplay extends BasicGameState {
                         {
                             if(b!=a)
                             {
-                                System.out.println("Je le pousse");
+                                //System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;
                                 double aY=b.getCoords().getY()-a.getCoords().getY();
                                 double rayon =Math.sqrt(aX*aX +aY*aY);
