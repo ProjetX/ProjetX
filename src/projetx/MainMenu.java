@@ -62,7 +62,9 @@ public class MainMenu extends BasicGameState implements ComponentListener {
         controlesJoueur3 = new Image("ressources/sprites/Title/EcranTitre/Player3.png");
         controlesJoueur4 = new Image("ressources/sprites/Title/EcranTitre/Player4.png");
 
-        startButton = new MouseOverArea(gc, start, 925, 500, this);
+        startButton = new MouseOverArea(gc, start, 875, 450, this);
+        startButton.setMouseOverColor(Color.red);
+        startButton.setNormalColor(Color.white);
 
         personnages = new ArrayList<List<CustomMouseOverArea>>(2);
 
