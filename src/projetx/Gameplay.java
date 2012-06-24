@@ -9,18 +9,10 @@ package projetx;
  * @author anisbenyoub
  */
 import java.awt.geom.Point2D;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ParticleEmitter;
-import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
@@ -29,10 +21,13 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 30;
+    static double partyDuration = 500;
     double actualTime;
     int stateID = -1;
     Sound Music;
+    SoundEffects sounds = new SoundEffects();
+
+    ;
     List<Player> players;
     List<Obstacle> obstacles;
     List<List<String>> ficObs;
@@ -49,10 +44,12 @@ public class Gameplay extends BasicGameState {
     Physics physics = new Physics(0.0022);
     int randApparitionM;
     boolean newGame = true;
-    ParticleSystem system;
+    public static ParticleSystem system;
+    boolean initialGame;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
+
     }
 
     @Override
@@ -73,23 +70,15 @@ public class Gameplay extends BasicGameState {
 
         background = new Image("./ressources/sprites/Fond/Fond2.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
-        Music.loop();
+
+        sounds.init();
 
         system = new ParticleSystem("ressources/sprites/particle.png");
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
         }
 
-        //L'ajouter qd on meurt. L'enlever quand on revit.
-        ConfigurableEmitter explosionEmiter;
-        try {
-         explosionEmiter = ParticleIO.loadEmitter("ressources/flame.xml");
-         explosionEmiter.setPosition(400, 650);
-         system.addEmitter(explosionEmiter);
-         
-      } catch (IOException e) {
-         throw new SlickException("Failed to load particle systems", e);
-      }
+        initialGame = true;
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -140,6 +129,15 @@ public class Gameplay extends BasicGameState {
         if (newGame) {
             newGame = false;
             initPlayers();
+            actualTime = 0;
+            initField();
+
+        }
+
+        if (initialGame) {
+            initialGame = false;
+            Music.loop(1f, 0.29f);
+
         }
         delta_ = delta;
         managePowerBar(delta);
@@ -156,10 +154,11 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
-            sbg.enterState(2);
-            actualTime = 0;
+            System.out.println("Je passe");
+            sbg.enterState(3);
+
             newGame = true;
-            initField();
+
             elapsedTimeSinceLastNewFieldG = 9999;
             elapsedTimeSinceLastNewFieldD = 9999;
             elapsedTimeSinceLastNewFieldM = 9999;
@@ -234,7 +233,7 @@ public class Gameplay extends BasicGameState {
         }
 
         if (elapsedTimeSinceLastNewFieldG > randApparitionG) {
-            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int)(Math.random()*5)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int) (Math.random() * 5)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 200 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX, -70));
@@ -244,7 +243,7 @@ public class Gameplay extends BasicGameState {
 
         }
         if (elapsedTimeSinceLastNewFieldD > randApparitionD) {
-            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int)(Math.random()*5)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int) (Math.random() * 5)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 200 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX + 193, -70));
@@ -254,7 +253,7 @@ public class Gameplay extends BasicGameState {
         }
 
         if (elapsedTimeSinceLastNewFieldM > randApparitionM) {
-            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int)(Math.random()*5)));
+            Obstacle o = new Obstacle(ficObs.get(typeNuage).get((int) (Math.random() * 5)));
             obstacles.add(o);
             int randX = (int) (Math.random() * (250 + 350 - 200 + 1 - 250)) + 250;
             o.setCoords(new Point2D.Double(randX + 387, -70));
@@ -383,9 +382,9 @@ public class Gameplay extends BasicGameState {
 
                 Renderable r = a.getRenderable();
                 if (r instanceof Image) {
-                    ((Image) r).draw(20, 40+i*step);
+                    ((Image) r).draw(20, 40 + i * step);
                 } else {
-                    ((Animation) r).getCurrentFrame().draw(20, 40+i*step);
+                    ((Animation) r).getCurrentFrame().draw(20, 40 + i * step);
                 }
 
                 gr.drawString("Deaths :" + a.getNumberOfDeaths(), 80, 50 + i * step);
@@ -415,6 +414,8 @@ public class Gameplay extends BasicGameState {
                     if (players.get(i).GetTimeSinceDeath() < 1000) {
                         players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath() + elapsedTime);
                     } else {
+                        this.system.removeEmitter(players.get(i).explosionEmiter);
+                        players.get(i).explosionEmiter = null;
                         players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size() - 1).getCoords().getX() + 50, obstacles.get(obstacles.size() - 1).getCoords().getY() - 150));
                         players.get(i).SetTimeSinceDeath(-1);
                         players.get(i).SetTimeSinceLastPower(0);
@@ -448,6 +449,7 @@ public class Gameplay extends BasicGameState {
                         }
 
                     }
+                    sounds.explode();
                 }
             }
         }
@@ -456,7 +458,7 @@ public class Gameplay extends BasicGameState {
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();
-        
+
         List<String> typeObsLave = new ArrayList<String>();
         typeObsLave.add("ressources/sprites/Plateforme/Lave/Lave1.png");
         typeObsLave.add("ressources/sprites/Plateforme/Lave/Lave2.png");
@@ -464,7 +466,7 @@ public class Gameplay extends BasicGameState {
         typeObsLave.add("ressources/sprites/Plateforme/Lave/Lave4.png");
         typeObsLave.add("ressources/sprites/Plateforme/Lave/Lave5.png");
         ficObs.add(typeObsLave);
-        
+
         List<String> typeObsTerre = new ArrayList<String>();
         typeObsTerre.add("ressources/sprites/Plateforme/Terre/plateformeTerre1.png");
         typeObsTerre.add("ressources/sprites/Plateforme/Terre/plateformeTerre2.png");
@@ -472,7 +474,7 @@ public class Gameplay extends BasicGameState {
         typeObsTerre.add("ressources/sprites/Plateforme/Terre/plateformeTerre4.png");
         typeObsTerre.add("ressources/sprites/Plateforme/Terre/plateformeTerre5.png");
         ficObs.add(typeObsTerre);
-        
+
         List<String> typeObsNuages = new ArrayList<String>();
         typeObsNuages.add("ressources/sprites/Plateforme/Nuages/plateformeNuage1.png");
         typeObsNuages.add("ressources/sprites/Plateforme/Nuages/plateformeNuage2.png");
@@ -480,9 +482,9 @@ public class Gameplay extends BasicGameState {
         typeObsNuages.add("ressources/sprites/Plateforme/Nuages/plateformeNuage4.png");
         typeObsNuages.add("ressources/sprites/Plateforme/Nuages/plateformeNuage5.png");
         ficObs.add(typeObsNuages);
-        
-        
-        Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
+
+
+        Obstacle platInit = new Obstacle("ressources/sprites/Plateforme/plateformeDuDebut.png");
         obstacles.add(platInit);
 
         platInit.setCoords(new Point2D.Double(250, 200));
