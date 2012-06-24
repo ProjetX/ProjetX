@@ -42,6 +42,7 @@ public class Player extends Sprite implements Comparable<Player> {
     boolean jumpNext = false;
     boolean hasUsedGravityBoom = false;
     protected Player angryPlayer = null;
+    double explosionLenght = 50;
 
     public Player(Type type) throws SlickException {
         super();
@@ -55,6 +56,7 @@ public class Player extends Sprite implements Comparable<Player> {
         } else if (type.toLowerCase().equals("costard") || type.equals("ressources/sprites/Costard/CostardStatique.png")) {
             setType(Type.COSTARD);
         }
+        initExplosion();
     }
 
     private void setType(Type type) throws SlickException {
@@ -133,9 +135,8 @@ public class Player extends Sprite implements Comparable<Player> {
     }
 
     private void initExplosion() throws SlickException{
-        int explosionSpeed = 100;
 
-        Image _explosion[] = new Image[6];
+        Image _explosion[] = new Image[7];
         _explosion[0] = new Image("ressources/sprites/Explosion/Explosion1.png");
         _explosion[1] = new Image("ressources/sprites/Explosion/Explosion2.png");
         _explosion[2] = new Image("ressources/sprites/Explosion/Explosion3.png");
@@ -143,11 +144,13 @@ public class Player extends Sprite implements Comparable<Player> {
         _explosion[4] = new Image("ressources/sprites/Explosion/Explosion5.png");
         _explosion[5] = new Image("ressources/sprites/Explosion/Explosion6.png");
         _explosion[6] = new Image("ressources/sprites/Explosion/Explosion7.png");
-        this.explosion = new Animation(_explosion, explosionSpeed);
+        this.explosion = new Animation(_explosion, (int)explosionLenght);
+        explosion.setLooping(false);
+        explosion.stop();
     }
 
     public void explode(){
-        explosion.draw( (int)getCoords().getX(), (int) getCoords().getY() );
+        explosion.draw( (int)getCoords().getX() , (int) getCoords().getY() );
     }
 
     public Renderable getRenderable() {
@@ -341,4 +344,24 @@ public class Player extends Sprite implements Comparable<Player> {
     public void setAngryPlayer(Player angryPlayer) {
         this.angryPlayer = angryPlayer;
     }
+
+    public double getExplosionLenght() {
+        return explosionLenght;
+    }
+
+    public void setExplosionLenght(double explosionLenght) {
+        this.explosionLenght = explosionLenght;
+    }
+
+    
+
+    public Animation getExplosion() {
+        return explosion;
+    }
+
+    public void setExplosion(Animation explosion) {
+        this.explosion = explosion;
+    }
+
+    
 }

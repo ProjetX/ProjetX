@@ -20,7 +20,7 @@ public class Gameplay extends BasicGameState {
 
     Image background;
 
-    static double partyDuration = 10 ;
+    static double partyDuration = 30 ;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -39,6 +39,7 @@ public class Gameplay extends BasicGameState {
     int totalElapsedTime=0;
     int typeNuage=0;
 
+    int delta_;
     Physics physics = new Physics(0.0022);
     int randApparitionM;
     boolean newGame = true;
@@ -71,7 +72,6 @@ public class Gameplay extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         int Decalage = (int) ((650 - background.getHeight()) * ((partyDuration - actualTime) / (double) partyDuration));
 
-
         //System.out.println(Decalage);
         //System.out.println(actualTime);
         background.draw(0, Decalage);
@@ -81,8 +81,11 @@ public class Gameplay extends BasicGameState {
         }
 
         for (Player o : players) {
-            //o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
             o.getRenderable().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+
+            if(!o.getExplosion().isStopped()){
+                o.getExplosion().draw( (float)( o.getCoords().getX() + o.getImage().getWidth()/2.0 - o.getExplosion().getImage(0).getWidth()/2.0),(float)( o.getCoords().getY() + o.getImage().getHeight()/2.0 - o.getExplosion().getImage(0).getHeight()/2.0) );
+            }
         }
         
         for (Rectangle r : power) {
@@ -103,6 +106,7 @@ public class Gameplay extends BasicGameState {
             newGame = false;
             initPlayers();
         }
+        delta_ = delta;
         managePowerBar(delta);
         manageField(delta);
         manageInput(gc, sbg, delta);
@@ -131,6 +135,14 @@ public class Gameplay extends BasicGameState {
         physics.updatePlatforms(obstacles);
         physics.computePhysics(delta);
 
+        for (Player o : players) {
+
+            if (o.isHasUsedGravityBoom())
+            {
+                o.getExplosion().restart();
+                o.setHasUsedGravityBoom(false);
+            }
+        }
     }
     
     private void managePowerBar(int elapsedTime) {
@@ -388,7 +400,8 @@ public class Gameplay extends BasicGameState {
             {
                if (a.isHasUsedGravityBoom())
                {
-                   a.explode();
+                  //a.explode();
+                  //System.out.println("Explode!!!!!!!");
                   for(int j=0;j<p;j++)
                   {
                         Player b=players.get(j);
@@ -409,7 +422,6 @@ public class Gameplay extends BasicGameState {
                         }
                         
                   }
-                  a.setHasUsedGravityBoom(false);
                }
             }
         }
@@ -442,4 +454,14 @@ public class Gameplay extends BasicGameState {
             players.add(p);
         }
     }
+
+    public int getDelta_() {
+        return delta_;
+    }
+
+    public void setDelta_(int delta_) {
+        this.delta_ = delta_;
+    }
+
+
 }
