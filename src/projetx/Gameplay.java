@@ -478,7 +478,7 @@ public class Gameplay extends BasicGameState {
         ficObs.add(typeObsNuages);
         
         
-        Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
+        Obstacle platInit = new Obstacle("ressources/sprites/Plateforme/plateformeDuDebut.png");
         obstacles.add(platInit);
 
         platInit.setCoords(new Point2D.Double(250, 200));
