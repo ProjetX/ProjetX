@@ -44,7 +44,6 @@ public class Player extends Sprite implements Comparable<Player> {
     boolean hasUsedGravityBoom = false;
     protected Player angryPlayer = null;
     double explosionLenght = 50;
-
     Date lastRespawn = null;
 
     public Player(Type type) throws SlickException {
@@ -134,10 +133,13 @@ public class Player extends Sprite implements Comparable<Player> {
             break;
         }
 
+        jumpRigth.setLooping(false);
+        jumpLeft.setLooping(false);
+
         super.image = this.image;
     }
 
-    private void initExplosion() throws SlickException{
+    private void initExplosion() throws SlickException {
 
         Image _explosion[] = new Image[7];
         _explosion[0] = new Image("ressources/sprites/Explosion/Explosion1.png");
@@ -147,34 +149,38 @@ public class Player extends Sprite implements Comparable<Player> {
         _explosion[4] = new Image("ressources/sprites/Explosion/Explosion5.png");
         _explosion[5] = new Image("ressources/sprites/Explosion/Explosion6.png");
         _explosion[6] = new Image("ressources/sprites/Explosion/Explosion7.png");
-        this.explosion = new Animation(_explosion, (int)explosionLenght);
+        this.explosion = new Animation(_explosion, (int) explosionLenght);
         explosion.setLooping(false);
         explosion.stop();
     }
 
-    public void explode(){
-        explosion.draw( (int)getCoords().getX() , (int) getCoords().getY() );
+    public void explode() {
+        explosion.draw((int) getCoords().getX(), (int) getCoords().getY());
     }
 
     public Renderable getRenderable() {
         if (jumpNext && rightOrientation && this.jumpRigth != null) {
             if (this.jumpRigth.getFrame() == this.jumpRigth.getFrameCount() - 1) {
                 jumpNext = false;
+//                this.jumpRigth.stopAt(0);
             }
             return this.jumpRigth;
         } else if (jumpNext && !rightOrientation && this.jumpLeft != null) {
             if (this.jumpLeft.getFrame() == this.jumpLeft.getFrameCount() - 1) {
                 jumpNext = false;
+//                this.jumpLeft.stopAt(0);
             }
             return this.jumpLeft;
         } else if (walkNext && rightOrientation && this.walkRigth != null) {
             if (this.walkRigth.getFrame() == this.walkRigth.getFrameCount() - 1) {
                 walkNext = false;
+//                this.walkRigth.stopAt(0);
             }
             return this.walkRigth;
         } else if (walkNext && !rightOrientation && this.walkLeft != null) {
             if (this.walkLeft.getFrame() == this.walkLeft.getFrameCount() - 1) {
                 walkNext = false;
+//                this.walkLeft.stopAt(0);
             }
             return this.walkLeft;
         } else {
@@ -182,9 +188,9 @@ public class Player extends Sprite implements Comparable<Player> {
         }
     }
 
-    public float getAlpha(){
+    public float getAlpha() {
         float i = getInvincibilityRemainingTime();
-        if(i > 0){
+        if (i > 0) {
             float m = (float) (i % 1000);
             m = m < 500 ? 1000 - m : m;
             return m / 1000;
@@ -193,8 +199,8 @@ public class Player extends Sprite implements Comparable<Player> {
     }
 
     //ca s'ecrit surement pas comme ça. OSEF
-    public float getInvincibilityRemainingTime(){
-        if(lastRespawn == null){
+    public float getInvincibilityRemainingTime() {
+        if (lastRespawn == null) {
             return 0;
         }
         Date d = new Date();
@@ -203,7 +209,7 @@ public class Player extends Sprite implements Comparable<Player> {
     }
 
     public void SetTimeSinceDeath(int time) {
-        if(timeSinceDeath != -1 && time == -1){
+        if (timeSinceDeath != -1 && time == -1) {
             lastRespawn = new Date();
         }
         timeSinceDeath = time;
@@ -216,12 +222,19 @@ public class Player extends Sprite implements Comparable<Player> {
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
+            if (!jumpNext) {
+                this.jumpLeft.restart();
+                this.jumpRigth.restart();
+            }
             jumpNext = true;
         }
     }
 
     public void iWouldLikeToGoLeft() {
         wantsToGoLeft = true;
+        if (!walkNext) {
+            this.walkLeft.restart();
+        }
         walkNext = true;
         if (rightOrientation) {
             this.image = this.image.getFlippedCopy(true, false);
@@ -231,6 +244,9 @@ public class Player extends Sprite implements Comparable<Player> {
 
     public void iWouldLikeToGoRight() {
         wantsToGoRight = true;
+        if (!walkNext) {
+            this.walkRigth.restart();
+        }
         walkNext = true;
         if (!rightOrientation) {
             this.image = this.image.getFlippedCopy(true, false);
@@ -379,8 +395,6 @@ public class Player extends Sprite implements Comparable<Player> {
         this.explosionLenght = explosionLenght;
     }
 
-    
-
     public Animation getExplosion() {
         return explosion;
     }
@@ -388,6 +402,4 @@ public class Player extends Sprite implements Comparable<Player> {
     public void setExplosion(Animation explosion) {
         this.explosion = explosion;
     }
-
-    
 }
