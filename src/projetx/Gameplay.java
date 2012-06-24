@@ -21,7 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 500;
+    static double partyDuration = 100;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -154,7 +154,7 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
-            System.out.println("Je passe");
+            //System.out.println("Je passe");
             sbg.enterState(3);
 
             newGame = true;
@@ -431,7 +431,7 @@ public class Gameplay extends BasicGameState {
             Player a = players.get(i);
             if (a != null) {
                 if (a.isHasUsedGravityBoom()) {
-                    //a.explode();
+                    sounds.explode();
                     //System.out.println("Explode!!!!!!!");
                     for (int j = 0; j < p; j++) {
                         Player b = players.get(j);
@@ -444,12 +444,13 @@ public class Gameplay extends BasicGameState {
                                 if (rayon < 300) {
                                     b.setSpeed(1.5 * aX * (1 / Math.pow(1 + rayon, 1)), 1.5 * aY * (1 / Math.pow(1 + rayon, 1)));
                                     b.setAngryPlayer(a);
+                                    sounds.pain();
                                 }
                             }
                         }
 
                     }
-                    sounds.explode();
+                    
                 }
             }
         }
