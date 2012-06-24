@@ -21,9 +21,7 @@ import org.newdawn.slick.state.StateBasedGame;
 public class Gameplay extends BasicGameState {
 
     Image background;
-
-    static double partyDuration = 100 ;
-
+    static double partyDuration = 100;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -32,21 +30,17 @@ public class Gameplay extends BasicGameState {
     List<String> ficObs;
     List<Rectangle> power;
     List<Rectangle> fillThePower;
-    
-    int elapsedTimeSinceLastNewFieldG=9999;
-    int elapsedTimeSinceLastNewFieldD=9999;
-    int elapsedTimeSinceLastNewFieldM=9999;
+    int elapsedTimeSinceLastNewFieldG = 9999;
+    int elapsedTimeSinceLastNewFieldD = 9999;
+    int elapsedTimeSinceLastNewFieldM = 9999;
     int randApparitionD;
     int randApparitionG;
-    
-    int totalElapsedTime=0;
-    int typeNuage=0;
-
+    int totalElapsedTime = 0;
+    int typeNuage = 0;
     int delta_;
     Physics physics = new Physics(0.0022);
     int randApparitionM;
     boolean newGame = true;
-
     ParticleSystem system;
 
     Gameplay(int stateID) {
@@ -74,7 +68,7 @@ public class Gameplay extends BasicGameState {
         Music.loop();
 
         system = new ParticleSystem("ressources/sprites/particle.png");
-        for(int i = 0; i < 1230; i += (int)(Math.random() * (25-15)) + 15){
+        for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
         }
     }
@@ -92,33 +86,33 @@ public class Gameplay extends BasicGameState {
 
         for (Player o : players) {
 
-            if(!o.getExplosion().isStopped()){
-                o.getExplosion().draw( (float)( o.getCoords().getX() + o.getImage().getWidth()/2.0 - o.getExplosion().getImage(0).getWidth()/2.0),(float)( o.getCoords().getY() + o.getImage().getHeight()/2.0 - o.getExplosion().getImage(0).getHeight()/2.0) );
+            if (!o.getExplosion().isStopped()) {
+                o.getExplosion().draw((float) (o.getCoords().getX() + o.getImage().getWidth() / 2.0 - o.getExplosion().getImage(0).getWidth() / 2.0), (float) (o.getCoords().getY() + o.getImage().getHeight() / 2.0 - o.getExplosion().getImage(0).getHeight() / 2.0));
             }
             //o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
             Renderable r = o.getRenderable();
 
-            if(r instanceof Image){
-                ((Image)r).setAlpha(o.getAlpha());
+            if (r instanceof Image) {
+                ((Image) r).setAlpha(o.getAlpha());
             } else {
-                ((Animation)r).getCurrentFrame().setAlpha(o.getAlpha());
+                ((Animation) r).getCurrentFrame().setAlpha(o.getAlpha());
             }
-            
+
             r.draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
 
         }
-        
+
         for (Rectangle r : power) {
             gr.draw(r);
         }
-        
+
         for (Rectangle r : fillThePower) {
             gr.draw(r);
             gr.fill(r);
         }
 
-        system.render(); 
-        
+        system.render();
+
         showInformation(gr);
 
     }
@@ -134,23 +128,22 @@ public class Gameplay extends BasicGameState {
         manageInput(gc, sbg, delta);
         managePhysics();
         manageDeath(delta);
-        manageGravityBoom() ;
-        actualTime+=(double)delta/1000.0;
-        
-        
+        manageGravityBoom();
+        actualTime += (double) delta / 1000.0;
+
+
         // Fin de partie
-        if(actualTime>partyDuration)
-        {
-            totalElapsedTime=0;
-            typeNuage=0;
-            Game.playerScores=players;
+        if (actualTime > partyDuration) {
+            totalElapsedTime = 0;
+            typeNuage = 0;
+            Game.playerScores = players;
             sbg.enterState(2);
-            actualTime=0;
+            actualTime = 0;
             newGame = true;
             initField();
-            elapsedTimeSinceLastNewFieldG=9999;
-            elapsedTimeSinceLastNewFieldD=9999;
-            elapsedTimeSinceLastNewFieldM=9999;
+            elapsedTimeSinceLastNewFieldG = 9999;
+            elapsedTimeSinceLastNewFieldD = 9999;
+            elapsedTimeSinceLastNewFieldM = 9999;
         }
 
         physics.updateMovable(players);
@@ -160,25 +153,24 @@ public class Gameplay extends BasicGameState {
 
         for (Player o : players) {
 
-            if (o.isHasUsedGravityBoom())
-            {
+            if (o.isHasUsedGravityBoom()) {
                 o.getExplosion().restart();
                 o.setHasUsedGravityBoom(false);
             }
         }
 
-        system.update(delta);  
+        system.update(delta);
     }
-    
+
     private void managePowerBar(int elapsedTime) {
         power.clear();
         fillThePower.clear();
-        
-        for (Player p:players) {
-            power.add(new Rectangle((float)(p.getCoords().getX()-10), (float)(p.getCoords().getY()-30), 82.f, 8.f));
-            fillThePower.add(new Rectangle((float)(p.getCoords().getX()-9), (float)(p.getCoords().getY()-29), p.GetTailleBarre(), 6.f));
-            if(p.GetTimeSinceLastPower()<5000) {
-                p.SetTimeSinceLastPower(p.GetTimeSinceLastPower()+elapsedTime);
+
+        for (Player p : players) {
+            power.add(new Rectangle((float) (p.getCoords().getX() - 10), (float) (p.getCoords().getY() - 30), 82.f, 8.f));
+            fillThePower.add(new Rectangle((float) (p.getCoords().getX() - 9), (float) (p.getCoords().getY() - 29), p.GetTailleBarre(), 6.f));
+            if (p.GetTimeSinceLastPower() < 5000) {
+                p.SetTimeSinceLastPower(p.GetTimeSinceLastPower() + elapsedTime);
             }
         }
     }
@@ -213,12 +205,13 @@ public class Gameplay extends BasicGameState {
         int lower = 200;
         int higher = 1500;
 
-        totalElapsedTime+=elapsedTime;
-        
-        if(totalElapsedTime>(partyDuration*1000)/ficObs.size()) {
-            totalElapsedTime=0;
-            if(typeNuage+1<ficObs.size())
+        totalElapsedTime += elapsedTime;
+
+        if (totalElapsedTime > (partyDuration * 1000) / ficObs.size()) {
+            totalElapsedTime = 0;
+            if (typeNuage + 1 < ficObs.size()) {
                 typeNuage++;
+            }
         }
 
         if (elapsedTimeSinceLastNewFieldG > randApparitionG) {
@@ -262,8 +255,8 @@ public class Gameplay extends BasicGameState {
         // Input managing du personnage 1
         Input input = gc.getInput();
 
-        int it=0;
-        if(Game.selectedPlayers[0]) {
+        int it = 0;
+        if (Game.selectedPlayers[0]) {
             if (input.isKeyPressed(Input.KEY_Z)) {
                 players.get(it).iWouldLikeToJump();
             }
@@ -277,7 +270,7 @@ public class Gameplay extends BasicGameState {
             }
 
             if (input.isKeyDown(Input.KEY_S)) {
-                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                if (players.get(it).GetTimeSinceLastPower() >= 5000) {
                     players.get(it).SetTimeSinceLastPower(0);
                     players.get(it).setHasUsedGravityBoom(true);
                     //manage
@@ -299,9 +292,9 @@ public class Gameplay extends BasicGameState {
             if (input.isKeyDown(Input.KEY_LEFT)) {
                 players.get(it).iWouldLikeToGoLeft();
             }
-            
+
             if (input.isKeyDown(Input.KEY_DOWN)) {
-                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                if (players.get(it).GetTimeSinceLastPower() >= 5000) {
                     players.get(it).SetTimeSinceLastPower(0);
                     players.get(it).setHasUsedGravityBoom(true);
 
@@ -324,16 +317,16 @@ public class Gameplay extends BasicGameState {
                 players.get(it).iWouldLikeToGoLeft();
             }
             if (input.isKeyDown(Input.KEY_G)) {
-                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                if (players.get(it).GetTimeSinceLastPower() >= 5000) {
                     players.get(it).SetTimeSinceLastPower(0);
-                players.get(it).setHasUsedGravityBoom(true);
+                    players.get(it).setHasUsedGravityBoom(true);
 
                 }
             }
             it++;
         }
 
-        if(Game.selectedPlayers[3]) {
+        if (Game.selectedPlayers[3]) {
             // Input managing du personnage 2
             if (input.isKeyPressed(Input.KEY_I)) {
                 players.get(it).iWouldLikeToJump();
@@ -347,7 +340,7 @@ public class Gameplay extends BasicGameState {
                 players.get(it).iWouldLikeToGoLeft();
             }
             if (input.isKeyDown(Input.KEY_K)) {
-                if(players.get(it).GetTimeSinceLastPower()>=5000){
+                if (players.get(it).GetTimeSinceLastPower() >= 5000) {
                     players.get(it).SetTimeSinceLastPower(0);
                     players.get(it).setHasUsedGravityBoom(true);
                 }
@@ -359,99 +352,88 @@ public class Gameplay extends BasicGameState {
     private void managePhysics() {
     }
 
-    
-    private void showInformation( Graphics gr) 
-    {
+    private void showInformation(Graphics gr) {
         int step = 120;
-        int p =players.size();
-           //System.out.println(p);
-        for(int i=0;i<p;i++)
-        {
-            Player a=players.get(i);
-            if(a!=null)
-            {
-               gr.drawString("Player "+(i+1), 20, 20+i*step);
-               a.getImage().draw( 20, 40+i*step);
-               gr.drawString("Deaths :"+a.getNumberOfDeaths(), 80, 50+i*step);
-               gr.drawString("Kills : "+a.getNumberOfKills(), 80, 70+i*step);
-        
+        int p = players.size();
+        //System.out.println(p);
+        for (int i = 0; i < p; i++) {
+            Player a = players.get(i);
+            if (a != null) {
+                gr.drawString("Player " + (i + 1), 20, 20 + i * step);
+//               a.getImage().draw( 20, 40+i*step);
+
+                Renderable r = a.getRenderable();
+                if (r instanceof Image) {
+                    ((Image) r).draw(20, 40+i*step);
+                } else {
+                    ((Animation) r).getCurrentFrame().draw(20, 40+i*step);
+                }
+
+                gr.drawString("Deaths :" + a.getNumberOfDeaths(), 80, 50 + i * step);
+                gr.drawString("Kills : " + a.getNumberOfKills(), 80, 70 + i * step);
+
             }
         }
-        
+
     }
 
-    
-    private void manageDeath(int elapsedTime) 
-    {
-        int p =players.size();
-           //System.out.println(p);
-        for(int i=0;i<p;i++)
-        {
-            Point2D a=players.get(i).getCoords();
-            if(a!=null)
-            {
-               if (a.getY()>700 && players.get(i).GetTimeSinceDeath()==-1)
-               {
-                   if(players.get(i).getAngryPlayer() != null){
-                       players.get(i).getAngryPlayer().Kill();
+    private void manageDeath(int elapsedTime) {
+        int p = players.size();
+        //System.out.println(p);
+        for (int i = 0; i < p; i++) {
+            Point2D a = players.get(i).getCoords();
+            if (a != null) {
+                if (a.getY() > 700 && players.get(i).GetTimeSinceDeath() == -1) {
+                    if (players.get(i).getAngryPlayer() != null) {
+                        players.get(i).getAngryPlayer().Kill();
                         players.get(i).setAngryPlayer(null);
-                   }
-                   players.get(i).Die();
-                   //players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
-                   players.get(i).SetTimeSinceDeath(0);
-               }
-               if (players.get(i).GetTimeSinceDeath()!=-1) {
-                   if(players.get(i).GetTimeSinceDeath()<1000) {
-                       players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath()+elapsedTime);
-                   }
-                   else {
-                       players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
-                       players.get(i).SetTimeSinceDeath(-1);
-                       players.get(i).SetTimeSinceLastPower(0);
-                   }
-               }
+                    }
+                    players.get(i).Die();
+                    //players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                    players.get(i).SetTimeSinceDeath(0);
+                }
+                if (players.get(i).GetTimeSinceDeath() != -1) {
+                    if (players.get(i).GetTimeSinceDeath() < 1000) {
+                        players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath() + elapsedTime);
+                    } else {
+                        players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size() - 1).getCoords().getX() + 50, obstacles.get(obstacles.size() - 1).getCoords().getY() - 150));
+                        players.get(i).SetTimeSinceDeath(-1);
+                        players.get(i).SetTimeSinceLastPower(0);
+                    }
+                }
             }
         }
     }
-    
-    
-    private void manageGravityBoom() 
-    {
-        int p =players.size();
-        for(int i=0;i<p;i++)
-        {
-            Player a=players.get(i);
-            if(a!=null)
-            {
-               if (a.isHasUsedGravityBoom())
-               {
-                  //a.explode();
-                  //System.out.println("Explode!!!!!!!");
-                  for(int j=0;j<p;j++)
-                  {
-                        Player b=players.get(j);
-                        if(b!=null)
-                        {
-                            if(b!=a && b.getInvincibilityRemainingTime() <= 0)
-                            {
+
+    private void manageGravityBoom() {
+        int p = players.size();
+        for (int i = 0; i < p; i++) {
+            Player a = players.get(i);
+            if (a != null) {
+                if (a.isHasUsedGravityBoom()) {
+                    //a.explode();
+                    //System.out.println("Explode!!!!!!!");
+                    for (int j = 0; j < p; j++) {
+                        Player b = players.get(j);
+                        if (b != null) {
+                            if (b != a && b.getInvincibilityRemainingTime() <= 0) {
                                 //System.out.println("Je le pousse");
-                                double aX=b.getCoords().getX()-a.getCoords().getX() ;
-                                double aY=b.getCoords().getY()-a.getCoords().getY();
-                                double rayon =Math.sqrt(aX*aX +aY*aY);
-                                if(rayon<300)
-                                {
-                                       b.setSpeed(1.5*aX*(1/Math.pow(1+rayon, 1)), 1.5*aY*(1/Math.pow(1+rayon,1)));
-                                       b.setAngryPlayer(a);
+                                double aX = b.getCoords().getX() - a.getCoords().getX();
+                                double aY = b.getCoords().getY() - a.getCoords().getY();
+                                double rayon = Math.sqrt(aX * aX + aY * aY);
+                                if (rayon < 300) {
+                                    b.setSpeed(1.5 * aX * (1 / Math.pow(1 + rayon, 1)), 1.5 * aY * (1 / Math.pow(1 + rayon, 1)));
+                                    b.setAngryPlayer(a);
                                 }
                             }
                         }
-                        
-                  }
-               }
+
+                    }
+                }
             }
         }
     }
-        
+
     private void initField() throws SlickException {
         obstacles.clear();
         ficObs.clear();
@@ -487,6 +469,4 @@ public class Gameplay extends BasicGameState {
     public void setDelta_(int delta_) {
         this.delta_ = delta_;
     }
-
-
 }
