@@ -39,7 +39,10 @@ public class GameEnd extends BasicGameState implements ComponentListener {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-        restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Menu/boutonMenu.png"), 850, 500, this);
+        restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Title/EcranTitre/Go.png"), 875, 450, this);
+        restartButton.setMouseOverColor(new Color(90, 223, 255));
+        restartButton.setNormalColor(Color.white);
+
         img = new Image("ressources/sprites/Fond/Fond2.jpg");
     }
 
