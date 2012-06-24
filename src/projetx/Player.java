@@ -5,11 +5,14 @@
 package projetx;
 
 import java.awt.geom.Point2D;
+import java.io.IOException;
 import java.util.Date;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Renderable;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleIO;
 
 /**
  *
@@ -45,6 +48,7 @@ public class Player extends Sprite implements Comparable<Player> {
     protected Player angryPlayer = null;
     double explosionLenght = 50;
     Date lastRespawn = null;
+    ConfigurableEmitter explosionEmiter = null;
 
     public Player(Type type) throws SlickException {
         super();
@@ -257,6 +261,14 @@ public class Player extends Sprite implements Comparable<Player> {
     public void Die() {
         numberOfDeaths++;
         lastPower = 0;
+        //L'ajouter qd on meurt. L'enlever quand on revit.
+        try {
+            explosionEmiter = ParticleIO.loadEmitter("ressources/flame.xml");
+            explosionEmiter.setPosition((float) this.coords.getX(), 650);
+            Gameplay.system.addEmitter(explosionEmiter);
+
+        } catch (IOException e) {
+        }
     }
 
     public void Kill() {

@@ -55,7 +55,7 @@ public class WaitScreen extends BasicGameState {
         }
         System.out.println(time);
         time+=(double)delta/1000.0;
-        if(time>=2)
+        if(time>=1)
         {
             sbg.enterState(2);
             newOne=true;

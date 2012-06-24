@@ -70,6 +70,7 @@ public class GameEnd extends BasicGameState implements ComponentListener {
             if (a != null) {
                 gr.setColor(Color.black);
                 gr.drawString("Player " + (i + 1), 20 + 500, 80 + 20 + i * step);
+                a.getImage().setAlpha(1);
                 a.getImage().draw(20 + 500, 80 + 40 + i * step);
                 gr.drawString("Deaths :" + a.getNumberOfDeaths(), 80 + 500, 80 + 50 + i * step);
                 gr.drawString("Kills :" + a.getNumberOfKills(), 80 + 500, 80 + 70 + i * step);
