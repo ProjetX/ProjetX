@@ -9,11 +9,18 @@ package projetx;
  * @author anisbenyoub
  */
 import java.awt.geom.Point2D;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.ParticleIO;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
@@ -72,9 +79,17 @@ public class Gameplay extends BasicGameState {
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
         }
-        ConfigurableEmitter c = new ConfigurableEmitter("ressources/engine.xml");
-        c.setPosition(250, 250);
-        system.addEmitter(c);
+
+        //L'ajouter qd on meurt. L'enlever quand on revit.
+        ConfigurableEmitter explosionEmiter;
+        try {
+         explosionEmiter = ParticleIO.loadEmitter("ressources/flame.xml");
+         explosionEmiter.setPosition(400, 650);
+         system.addEmitter(explosionEmiter);
+         
+      } catch (IOException e) {
+         throw new SlickException("Failed to load particle systems", e);
+      }
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
