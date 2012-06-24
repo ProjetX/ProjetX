@@ -18,14 +18,16 @@ import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 2;
+    static double partyDuration = 100;
     double actualTime;
     int stateID = -1;
     Sound Music;
+    SoundEffects sounds = new SoundEffects();;
     List<Player> players;
     List<Obstacle> obstacles;
     List<List<String>> ficObs;
@@ -68,8 +70,11 @@ public class Gameplay extends BasicGameState {
 
         background = new Image("./ressources/sprites/Fond/Fond2.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
-        
 
+        Music.loop(1f, 0.29f);
+
+        sounds.init();
+        
         system = new ParticleSystem("ressources/sprites/particle.png");
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
@@ -444,6 +449,7 @@ public class Gameplay extends BasicGameState {
                         }
 
                     }
+                    sounds.explode();
                 }
             }
         }
@@ -478,7 +484,7 @@ public class Gameplay extends BasicGameState {
         ficObs.add(typeObsNuages);
         
         
-        Obstacle platInit = new Obstacle("ressources/initPlateforme.png");
+        Obstacle platInit = new Obstacle("ressources/sprites/Plateforme/plateformeDuDebut.png");
         obstacles.add(platInit);
 
         platInit.setCoords(new Point2D.Double(250, 200));

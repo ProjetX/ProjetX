@@ -102,47 +102,9 @@ public class Physics {
             if (currentMovable.isWantsToGoLeft()) {
                 nextPoint.setLocation(nextPoint.getX() - currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoLeft(false);
-                /*if (currentMovable.getSpeed().getX() != 0) {
-                    if (oldLateralSpeed > 0) {
-                        lateralSpeed = oldLateralSpeed - currentMovable.lateralSpeed * TimeSinceLastFrame;
-                        if (lateralSpeed <= 0) {
-                            //On s'arrete lateralement
-                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
-                        } else {
-                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
-                        }
-                    } else if (oldLateralSpeed < 0) {
-                        lateralSpeed = oldLateralSpeed - currentMovable.lateralSpeed * TimeSinceLastFrame;
-                        if (lateralSpeed >= 0) {
-                            //On s'arrete lateralement
-                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
-                        } else {
-                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
-                        }
-                    }
-                }*/
             } else if (currentMovable.isWantsToGoRight()) {
                 nextPoint.setLocation(nextPoint.getX() + currentMovable.getLateralSpeed() * TimeSinceLastFrame, nextPoint.getY());
                 currentMovable.setWantsToGoRight(false);
-               /* if (oldLateralSpeed != 0) {
-                    if (currentMovable.getSpeed().getX() > 0) {
-                        lateralSpeed = oldLateralSpeed + currentMovable.lateralSpeed * TimeSinceLastFrame;
-                        if (lateralSpeed <= 0) {
-                            //On s'arrete lateralement
-                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
-                        } else {
-                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
-                        }
-                    } else if (oldLateralSpeed < 0) {
-                        lateralSpeed = oldLateralSpeed + currentMovable.lateralSpeed * TimeSinceLastFrame;
-                        if (lateralSpeed >= 0) {
-                            //On s'arrete lateralement
-                            currentMovable.setSpeed(0, currentMovable.getSpeed().getY());
-                        } else {
-                            currentMovable.setSpeed(lateralSpeed, currentMovable.getSpeed().getY());
-                        }
-                    }
-                }*/
             }
 
             currentMovable.setCoords(nextPoint);
