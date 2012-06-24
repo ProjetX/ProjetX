@@ -78,7 +78,7 @@ public class Physics {
             oldLateralSpeed = currentMovable.getSpeed().getX();
 
             //Deplacements lateraux
-            
+
             if (oldLateralSpeed > 0) {
                 lateralSpeed = oldLateralSpeed -frottement * TimeSinceLastFrame;
                 if (lateralSpeed <= 0) {
@@ -145,7 +145,7 @@ public class Physics {
                         }
                     }
                 }*/
-            } 
+            }
 
             currentMovable.setCoords(nextPoint);
 
@@ -223,11 +223,11 @@ public class Physics {
         COLLIDE collide = COLLIDE.NONE;
 
         //nextPoint
-        if ((obj1.getCoords().getX() + obj1.getImage().getWidth() > obj2.getCoords().getX() && obj1.getCoords().getX() + obj1.getImage().getWidth() < obj2.getCoords().getX() + obj2.getImage().getWidth())) { //coté droit Aligné suivant y
+        if ((obj1.getCoords().getX() + obj1.getImage().getWidth() >= obj2.getCoords().getX() && obj1.getCoords().getX() + obj1.getImage().getWidth() <= obj2.getCoords().getX() + obj2.getImage().getWidth())) { //coté droit Aligné suivant y
             //Collide a droite
-            if ((obj1.getCoords().getY() + obj1.getImage().getHeight() > obj2.getCoords().getY() && obj1.getCoords().getY() + obj1.getImage().getHeight() < obj2.getCoords().getY() + obj2.getImage().getHeight())) { //Aligné suivant x
+            if ((obj1.getCoords().getY() + obj1.getImage().getHeight() >= obj2.getCoords().getY() && obj1.getCoords().getY() + obj1.getImage().getHeight() <= obj2.getCoords().getY() + obj2.getImage().getHeight())) { //Aligné suivant x
                 //collide en bas a droite
-                if (obj1.getCoords().getY() < obj2.getCoords().getY()) {
+                if (obj1.getCoords().getY() + obj1.getImage().getHeight()*2/3 < obj2.getCoords().getY()) {
                     //Objet a mettre au dessus
                     collide = COLLIDE.COLLIDE_BAS;
                 } else {
@@ -235,18 +235,18 @@ public class Physics {
                     collide = COLLIDE.COLLIDE_RIGHT;
                 }
             } else {
-                if (obj1.getCoords().getY() > obj2.getCoords().getY() && obj1.getCoords().getY() < obj2.getCoords().getY() + obj2.getImage().getHeight()) {
+                if (obj1.getCoords().getY() >= obj2.getCoords().getY() && obj1.getCoords().getY() <= obj2.getCoords().getY() + obj2.getImage().getHeight()) {
                     //collide en haut a droite
                     collide = COLLIDE.COLLIDE_HAUT;
 
                 }
             }
         } else {
-            if ((obj1.getCoords().getX() > obj2.getCoords().getX() && obj1.getCoords().getX() < obj2.getCoords().getX() + obj2.getImage().getWidth())) {//Coté gauche aligné
+            if ((obj1.getCoords().getX() >= obj2.getCoords().getX() && obj1.getCoords().getX() <= obj2.getCoords().getX() + obj2.getImage().getWidth())) {//Coté gauche aligné
                 // Collide a gauche
-                if ((obj1.getCoords().getY() + obj1.getImage().getHeight() > obj2.getCoords().getY() && obj1.getCoords().getY() + obj1.getImage().getHeight() < obj2.getCoords().getY() + obj2.getImage().getHeight())) { //Aligné suivant x
+                if ((obj1.getCoords().getY() + obj1.getImage().getHeight() >= obj2.getCoords().getY() && obj1.getCoords().getY() + obj1.getImage().getHeight() <= obj2.getCoords().getY() + obj2.getImage().getHeight())) { //Aligné suivant x
                     //collide en bas a gauche
-                    if (obj1.getCoords().getY() < obj2.getCoords().getY()) {
+                    if (obj1.getCoords().getY() + obj1.getImage().getHeight()*2/3  < obj2.getCoords().getY()) {
                         //Objet a mettre au dessus
                         collide = COLLIDE.COLLIDE_BAS;
                     } else {
