@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.util.ResourceLoader;
 
 public class Gameplay extends BasicGameState {
 
@@ -25,6 +27,7 @@ public class Gameplay extends BasicGameState {
     double actualTime;
     int stateID = -1;
     Sound Music;
+    SoundEffects sounds = new SoundEffects();;
     List<Player> players;
     List<Obstacle> obstacles;
     List<String> ficObs;
@@ -65,8 +68,11 @@ public class Gameplay extends BasicGameState {
 
         background = new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
-        Music.loop();
 
+        Music.loop(1f, 0.29f);
+
+        sounds.init();
+        
         system = new ParticleSystem("ressources/sprites/particle.png");
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
@@ -429,6 +435,7 @@ public class Gameplay extends BasicGameState {
                         }
 
                     }
+                    sounds.explode();
                 }
             }
         }
