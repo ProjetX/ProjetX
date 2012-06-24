@@ -15,6 +15,7 @@ import org.newdawn.slick.util.ResourceLoader;
 public class SoundEffects {
     private Sound explosionEffect;
     private Sound painEffect;
+    private Sound burnEffect;
 
     /**
     * Initialise resources
@@ -22,6 +23,8 @@ public class SoundEffects {
     public void init() throws SlickException {
 	    explosionEffect = new Sound("ressources/audio/ExplosionAudio/PUNCH3.WAV");
             painEffect = new Sound("ressources/audio/ExplosionAudio/Pain.wav");
+            burnEffect = new Sound("ressources/audio/LargeFireball.wav");
+
     }
 
     public void explode(){
@@ -31,5 +34,9 @@ public class SoundEffects {
      public void pain(){
         painEffect.play(1f, 0.19f);// playAsSoundEffect(1.0f, 1.0f, false);
     }
+
+     public void burnEffect(){
+        burnEffect.play(1.6f, 0.6f);
+     }
 
 }

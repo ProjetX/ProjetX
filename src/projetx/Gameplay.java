@@ -411,6 +411,7 @@ public class Gameplay extends BasicGameState {
                         players.get(i).getAngryPlayer().Kill();
                         players.get(i).setAngryPlayer(null);
                     }
+                    sounds.burnEffect();
                     players.get(i).Die();
                     //players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
                     players.get(i).SetTimeSinceDeath(0);
