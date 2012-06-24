@@ -64,7 +64,7 @@ public class Gameplay extends BasicGameState {
 
         actualTime = 1;
 
-        background = new Image("./ressources/sprites/Fond/Fond.jpg");
+        background = new Image("./ressources/sprites/Fond/Fond2.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
         Music.loop();
 
@@ -72,7 +72,9 @@ public class Gameplay extends BasicGameState {
         for (int i = 0; i < 1230; i += (int) (Math.random() * (25 - 15)) + 15) {
             system.addEmitter(new FireEmitter(i, 650));
         }
-        system.addEmitter(new ConfigurableEmitter("ressources/engine.xml"));
+        ConfigurableEmitter c = new ConfigurableEmitter("ressources/engine.xml");
+        c.setPosition(250, 250);
+        system.addEmitter(c);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
