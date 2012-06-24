@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -20,7 +22,8 @@ public class Gameplay extends BasicGameState {
 
     Image background;
 
-    static double partyDuration = 30 ;
+    static double partyDuration = 100 ;
+
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -43,6 +46,8 @@ public class Gameplay extends BasicGameState {
     Physics physics = new Physics(0.0022);
     int randApparitionM;
     boolean newGame = true;
+
+    ParticleSystem system;
 
     Gameplay(int stateID) {
         this.stateID = stateID;
@@ -67,6 +72,11 @@ public class Gameplay extends BasicGameState {
         background = new Image("./ressources/sprites/Fond/Fond.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
         Music.loop();
+
+        system = new ParticleSystem("ressources/sprites/particle.png");
+        for(int i = 0; i < 1230; i += (int)(Math.random() * (25-15)) + 15){
+            system.addEmitter(new FireEmitter(i, 650));
+        }
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
@@ -81,11 +91,21 @@ public class Gameplay extends BasicGameState {
         }
 
         for (Player o : players) {
-            o.getRenderable().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
 
             if(!o.getExplosion().isStopped()){
                 o.getExplosion().draw( (float)( o.getCoords().getX() + o.getImage().getWidth()/2.0 - o.getExplosion().getImage(0).getWidth()/2.0),(float)( o.getCoords().getY() + o.getImage().getHeight()/2.0 - o.getExplosion().getImage(0).getHeight()/2.0) );
             }
+            //o.getImage().draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+            Renderable r = o.getRenderable();
+
+            if(r instanceof Image){
+                ((Image)r).setAlpha(o.getAlpha());
+            } else {
+                ((Animation)r).getCurrentFrame().setAlpha(o.getAlpha());
+            }
+            
+            r.draw((int) o.getCoords().getX(), (int) o.getCoords().getY());
+
         }
         
         for (Rectangle r : power) {
@@ -96,6 +116,8 @@ public class Gameplay extends BasicGameState {
             gr.draw(r);
             gr.fill(r);
         }
+
+        system.render(); 
         
         showInformation(gr);
 
@@ -135,6 +157,7 @@ public class Gameplay extends BasicGameState {
         physics.updatePlatforms(obstacles);
         physics.computePhysics(delta);
 
+
         for (Player o : players) {
 
             if (o.isHasUsedGravityBoom())
@@ -143,6 +166,8 @@ public class Gameplay extends BasicGameState {
                 o.setHasUsedGravityBoom(false);
             }
         }
+
+        system.update(delta);  
     }
     
     private void managePowerBar(int elapsedTime) {
@@ -407,7 +432,7 @@ public class Gameplay extends BasicGameState {
                         Player b=players.get(j);
                         if(b!=null)
                         {
-                            if(b!=a)
+                            if(b!=a && b.getInvincibilityRemainingTime() <= 0)
                             {
                                 //System.out.println("Je le pousse");
                                 double aX=b.getCoords().getX()-a.getCoords().getX() ;

@@ -5,6 +5,7 @@
 package projetx;
 
 import java.awt.geom.Point2D;
+import java.util.Date;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Renderable;
@@ -43,6 +44,8 @@ public class Player extends Sprite implements Comparable<Player> {
     boolean hasUsedGravityBoom = false;
     protected Player angryPlayer = null;
     double explosionLenght = 50;
+
+    Date lastRespawn = null;
 
     public Player(Type type) throws SlickException {
         super();
@@ -179,7 +182,30 @@ public class Player extends Sprite implements Comparable<Player> {
         }
     }
 
+    public float getAlpha(){
+        float i = getInvincibilityRemainingTime();
+        if(i > 0){
+            float m = (float) (i % 1000);
+            m = m < 500 ? 1000 - m : m;
+            return m / 1000;
+        }
+        return 1;
+    }
+
+    //ca s'ecrit surement pas comme ça. OSEF
+    public float getInvincibilityRemainingTime(){
+        if(lastRespawn == null){
+            return 0;
+        }
+        Date d = new Date();
+        float r = 3000 - (d.getTime() - lastRespawn.getTime());
+        return r > 0 ? r : 0;
+    }
+
     public void SetTimeSinceDeath(int time) {
+        if(timeSinceDeath != -1 && time == -1){
+            lastRespawn = new Date();
+        }
         timeSinceDeath = time;
     }
 
