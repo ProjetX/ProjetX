@@ -19,7 +19,7 @@ public class Game extends StateBasedGame {
     static int width = 1200;
     static boolean fullscreen = false;
     static boolean showFPS = true;
-    static String title = "ProjetX";
+    static String title = "Ascension";
     static int fpslimit = 60;
     public static final int MAINMENU = 0;
     public static final int GAMEPLAY = 1;
@@ -38,7 +38,7 @@ public class Game extends StateBasedGame {
     }
 
     public Game() {
-        super("Ascendant");
+        super("Ascension");
     }
 
     public static void main(String[] args) throws SlickException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
