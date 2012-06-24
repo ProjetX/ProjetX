@@ -53,7 +53,6 @@ public class WaitScreen extends BasicGameState {
             time=0;
             newOne=false;
         }
-        System.out.println(time);
         time+=(double)delta/1000.0;
         if(time>=1)
         {
