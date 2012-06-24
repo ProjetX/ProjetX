@@ -14,19 +14,13 @@ import org.newdawn.slick.SlickException;
  *
  * @author jonas
  */
-public class Player extends Sprite {
+public class Player extends Sprite implements Comparable<Player> {
 
-<<<<<<< HEAD
     public enum Type {
 
         COSTARD, BAGNARD;
     }
-    protected double speed;
-=======
-
-
-    protected Point2D speed = new Point2D.Double(0,0);
->>>>>>> 09d8c17c8bdb093ad5b34bfbd2736de0185042fa
+    protected Point2D speed = new Point2D.Double(0, 0);
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
     protected boolean wantsToGoRight = false;
@@ -44,6 +38,7 @@ public class Player extends Sprite {
     Animation jumpRigth = null;
     boolean walkNext = false;
     boolean jumpNext = false;
+    boolean hasUsedGravityBoom = false;
 
     public Player(Type type) throws SlickException {
         super();
@@ -60,7 +55,7 @@ public class Player extends Sprite {
 
     private void setType(Type type) throws SlickException {
 
-        int speed = 75;
+        int speedWalk = 75;
         int speedJump = 150;
 
         switch (type) {
@@ -78,7 +73,7 @@ public class Player extends Sprite {
                 walkA[3] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche4.png");
                 walkA[4] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche5.png");
                 walkA[5] = new Image("ressources/sprites/Costard/Animations/Marche/CostardMarche6.png");
-                this.walkRigth = new Animation(walkA, speed);
+                this.walkRigth = new Animation(walkA, speedWalk);
 
                 Image jumpA[] = new Image[6];
                 jumpA[0] = new Image("ressources/sprites/Costard/Animations/Saute/CostardSaute1.png");
@@ -96,13 +91,12 @@ public class Player extends Sprite {
                     jumpAL[i] = jumpA[i].getFlippedCopy(true, false);
                 }
 
-                this.walkLeft = new Animation(walkAL, speed);
+                this.walkLeft = new Animation(walkAL, speedWalk);
                 this.jumpLeft = new Animation(jumpAL, speedJump);
 
                 break;
         }
 
-<<<<<<< HEAD
         super.image = this.image;
     }
 
@@ -130,16 +124,8 @@ public class Player extends Sprite {
         } else {
             return this.image;
         }
-=======
-    boolean hasUsedGravityBoom;
-
-    public Player(String img) throws SlickException {
-        super(img);
-        this.image = new Image(img);
-        hasUsedGravityBoom = false;
->>>>>>> 09d8c17c8bdb093ad5b34bfbd2736de0185042fa
     }
-    
+
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
@@ -172,7 +158,22 @@ public class Player extends Sprite {
 
     public void Kill() {
         numberOfKills++;
+    }
 
+    public int compareTo(Player o) {
+        if (this.getNumberOfKills() > o.getNumberOfKills()) {
+            return -1;
+        } else if (this.getNumberOfKills() < o.getNumberOfKills()) {
+            return 1;
+        } else {
+            if (this.getNumberOfDeaths() < o.getNumberOfDeaths()) {
+                return -1;
+            } else if (this.getNumberOfDeaths() > o.getNumberOfDeaths()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
     }
 
     public void setWantsToGoLeft(boolean wantsToGoLeft) {
@@ -258,7 +259,7 @@ public class Player extends Sprite {
             return (float) ((80.f * (float) lastPower) / 5000.f);
         }
     }
-    
+
     public int getNumberOfDeaths() {
         return numberOfDeaths;
     }
@@ -266,7 +267,6 @@ public class Player extends Sprite {
     public int getNumberOfKills() {
         return numberOfKills;
     }
-    
 
     public boolean isHasUsedGravityBoom() {
         return hasUsedGravityBoom;

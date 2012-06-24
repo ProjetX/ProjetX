@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.gui.TextField;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -21,7 +20,7 @@ public class Gameplay extends BasicGameState {
 
     Image background;
 
-    static double partyDuration = 200 ;
+    static double partyDuration = 2 ;
     double actualTime;
     int stateID = -1;
     Sound Music;

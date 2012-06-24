@@ -13,11 +13,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.newdawn.slick.*;
-import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.gui.AbstractComponent;
-import org.newdawn.slick.gui.ComponentListener;
-import org.newdawn.slick.gui.GUIContext;
-import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -52,64 +47,10 @@ public class GameEnd extends BasicGameState {
         int step = 120;
         int p = Game.playerScores.size();
 
-        Collections.sort(Game.playerScores, new Comparator() {
-
-            public int compare(Object tp, Object t1p) {
-                Player t = (Player)tp;
-                Player t1 = (Player)t1p;
-                if (t.getNumberOfKills() > t1.getNumberOfKills()) 
-                {
-                    return 1;
-                } 
-                else if  (t.getNumberOfKills() < t1.getNumberOfKills()) 
-                {
-                    return -1;
-                } 
-                else 
-                {
-                    if (t.getNumberOfDeaths() < t1.getNumberOfDeaths()) 
-                    {
-                        return 1;
-                    } 
-                    else if  (t.getNumberOfDeaths() > t1.getNumberOfDeaths()) 
-                    {
-                        return -1;
-                    } 
-                    else 
-                    {
-                        return 0;
-                    }
-                }
-            }
-        });
-        List<Player> Ranked = new ArrayList<Player>();
-
-
-        for (int i = 0; i < p; i++) {
-            Player a = Game.playerScores.get(i);
-            if (a != null) {
-
-                for (int j = 0; j < p; j++) {
-                    Player b = Game.playerScores.get(i);
-                    if (b != null) {
-                        int k = 1;
-                        if (a.getNumberOfKills() <= b.getNumberOfKills()) {
-                            k++;
-                        }
-
-                    }
-
-
-                }
-            }
-
-
-        }
-
-
-
+        Collections.sort(Game.playerScores);
 
         gr.drawString("General ranking", 500, 50);
+        
         for (int i = 0; i < p; i++) {
             Player a = Game.playerScores.get(i);
             if (a != null) {
