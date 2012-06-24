@@ -16,18 +16,24 @@ import org.newdawn.slick.SlickException;
  */
 public class Player extends Sprite {
 
+<<<<<<< HEAD
     public enum Type {
 
         COSTARD, BAGNARD;
     }
     protected double speed;
+=======
+
+
+    protected Point2D speed = new Point2D.Double(0,0);
+>>>>>>> 09d8c17c8bdb093ad5b34bfbd2736de0185042fa
     protected Point2D AcutalPosition;
     protected boolean isOnAPlatform;
     protected boolean wantsToGoRight = false;
     protected boolean wantsToGoLeft = false;
     protected boolean wantsToJump = false;
-    protected double lateralSpeed = 7.5;
-    protected double verticalSpeed = 1;
+    protected double lateralSpeed = 0.7;
+    protected double verticalSpeed = 1.2;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
     int lastPower = 0;
@@ -96,6 +102,7 @@ public class Player extends Sprite {
                 break;
         }
 
+<<<<<<< HEAD
         super.image = this.image;
     }
 
@@ -123,8 +130,16 @@ public class Player extends Sprite {
         } else {
             return this.image;
         }
-    }
+=======
+    boolean hasUsedGravityBoom;
 
+    public Player(String img) throws SlickException {
+        super(img);
+        this.image = new Image(img);
+        hasUsedGravityBoom = false;
+>>>>>>> 09d8c17c8bdb093ad5b34bfbd2736de0185042fa
+    }
+    
     public void iWouldLikeToJump() {
         if (isOnAPlatform) {
             wantsToJump = true;
@@ -180,12 +195,16 @@ public class Player extends Sprite {
         this.verticalSpeed = verticalSpeed;
     }
 
-    public double getSpeed() {
+    public Point2D getSpeed() {
         return speed;
     }
 
-    public void setSpeed(double speed) {
+    public void setSpeed(Point2D speed) {
         this.speed = speed;
+    }
+
+    public void setSpeed(double x, double y) {
+        this.speed.setLocation(x, y);
     }
 
     public Point2D getActualPosition() {
@@ -238,5 +257,22 @@ public class Player extends Sprite {
         } else {
             return (float) ((80.f * (float) lastPower) / 5000.f);
         }
+    }
+    
+    public int getNumberOfDeaths() {
+        return numberOfDeaths;
+    }
+
+    public int getNumberOfKills() {
+        return numberOfKills;
+    }
+    
+
+    public boolean isHasUsedGravityBoom() {
+        return hasUsedGravityBoom;
+    }
+
+    public void setHasUsedGravityBoom(boolean hasUsedGravityBoom) {
+        this.hasUsedGravityBoom = hasUsedGravityBoom;
     }
 }
