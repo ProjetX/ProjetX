@@ -23,7 +23,7 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Gameplay extends BasicGameState {
 
     Image background;
-    static double partyDuration = 100;
+    static double partyDuration = 2;
     double actualTime;
     int stateID = -1;
     Sound Music;
@@ -71,7 +71,7 @@ public class Gameplay extends BasicGameState {
         background = new Image("./ressources/sprites/Fond/Fond2.jpg");
         Music = new Sound("ressources/audio/musicGame.wav");
 
-        Music.loop(1f, 0.29f);
+
 
         sounds.init();
         
@@ -139,7 +139,7 @@ public class Gameplay extends BasicGameState {
         if (initialGame)
         {
             initialGame=false;
-            Music.loop();
+            Music.loop(1f, 0.29f);
             
         }
         delta_ = delta;

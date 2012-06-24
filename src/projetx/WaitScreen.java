@@ -26,16 +26,18 @@ public class WaitScreen extends BasicGameState {
 
     WaitScreen(int stateID) {
         this.stateID = stateID;
-        time=0;
+        
     }
 
     @Override
     public int getID() {
-        newOne = true;
+
         return stateID;
+        
 
     }
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        newOne = true;
         time=0;
     }
 
