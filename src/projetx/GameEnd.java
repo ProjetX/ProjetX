@@ -13,13 +13,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import org.newdawn.slick.*;
+import org.newdawn.slick.gui.AbstractComponent;
+import org.newdawn.slick.gui.ComponentListener;
+import org.newdawn.slick.gui.MouseOverArea;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class GameEnd extends BasicGameState {
+public class GameEnd extends BasicGameState implements ComponentListener {
 
     int stateID = -1;
     boolean newEnding;
+    MouseOverArea restartButton;
+    StateBasedGame sbg;
 
     GameEnd(int stateID) {
         this.stateID = stateID;
@@ -33,14 +38,17 @@ public class GameEnd extends BasicGameState {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+        restartButton = new MouseOverArea(gc, new Image("ressources/sprites/Bagnard/BagnardStatique.png"), 800, 550, this);
     }
 
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
-
         showInformation(gr);
+
+        restartButton.render(gc, gr);
     }
 
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+        this.sbg = sbg;
     }
 
     private void showInformation(Graphics gr) {
@@ -90,5 +98,11 @@ public class GameEnd extends BasicGameState {
             }
         }
 
+    }
+
+    public void componentActivated(AbstractComponent ac) {
+        if (ac == restartButton) {
+            sbg.enterState(0);
+        }
     }
 }
