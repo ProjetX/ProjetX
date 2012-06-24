@@ -84,8 +84,6 @@ public class Gameplay extends BasicGameState {
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
         int Decalage = (int) ((650 - background.getHeight()) * ((partyDuration - actualTime) / (double) partyDuration));
 
-        //System.out.println(Decalage);
-        //System.out.println(actualTime);
         background.draw(0, Decalage);
 
         for (Obstacle o : obstacles) {
@@ -154,7 +152,6 @@ public class Gameplay extends BasicGameState {
             totalElapsedTime = 0;
             typeNuage = 0;
             Game.playerScores = players;
-            //System.out.println("Je passe");
             sbg.enterState(3);
 
             newGame = true;
