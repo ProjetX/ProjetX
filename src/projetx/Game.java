@@ -8,6 +8,7 @@ package projetx;
  *
  * @author mica
  */
+import java.lang.reflect.Field;
 import java.util.List;
 import org.newdawn.slick.*;
 import org.newdawn.slick.state.StateBasedGame;
@@ -40,7 +41,14 @@ public class Game extends StateBasedGame {
         super("Ascendant");
     }
 
-    public static void main(String[] args) throws SlickException {
+    public static void main(String[] args) throws SlickException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+
+        //Hack for set the library path
+        System.setProperty( "java.library.path", "./slick/lib" );
+        Field fieldSysPath = ClassLoader.class.getDeclaredField( "sys_paths" );
+        fieldSysPath.setAccessible( true );
+        fieldSysPath.set( null, null );
+
         AppGameContainer app = new AppGameContainer(new Game());
         app.setDisplayMode(Game.width, Game.height, Game.fullscreen);
         app.setSmoothDeltas(true);
