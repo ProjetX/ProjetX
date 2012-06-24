@@ -106,7 +106,7 @@ public class Gameplay extends BasicGameState {
         manageField(delta);
         manageInput(gc, sbg, delta);
         managePhysics();
-        manageDeath();
+        manageDeath(delta);
         manageGravityBoom() ;
         actualTime+=(double)delta/1000.0;
         
@@ -329,7 +329,7 @@ public class Gameplay extends BasicGameState {
     }
 
     
-    private void manageDeath() 
+    private void manageDeath(int elapsedTime) 
     {
         int p =players.size();
            //System.out.println(p);
@@ -338,10 +338,21 @@ public class Gameplay extends BasicGameState {
             Point2D a=players.get(i).getCoords();
             if(a!=null)
             {
-               if (a.getY()>700)
+               if (a.getY()>700 && players.get(i).GetTimeSinceDeath()==-1)
                {
                    players.get(i).Die();
-                   players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                   //players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                   players.get(i).SetTimeSinceDeath(0);
+               }
+               if (players.get(i).GetTimeSinceDeath()!=-1) {
+                   if(players.get(i).GetTimeSinceDeath()<3000) {
+                       players.get(i).SetTimeSinceDeath(players.get(i).GetTimeSinceDeath()+elapsedTime);
+                   }
+                   else {
+                       players.get(i).setCoords(new Point2D.Double(obstacles.get(obstacles.size()-1).getCoords().getX()+ 50, obstacles.get(obstacles.size()-1).getCoords().getY() - 150));
+                       players.get(i).SetTimeSinceDeath(-1);
+                       players.get(i).SetTimeSinceLastPower(0);
+                   }
                }
             }
         }

@@ -24,6 +24,7 @@ public class Player extends Sprite {
     protected boolean wantsToJump = false;
     protected double lateralSpeed = 0.7;
     protected double verticalSpeed = 1.2;
+    protected int timeSinceDeath = -1;
     int numberOfKills = 0;
     int numberOfDeaths = 0;
     int lastPower=0;
@@ -35,6 +36,14 @@ public class Player extends Sprite {
         super(img);
         this.image = new Image(img);
         hasUsedGravityBoom = false;
+    }
+    
+    public void SetTimeSinceDeath(int time) {
+        timeSinceDeath=time;
+    }
+    
+    public int GetTimeSinceDeath() {
+        return timeSinceDeath;
     }
     
     public void iWouldLikeToJump() {
